@@ -13,21 +13,15 @@
         <a href="/" target="_blank">Esqueci minha senha.</a>
       </p>
       <p class="perdeu">
-        <a href="/" target="_blank">Criar nova conta.</a>
+        <router-link :to="{name: 'register-user'}">Criar nova conta</router-link>
       </p>
     </div>
-    <LoginCriar/>
   </section>
 </template>
 
 <script>
-// import LoginCriar from "@/views/LoginCriar.vue";
-
 export default {
   name: "Login",
-  components: {
-    // LoginCriar
-  },
   data() {
     return {
       login: {
