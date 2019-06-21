@@ -1,16 +1,16 @@
 <template>
   <div>
-    <h1>Laboratórios</h1>
-    <Laboratorios/>
+    <h1>Home</h1>
+    <!-- <ListaLaboratorios :titulo="Home"></ListaLaboratorios> -->
   </div>
 </template>
 
 <script>
-import Laboratorios from "@/components/Laboratorios.vue";
+// import ListaLaboratorios from "@/components/ListaLaboratorios.vue";
 export default {
   name: "home",
   components: {
-    Laboratorios
+    // ListaLaboratorios
   }
 };
 </script>
@@ -20,6 +20,10 @@ h1 {
   color: #84f;
   margin-top: 40px;
   font-size: 2rem;
+  text-align: center;
+}
+
+p {
   text-align: center;
 }
 </style>

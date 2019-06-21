@@ -1,16 +1,23 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: true,
   state: {
-
+    login: false,
+    usuario: {
+      id: "",
+      nome: "",
+      email: "",
+      senha: ""
+    }
   },
   mutations: {
-
+    changeBusca(state, payload) {
+      state.busca = payload;
+    }
   },
-  actions: {
-
-  }
-})
+  actions: {}
+});
