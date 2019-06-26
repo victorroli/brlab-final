@@ -14,10 +14,6 @@ export default new Vuex.Store({
       senha: ""
     }
   },
-  mutations: {
-    changeBusca(state, payload) {
-      state.busca = payload;
-    }
-  },
+  mutations: {},
   actions: {}
 });
