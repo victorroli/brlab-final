@@ -1,13 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Laboratorios from "@/views/Laboratorios.vue";
-import ListaLaboratorios from "@/views/ListaLaboratorios.vue";
-import Laboratorio from "@/views/Laboratorio.vue";
+import Laboratorios from "@/views/laboratorio/Laboratorios.vue";
+import ListaLaboratorios from "@/views/laboratorio/ListaLaboratorios.vue";
+import Laboratorio from "@/views/laboratorio/Laboratorio.vue";
 import Experimentos from "@/views/Experimentos.vue";
 import Reservas from "@/views/Reservas.vue";
 import Login from "@/views/usuario/Login.vue";
 import Home from "@/views/Home.vue";
 import RegisterUser from "@/views/usuario/RegisterUser.vue";
+import Agendamento from "@/views/laboratorio/Agendamento.vue";
+import DadosLaboratorio from "@/views/laboratorio/DadosLaboratorio.vue";
+import IniciaExperimento from "@/views/laboratorio/IniciaExperimento.vue";
 
 Vue.use(Router);
 
@@ -32,9 +35,28 @@ export default new Router({
         },
         {
           path: ":laboratorio",
-          name: "laboratorio",
           component: Laboratorio,
-          props: true
+          props: true,
+          children: [
+            {
+              path: "",
+              name: "laboratorio",
+              component: DadosLaboratorio,
+              props: true
+            },
+            {
+              path: ":agendamento",
+              name: "agendamento",
+              component: Agendamento,
+              props: true
+            },
+            {
+              path: ":iniciaExperimento",
+              name: "iniciaExperimento",
+              component: IniciaExperimento,
+              props: true
+            }
+          ]
         }
       ]
     },

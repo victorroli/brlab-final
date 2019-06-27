@@ -19,7 +19,7 @@
           <div class="laboratorio" v-for="(laboratorio, index) in labsaux" :key="index">
             <router-link :to="{name:'laboratorio', params:{laboratorio: laboratorio.id}}">
               <div class="img-labs">
-                <img src="../assets/lab.svg">
+                <img src="../../assets/lab.svg">
               </div>
               <p>{{laboratorio.description}}</p>
               <p>{{laboratorio.name}}</p>
@@ -164,7 +164,7 @@ form {
 #lupa {
   width: 62px;
   height: 62px;
-  background: url("../assets/search.svg") no-repeat center;
+  background: url("../../assets/search.svg") no-repeat center;
   text-indent: -150px;
   border: none;
   cursor: pointer;

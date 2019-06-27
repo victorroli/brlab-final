@@ -2,14 +2,14 @@
   <section class="lab-container">
     <div class="lab-selecionado">
       <div class="lab-img">
-        <img src="../assets/lab.svg" alt>
+        <img src="../../assets/lab.svg" alt>
       </div>
       <div class="lab-info">
         <h3>{{lab_selecionado.name}}</h3>
         <div class="btn-info">
-          <button class="btn">Iniciar</button>
-          <button class="btn">Acompanhar</button>
-          <button class="btn">Reservar</button>
+          <router-link :to="{name: 'iniciaExperimento'}" tag="button" class="btn">Iniciar</router-link>
+          <router-link :to="{name: 'acompanhaExperimento'}" tag="button" class="btn">Acompanhar</router-link>
+          <router-link :to="{name: 'agendamento'}" tag="button" class="btn">Reservar</router-link>
         </div>
       </div>
     </div>
@@ -24,7 +24,7 @@
 import { api } from "@/services.js";
 
 export default {
-  name: "Laboratorio",
+  name: "DadosLaboratorio",
   props: ["laboratorio"],
   data() {
     return {
