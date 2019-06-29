@@ -28,8 +28,10 @@
         </div>
         <div class="sem-resultados" v-else-if="labsaux && labsaux.length == 0" key="sem-resultados">
           <p>Sem resultados!!</p>
-          <!-- <Erro/> -->
         </div>
+      </div>
+      <div v-else-if="!laboratorios">
+        <Erro/>
       </div>
     </transition>
   </section>
@@ -37,16 +39,16 @@
 
 <script>
 import { api } from "@/services.js";
-import { serialize } from "@/helpers.js";
-import { mapState } from "vuex";
+import { serialize } from "@/helpers/url.js";
+// import { mapState } from "vuex";
 
-import LaboratorioBusca from "@/components/LaboratorioBusca.vue";
+// import LaboratorioBusca from "@/components/LaboratorioBusca.vue";
 import Erro from "@/components/Erro.vue";
 
 export default {
   name: "Laboratorios",
   components: {
-    LaboratorioBusca,
+    // LaboratorioBusca,
     Erro
   },
   data() {

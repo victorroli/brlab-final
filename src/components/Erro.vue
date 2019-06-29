@@ -1,7 +1,7 @@
 <template>
   <div class="sem-resultados">
     <img src="../assets/404.png" alt="Erro encontrado">
-    <h2>Busca sem resultados. Tente outro termo.</h2>
+    <h2>Houve um problema com nosso servidor. Em breve, estaremos de volta...</h2>
     <button class="btn" @click="$router.back(1)">Voltar</button>
   </div>
 </template>
