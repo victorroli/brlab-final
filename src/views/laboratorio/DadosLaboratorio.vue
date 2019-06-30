@@ -18,7 +18,7 @@
             class="btn"
           >Acompanhar</router-link>
           <router-link
-            :to="{name: 'agendamento', params: {agendamento: 'agendamento'}}"
+            :to="{name: 'agendamento', params: {agendamento: 'agendamento', nome_lab: lab_selecionado.name}}"
             tag="button"
             class="btn"
           >Reservar</router-link>
