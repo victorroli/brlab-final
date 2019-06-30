@@ -15,7 +15,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 h1 {
   color: #84f;
   margin-top: 40px;

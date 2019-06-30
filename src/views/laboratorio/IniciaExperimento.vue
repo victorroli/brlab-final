@@ -1,24 +1,25 @@
 <template>
   <section class="experimentacao-container">
-    {{start}}
     <div class="inicial" v-if="!start">
       <h1>Iniciar Experimento</h1>
-      <button class="btn" @click.prevent="start = !start">Iniciar</button>
+      <button class="btn" @click.prevent="iniciaExperimento()">Iniciar</button>
     </div>
     <div class="labremoto" v-else-if="start">
       <div class="controladores">
         <div>
-          <button class="btn danger" @click.prevent="start=!start">Parar Experimentação</button>
+          <button class="btn danger" @click.prevent="interrompeExperimento()">Parar Experimentação</button>
         </div>
-        <div class="temporizador-info"></div>
+        <div class="temporizador-info">
+          <temporizador :seconds="seconds"></temporizador>
+        </div>
       </div>
       <div class="experimento">
         <iframe
           width="560"
           height="315"
-          src="https://www.youtube.com/embed/8CdcCD5V-d8"
+          src="https://www.youtube.com/embed/jzZhGf1oX6E"
           frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+          allow="accelerometer; autoplay; gyroscope; picture-in-picture"
           allowfullscreen
         ></iframe>
       </div>
@@ -28,34 +29,72 @@
 
 <script>
 import axios from "axios";
+// import { mapState, mapGetters } from "vuex";
+import { mapFields } from "@/helpers/mapFields.js";
+import temporizador from "@/components/temporizador.vue";
 
 export default {
   name: "IniciarExperimento",
   data() {
     return {
-      start: false
-      // timer: null
+      start: false,
+      seconds: "",
+      timestamp_inicio: "",
+      timestamp_fim: ""
     };
+  },
+  components: {
+    temporizador
   },
 
   methods: {
-    // ativaTemporizador() {
-    // }
-  },
-  created() {
-    // this.ativaTemporizador();
+    iniciaExperimento() {
+      this.start = !this.start;
+      this.$store.commit("SET_STATUS", true);
+      this.$store.commit("SET_TIMER", 10);
+      this.$store.commit("SET_HORA_INICIO", this.retornaTimestamp());
+    },
+    interrompeExperimento() {
+      let confirm = window.confirm("Deseja parar experimento?");
+      if (confirm) {
+        this.finalizaExperimento();
+      }
+    },
+    finalizaExperimento() {
+      this.$store.commit("SET_STATUS", false);
+      alert("Experimento encerrado");
+      this.$router.push({
+        name: "dadoscoletados",
+        params: { dadoscoletados: "dados-coletados" }
+      });
+      this.start = false;
+      this.$store.commit("SET_HORA_FIM", this.retornaTimestamp());
+      console.log(this.horarioInicio + " - " + this.horarioTermino);
+    },
+    retornaTimestamp() {
+      var date = new Date();
+      // console.log("rece: ", Date.now());
+      var horas = date.getHours();
+      var minutos = date.getMinutes();
+      var segundos = date.getSeconds();
+      return `${horas}:${minutos}:${segundos}`;
+      // console.log("Timestamp retornado: ", timestamp);
+    }
   },
   watch: {
-    // inicia() {
-    //   this.ativaTemporizador();
-    // }
+    ativo(novo, old) {
+      console.log("Novo: ", novo);
+      if (!novo) {
+        this.finalizaExperimento();
+      }
+    }
   },
   computed: {
-    // inicia() {
-    //   if (this.start) {
-    //     this.ativaTemporizador();
-    //   }
-    // }
+    ...mapFields({
+      fields: ["tempoRestante", "ativo", "horarioInicio", "horarioTermino"],
+      base: "experimento"
+      // mutation: ["SET_HORA_INICIO", "SET_HORA_FIM", "SET_STATUS"]
+    })
   }
 };
 </script>

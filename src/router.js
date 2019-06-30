@@ -11,6 +11,7 @@ import RegisterUser from "@/views/usuario/RegisterUser.vue";
 import Agendamento from "@/views/laboratorio/Agendamento.vue";
 import DadosLaboratorio from "@/views/laboratorio/DadosLaboratorio.vue";
 import IniciaExperimento from "@/views/laboratorio/IniciaExperimento.vue";
+import DadosColetados from "@/views/laboratorio/DadosColetados.vue";
 
 Vue.use(Router);
 
@@ -54,6 +55,12 @@ export default new Router({
               path: ":iniciaExperimento",
               name: "iniciaExperimento",
               component: IniciaExperimento,
+              props: true
+            },
+            {
+              path: ":dadoscoletados",
+              name: "dadoscoletados",
+              component: DadosColetados,
               props: true
             }
           ]

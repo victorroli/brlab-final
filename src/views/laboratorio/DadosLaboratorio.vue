@@ -2,18 +2,30 @@
   <section class="lab-container">
     <div class="lab-selecionado">
       <div class="lab-img">
-        <img src="../../assets/lab.svg" alt>
+        <img src="../../assets/lab.svg" alt />
       </div>
       <div class="lab-info">
         <h3>{{lab_selecionado.name}}</h3>
         <div class="btn-info">
-          <router-link :to="{name: 'iniciaExperimento'}" tag="button" class="btn">Iniciar</router-link>
-          <router-link :to="{name: 'acompanhaExperimento'}" tag="button" class="btn">Acompanhar</router-link>
-          <router-link :to="{name: 'agendamento'}" tag="button" class="btn">Reservar</router-link>
+          <router-link
+            :to="{name: 'iniciaExperimento', params:{iniciaExperimento:'inicia-experimento'}}"
+            tag="button"
+            class="btn"
+          >Iniciar</router-link>
+          <router-link
+            :to="{name: 'acompanhaExperimento', params:{acompanhaExperimento:'monitoramento'}}"
+            tag="button"
+            class="btn"
+          >Acompanhar</router-link>
+          <router-link
+            :to="{name: 'agendamento', params: {agendamento: 'agendamento'}}"
+            tag="button"
+            class="btn"
+          >Reservar</router-link>
         </div>
       </div>
     </div>
-    <hr>
+    <hr />
     <div>
       <h3>Últimos Experimentos</h3>
     </div>
