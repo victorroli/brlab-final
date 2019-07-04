@@ -3,16 +3,17 @@
     <nav>
       <div>
         <router-link to="/" class="logo">
-          <img src="@/assets/ranek.svg" alt="ranek logo">
+          <img src="@/assets/ranek.svg" alt="ranek logo" />
         </router-link>
       </div>
       <div class="second-column">
         <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
         <router-link class="menu" to="/reservas">Reservas</router-link>
-        <router-link class="menu" to="/grupos">Grupos</router-link>
+        <!-- <router-link class="menu" to="/grupos">Grupos</router-link> -->
         <router-link class="menu" to="/laboratorios">Laboratórios</router-link>
       </div>
       <div>
+        <!-- <p>{{nome}}</p> -->
         <router-link class="btn" to="/usuario" v-if="$store.state.login">{{nome}}</router-link>
         <router-link class="btn" to="/login" v-else>Login</router-link>
       </div>
@@ -21,15 +22,19 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "TheHeader",
   data() {
     return {};
   },
+  watch: {},
   computed: {
-    // nome() {
-    //   return this.$store.state.usuario.nome.replace(/ .*/, "");
-    // }
+    // ...mapState(["login"])
+    nome() {
+      console.log("LOgger: ", this.$store.state.usuario.name);
+      return this.$store.state.usuario.name;
+    }
   }
 };
 </script>
@@ -85,5 +90,10 @@ nav .btn {
 
 .logo img {
   width: 90px;
+}
+
+.info {
+  display: flex;
+  justify-content: end;
 }
 </style>

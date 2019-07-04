@@ -10,7 +10,8 @@ export default new Vuex.Store({
     login: false,
     usuario: {
       id: "",
-      nome: "",
+      name: "",
+      nickname: "",
       email: "",
       senha: "",
       confirm_senha: ""
@@ -28,7 +29,12 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    UPDATE_LOGIN(state, payload) {
+      console.log("Valor status: ", payload);
+      state.login = payload;
+    },
     UPDATE_USUARIO(state, payload) {
+      console.log("Valor recebido: ", payload);
       state.usuario = Object.assign(state.usuario, payload);
     },
     UPDATE_TIMER(state) {
@@ -48,15 +54,31 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    setUsuario(payload) {
-      console.log(payload);
+    setUsuario(context, payload) {
       api
         .post(`/usuario`, {
-          body: JSON.stringify(payload)
+          name: payload.name,
+          email: payload.email,
+          senha: payload.senha,
+          nickname: payload.nickname
         })
         .then(response => {
-          console.log("Resultado: ", response.data);
+          if (response.data == 200) {
+            context.commit("UPDATE_USUARIO", payload);
+          }
         });
+    },
+    login(context, payload) {
+      api.get(`/usuario/${payload.email}`).then(response => {
+        if (response.data) {
+          context.commit("UPDATE_USUARIO", response.data);
+          if (context.state.usuario.senha == payload.senha) {
+            context.commit("UPDATE_LOGIN", true);
+          } else {
+            alert("Credenciais erradas!!");
+          }
+        }
+      });
     }
   }
 });

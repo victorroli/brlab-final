@@ -21,15 +21,14 @@ export default {
   methods: {
     salvarUsuario() {
       if (this.verificaCampos()) {
-        this.$store.dispatch(this.$store.state.usuario.name);
+        this.$store.dispatch("setUsuario", this.$store.state.usuario);
       }
-      console.log("P: ", this.senha);
-      console.log("CP: ", this.confirm_senha);
     },
     verificaCampos() {
+      console.log("Nome: ", this.name);
       if (this.name == "") {
-        return false;
         alert("Campo Nome não informado");
+        return false;
       }
       if (this.email == "") {
         return false;
@@ -44,14 +43,17 @@ export default {
         return false;
       }
       return true;
+    },
+    mostraDadosLogin() {
+      return !this.$store.state.login || this.$route.name === "usuario-editar";
     }
   },
   computed: {
     ...mapFields({
-      fields: ["nome", "email", "senha", "confirm_senha"],
-      base: "usuario",
-      mutation: "UPDATE_USUARIO",
-      action: "setUsuario"
+      fields: ["name", "email", "senha", "confirm_senha", "nickname"],
+      base: "usuario"
+      // mutation: "UPDATE_USUARIO",
+      // action: "setUsuario"
     })
   }
 };

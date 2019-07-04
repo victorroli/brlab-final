@@ -2,16 +2,24 @@
   <form>
     <div class="usuario" v-if="mostraDadosLogin">
       <label for="nome">Nome:</label>
-      <input id="nome" type="text" name="nome" v-model="nome" />
+      <input id="nome" type="text" name="nome" v-model="registro.name" />
+
+      <label for="nickname">Nickname:</label>
+      <input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
 
       <label for="email">Email:</label>
-      <input id="email" type="email" name="email" v-model="email" />
+      <input id="email" type="email" name="email" v-model="registro.email" />
 
       <label for="senha">Senha:</label>
-      <input id="senha" type="password" name="senha" v-model="senha" />
+      <input id="senha" type="password" name="senha" v-model="registro.senha" />
 
       <label for="senha">Confirmar Senha:</label>
-      <input id="confirm_senha" type="password" name="confirm_senha" v-model="confirm_senha" />
+      <input
+        id="confirm_senha"
+        type="password"
+        name="confirm_senha"
+        v-model="registro.confirm_senha"
+      />
     </div>
 
     <!-- <label for="cep">Cep</label>
@@ -39,17 +47,26 @@
 </template>
 
 <script>
-import { mapFields } from "@/helpers/mapFields.js";
+// import { mapFields } from "@/helpers/mapFields.js";
 // import { getCep } from "@/services.js";
 
 export default {
   name: "UsuarioForm",
+  data() {
+    return {
+      registro: {
+        name: "",
+        nickname: "",
+        email: "",
+        senha: ""
+      }
+    };
+  },
   computed: {
-    ...mapFields({
-      fields: ["nome", "email", "senha", "confirm_senha"],
-      base: "usuario",
-      mutation: "UPDATE_USUARIO"
-    }),
+    // ...mapFields({
+    //   fields: ["name", "email", "senha", "confirm_senha", "nickname"],
+    //   base: "usuario"
+    // }),
     mostraDadosLogin() {
       return !this.$store.state.login || this.$route.name === "usuario-editar";
     }

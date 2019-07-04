@@ -3,9 +3,9 @@
     <h1>Login</h1>
     <form action>
       <label for="Email">Email:</label>
-      <input type="email" name="email" id="email" v-model="login.email">
+      <input type="email" name="email" id="email" v-model="dadosLogin.email" />
       <label for="Senha">Senha:</label>
-      <input type="password" name="senha" id="senha" v-model="login.senha">
+      <input type="password" name="senha" id="senha" v-model="dadosLogin.senha" />
       <button class="btn" @click.prevent="logar">Entrar</button>
     </form>
     <div class="opcoes-adicionais">
@@ -20,17 +20,40 @@
 </template>
 
 <script>
+// import { mapFields } from "@/helpers/mapFields.js";
+import { mapState } from "vuex";
 export default {
   name: "Login",
   data() {
     return {
-      login: {
+      dadosLogin: {
         email: "",
         senha: ""
       }
     };
   },
-  methods: {}
+
+  methods: {
+    logar() {
+      this.$store.dispatch("login", this.dadosLogin);
+      console.log("Login: ", this.$store.state.login);
+    }
+  },
+  watch: {
+    login(novo_valor, antigo) {
+      // console.log(novo_valor);
+      if (novo_valor) {
+        alert("Logado com sucesso!!!");
+        this.$router.push({ path: "/" });
+      }
+      // else {
+      //   alert("Credenciais erradas, tente novamente!");
+      // }
+    }
+  },
+  computed: {
+    ...mapState(["login"])
+  }
 };
 </script>
 
