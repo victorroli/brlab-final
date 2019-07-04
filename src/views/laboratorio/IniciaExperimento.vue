@@ -24,6 +24,7 @@
         ></iframe>
       </div>
     </div>
+    <!-- <simplert></simplert> -->
   </section>
 </template>
 
@@ -32,6 +33,8 @@ import axios from "axios";
 // import { mapState, mapGetters } from "vuex";
 import { mapFields } from "@/helpers/mapFields.js";
 import temporizador from "@/components/temporizador.vue";
+
+// console.log("Modal: ", Simplert);
 
 export default {
   name: "IniciarExperimento",

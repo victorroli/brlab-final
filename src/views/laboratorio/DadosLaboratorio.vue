@@ -6,17 +6,20 @@
       </div>
       <div class="lab-info">
         <h3>{{lab_selecionado.name}}</h3>
+        <div class="tempo-experimento">
+          <p>Tempo de Experimentação: {{lab_selecionado.tempo}}</p>
+        </div>
         <div class="btn-info">
           <router-link
             :to="{name: 'iniciaExperimento', params:{iniciaExperimento:'inicia-experimento'}}"
             tag="button"
             class="btn"
           >Iniciar</router-link>
-          <router-link
+          <!-- <router-link
             :to="{name: 'acompanhaExperimento', params:{acompanhaExperimento:'monitoramento'}}"
             tag="button"
             class="btn"
-          >Acompanhar</router-link>
+          >Acompanhar</router-link>-->
           <router-link
             :to="{name: 'agendamento', params: {agendamento: 'agendamento', nome_lab: lab_selecionado.name}}"
             tag="button"
@@ -24,6 +27,9 @@
           >Reservar</router-link>
         </div>
       </div>
+    </div>
+    <div class="descricao-lab">
+      <p>{{lab_selecionado.description}}</p>
     </div>
     <hr />
     <div>
@@ -46,7 +52,9 @@ export default {
   methods: {
     getLaboratorio() {
       api.get(`/labs/${this.laboratorio}`).then(response => {
+        console.log("Dados: ", response.data);
         this.lab_selecionado = response.data;
+        console.log("Dados: ", this.lab_selecionado);
       });
     }
   },
@@ -82,12 +90,15 @@ img {
   max-width: 250px;
 }
 .btn {
-  margin-bottom: 10px;
+  margin-bottom: 38px;
+  padding-bottom: 20px;
+  padding-top: 20px;
 }
 .btn-info {
   display: grid;
   padding-right: 200px;
   padding-left: 200px;
+  align-content: center;
 }
 hr {
   margin-top: 30px;
@@ -95,5 +106,14 @@ hr {
   margin-right: 30%;
   margin-left: 30%;
   color: #84f;
+}
+.tempo-experimento p {
+  padding: 20px;
+  font-size: 17px;
+}
+.descricao-lab {
+  font-size: 1.5rem;
+  color: rgb(138, 103, 197);
+  font-weight: 550;
 }
 </style>

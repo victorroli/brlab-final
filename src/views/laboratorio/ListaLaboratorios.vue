@@ -11,18 +11,18 @@
               placeholder="Buscar Laboratório..."
               v-model="busca"
               @keyup="buscarLaboratorio"
-            >
-            <input type="submit" id="lupa" value="Buscar" @click.prevent="buscarLaboratorio">
+            />
+            <input type="submit" id="lupa" value="Buscar" @click.prevent="buscarLaboratorio" />
           </form>
         </div>
         <div class="laboratorios" v-if="labsaux && labsaux.length" key="laboratorios">
           <div class="laboratorio" v-for="(laboratorio, index) in labsaux" :key="index">
             <router-link :to="{name:'laboratorio', params:{laboratorio: laboratorio.id}}">
               <div class="img-labs">
-                <img src="../../assets/lab.svg">
+                <img src="../../assets/lab.svg" />
               </div>
-              <p>{{laboratorio.description}}</p>
               <p>{{laboratorio.name}}</p>
+              <!-- <p>{{laboratorio.description}}</p> -->
             </router-link>
           </div>
         </div>
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div v-else-if="!laboratorios">
-        <Erro/>
+        <Erro />
       </div>
     </transition>
   </section>
@@ -137,6 +137,14 @@ export default {
   transform: scale(1.1);
 }
 
+/* .laboratorio p {
+  padding-top: px;
+} */
+.laboratorio p:nth-child(2) {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 400;
+  padding-top: 20px;
+}
 .img-labs {
   display: flex;
   justify-content: center;
