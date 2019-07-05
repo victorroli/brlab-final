@@ -3,11 +3,15 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import Datetime from "vue-datetime";
+import BootstrapVue from "bootstrap-vue";
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap-vue/dist/bootstrap-vue.css";
 import "vue-datetime/dist/vue-datetime.css";
 
 // You need a specific loader for CSS files
 
 Vue.use(Datetime);
+Vue.use(BootstrapVue);
 Vue.config.productionTip = false;
 
 Vue.filter("converteData", valor => {
