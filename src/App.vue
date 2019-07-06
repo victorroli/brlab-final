@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <TheHeader/>
+    <TheHeader />
     <div id="main">
       <transition mode="out-in">
-        <router-view/>
+        <router-view />
       </transition>
     </div>
-    <TheFooter/>
+    <TheFooter />
   </div>
 </template>
 
@@ -66,7 +66,8 @@ img {
   text-align: center;
   font-size: 1rem;
   box-shadow: 0 4px 8px rgba(30, 60, 90, 0.2);
-  transition: all 0.3s;
+  transition: all 0.3s ease-in-out;
+  /* transition: all .2s ease-in-out;  */
   border: none;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   cursor: pointer;
