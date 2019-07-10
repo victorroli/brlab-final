@@ -1,7 +1,6 @@
 <template>
   <section class="agendamento">
     <h1>Agendar Laboratório</h1>
-
     <AgendamentoForm :laboratorio="laboratorio" :nome="nome_lab">
       <button class="btn" @click.prevent="lab">Reservar</button>
     </AgendamentoForm>
