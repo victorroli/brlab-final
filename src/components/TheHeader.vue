@@ -1,46 +1,74 @@
 <template>
   <header>
-    <nav>
-      <div>
-        <router-link to="/" class="logo">
-          <img src="@/assets/ranek.svg" alt="ranek logo" />
-        </router-link>
-      </div>
-      <div class="second-column">
-        <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
-        <router-link class="menu" to="/reservas">Reservas</router-link>
-        <!-- <router-link class="menu" to="/grupos">Grupos</router-link> -->
-        <router-link class="menu" to="/laboratorios">Laboratórios</router-link>
-      </div>
-      <div>
-        <!-- <p>{{nome}}</p> -->
-        <router-link class="btn" to="/usuario" v-if="$store.state.login">{{nome}}</router-link>
-        <router-link class="btn" to="/login" v-else>Login</router-link>
-      </div>
-    </nav>
+    <div>
+      <b-navbar toggleable="lg" type="dark" variant="info">
+        <b-navbar-brand>
+          <router-link class="menu" to="/">BrLab</router-link>
+        </b-navbar-brand>
+
+        <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+        <b-collapse id="nav-collapse" is-nav>
+          <b-navbar-nav>
+            <b-nav-item>
+              <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link class="menu" to="/reservas">Reservas</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link class="menu" to="/grupos">Grupos</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link class="menu" to="/laboratorios">Laboratórios</router-link>
+            </b-nav-item>
+          </b-navbar-nav>
+
+          <b-navbar-nav class="ml-auto">
+            <b-nav-item-dropdown right v-if="this.$store.state.login">
+              <template slot="button-content">
+                <em>{{nome}}</em>
+              </template>
+              <b-dropdown-item>
+                <router-link class="menu" to="/">Perfil</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>Logout</b-dropdown-item>
+            </b-nav-item-dropdown>
+
+            <b-nav-item v-if="!this.$store.state.login">
+              <router-link class="menu" to="/login">Login</router-link>
+            </b-nav-item>
+          </b-navbar-nav>
+        </b-collapse>
+      </b-navbar>
+    </div>
   </header>
 </template>
 
 <script>
-import { mapState } from "vuex";
+// import { mapState } from "vuex";
 export default {
   name: "TheHeader",
-  data() {
-    return {};
-  },
-  watch: {},
+  // data() {
+  //   return {};
+  // },
+  // watch: {},
   computed: {
     // ...mapState(["login"])
     nome() {
-      console.log("LOgger: ", this.$store.state.usuario.name);
-      return this.$store.state.usuario.name;
+      // console.log("LOgger: ", this.$store.state.login);
+      let stringFinal = "";
+      if (this.$store.state.login) {
+        stringFinal = "(online)";
+      }
+      return this.$store.state.usuario.name + stringFinal;
     }
   }
 };
 </script>
 
 <style scoped>
-nav {
+/* nav {
   display: grid;
   grid-template-columns: 10% 70% 20%;
   align-items: center;
@@ -50,7 +78,6 @@ nav {
 }
 
 nav .btn {
-  /* padding-left: 80px; */
   margin-left: 30%;
 }
 .second-column a {
@@ -69,8 +96,8 @@ nav .btn {
 .second-column a:hover {
   transform: scale(1.1);
   color: #09661a;
-  /* font-weight: bold; */
-}
+  font-weight: bold; 
+} */
 /* 
 .second-column a:nth-child(1):hover {
   background: tomato;
@@ -84,7 +111,7 @@ nav .btn {
   background: greenyellow;
 } */
 
-.logo {
+/* .logo {
   padding: 10px 0;
 }
 
@@ -95,5 +122,11 @@ nav .btn {
 .info {
   display: flex;
   justify-content: end;
+} */
+a {
+  color: #fff;
+}
+.ml-auto a {
+  color: #000;
 }
 </style>

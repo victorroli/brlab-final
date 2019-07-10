@@ -1,41 +1,52 @@
 <template>
-  <section class="lab-container">
-    <div class="lab-selecionado">
-      <div class="lab-img">
-        <img src="../../assets/lab.svg" alt />
-      </div>
-      <div class="lab-info">
-        <h3>{{lab_selecionado.name}}</h3>
-        <div class="tempo-experimento">
-          <p>Tempo de Experimentação: {{lab_selecionado.tempo}}</p>
+  <b-container class="lab-container">
+    <b-row>
+      <b-col class="lab-selecionado">
+        <!-- <div class="lab-selecionado"> -->
+        <div class="lab-img">
+          <img src="../../assets/lab.svg" alt />
         </div>
-        <div class="btn-info">
-          <router-link
-            :to="{name: 'iniciaExperimento', params:{iniciaExperimento:'inicia-experimento'}}"
-            tag="button"
-            class="btn"
-          >Iniciar</router-link>
-          <!-- <router-link
-            :to="{name: 'acompanhaExperimento', params:{acompanhaExperimento:'monitoramento'}}"
-            tag="button"
-            class="btn"
-          >Acompanhar</router-link>-->
-          <router-link
-            :to="{name: 'agendamento', params: {agendamento: 'agendamento', nome_lab: lab_selecionado.name}}"
-            tag="button"
-            class="btn"
-          >Reservar</router-link>
+        <div class="lab-info">
+          <h3>{{lab_selecionado.name}}</h3>
+          <div class="tempo-experimento">
+            <p>Tempo de Experimentação: {{lab_selecionado.tempo}}</p>
+          </div>
+          <b-row>
+            <!-- <b-col sm="2"></b-col> -->
+            <b-col class="text-center btn-div">
+              <router-link
+                :to="{name: 'iniciaExperimento', params:{iniciaExperimento:'inicia-experimento'}}"
+                tag="b-button"
+                class="btn"
+              >Iniciar</router-link>
+            </b-col>
+            <!-- <b-col sm="2"></b-col> -->
+          </b-row>
+          <b-row>
+            <b-col class="text-center btn-div">
+              <router-link
+                :to="{name: 'agendamento', params: {agendamento: 'agendamento', nome_lab: lab_selecionado.name}}"
+                tag="b-button"
+                class="btn"
+              >Reservar</router-link>
+            </b-col>
+          </b-row>
         </div>
-      </div>
-    </div>
-    <div class="descricao-lab">
-      <p>{{lab_selecionado.description}}</p>
-    </div>
+        <!-- </div> -->
+      </b-col>
+    </b-row>
+    <b-row class="descricao-lab text-center">
+      <b-col>
+        <p>{{lab_selecionado.description}}</p>
+      </b-col>
+    </b-row>
     <hr />
-    <div>
-      <h3>Últimos Experimentos</h3>
-    </div>
-  </section>
+    <b-row>
+      <b-col class="text-center">
+        <h3>Últimos Experimentos</h3>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -86,20 +97,29 @@ h3 {
 .lab-info {
   display: grid;
 }
+
 img {
   max-width: 250px;
 }
+
+.btn-div {
+  padding-right: 20%;
+  padding-left: 20%;
+  margin-bottom: 20px;
+}
+
 .btn {
-  margin-bottom: 38px;
-  padding-bottom: 20px;
-  padding-top: 20px;
-}
-.btn-info {
-  display: grid;
-  padding-right: 200px;
-  padding-left: 200px;
+  width: 100%;
+  height: 100%;
   align-content: center;
+  background: #87f;
+  transition: all 0.2s ease-in-out;
 }
+
+.btn:hover {
+  background: #65d;
+}
+
 hr {
   margin-top: 30px;
   margin-bottom: 20px;
