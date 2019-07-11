@@ -13,8 +13,7 @@ export default new Vuex.Store({
       name: "",
       nickname: "",
       email: "",
-      senha: "",
-      confirm_senha: ""
+      senha: ""
     },
     experimento: {
       tempoRestante: "",
@@ -29,14 +28,15 @@ export default new Vuex.Store({
     }
   },
   mutations: {
+    // Mutations do Usuário
     UPDATE_LOGIN(state, payload) {
-      console.log("Valor status: ", payload);
       state.login = payload;
     },
     UPDATE_USUARIO(state, payload) {
-      console.log("Valor recebido: ", payload);
       state.usuario = Object.assign(state.usuario, payload);
     },
+
+    // Mutations de Experimento
     UPDATE_TIMER(state) {
       state.experimento.tempoRestante--;
     },
@@ -63,8 +63,11 @@ export default new Vuex.Store({
           nickname: payload.nickname
         })
         .then(response => {
-          if (response.data == 200) {
+          if (response.data == 201) {
             context.commit("UPDATE_USUARIO", payload);
+            context.commit("UPDATE_LOGIN", true);
+          } else if (response.data == 200) {
+            alert("Usuário já cadastrado!!!");
           }
         });
     },
@@ -79,6 +82,21 @@ export default new Vuex.Store({
           }
         }
       });
+    },
+    logout(context) {
+      context.commit("UPDATE_USUARIO", {
+        id: "",
+        name: "",
+        nickname: "",
+        email: "",
+        senha: ""
+        // rua: "",
+        // numero: "",
+        // bairro: "",
+        // cidade: "",
+        // estado: ""
+      });
+      context.commit("UPDATE_LOGIN", false);
     }
   }
 });

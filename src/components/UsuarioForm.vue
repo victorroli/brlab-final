@@ -1,9 +1,12 @@
 <template>
   <form>
+    <slot name="titulo"></slot>
+
     <div class="usuario" v-if="mostraDadosLogin">
       <label for="nome">Nome:</label>
+      <!-- <input id="nome" type="text" name="nome" v-model="name" /> -->
       <input id="nome" type="text" name="nome" v-model="registro.name" />
-
+      <!-- {{registro.name}} -->
       <label for="nickname">Nickname:</label>
       <input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
 
@@ -14,12 +17,7 @@
       <input id="senha" type="password" name="senha" v-model="registro.senha" />
 
       <label for="senha">Confirmar Senha:</label>
-      <input
-        id="confirm_senha"
-        type="password"
-        name="confirm_senha"
-        v-model="registro.confirm_senha"
-      />
+      <input id="confirm_senha" type="password" name="confirm_senha" v-model="confirm_senha" />
     </div>
 
     <!-- <label for="cep">Cep</label>
@@ -56,17 +54,43 @@ export default {
     return {
       registro: {
         name: "",
-        nickname: "",
         email: "",
+        nickname: "",
         senha: ""
       }
     };
   },
+  methods: {
+    salvarUsuario() {
+      this.$store.dispatch("setUsuario", this.registro);
+    }
+  },
+  watch: {
+    "registro.name": function(novo, velho) {
+      // if (novo != "") registro.name = novo;
+      console.log("Name: ", novo);
+    },
+    "registro.nickname": function(novo, velho) {
+      console.log("Nickname: ", novo);
+    },
+    "registro.senha": function(novo) {
+      console.log("Nova senha: ", novo);
+    },
+    "registro.email": function(novo) {
+      console.log("Novo email: ", novo);
+    }
+  },
   computed: {
-    // ...mapFields({
-    //   fields: ["name", "email", "senha", "confirm_senha", "nickname"],
-    //   base: "usuario"
-    // }),
+    confirm_senha: {
+      set: function(valor) {
+        if (
+          (valor.length !== this.registro.senha.length && valor.length > 0) ||
+          (valor !== this.registro.senha && this.registro.senha.length > 0)
+        ) {
+          console.log("As senhas estão diferentes");
+        } else console.log("Senhas iguais!!!");
+      }
+    },
     mostraDadosLogin() {
       return !this.$store.state.login || this.$route.name === "usuario-editar";
     }

@@ -32,7 +32,9 @@
               <b-dropdown-item>
                 <router-link class="menu" to="/">Perfil</router-link>
               </b-dropdown-item>
-              <b-dropdown-item>Logout</b-dropdown-item>
+              <b-dropdown-item>
+                <b-button @click="logout">Logout</b-button>
+              </b-dropdown-item>
             </b-nav-item-dropdown>
 
             <b-nav-item v-if="!this.$store.state.login">
@@ -53,6 +55,13 @@ export default {
   //   return {};
   // },
   // watch: {},
+  methods: {
+    logout() {
+      console.log("Logout...");
+      this.$store.dispatch("logout");
+      this.$router.push({ path: "/login" });
+    }
+  },
   computed: {
     // ...mapState(["login"])
     nome() {
