@@ -1,18 +1,18 @@
 <template>
   <form>
+    <slot name="titulo"></slot>
+
     <div class="laboratorio">
       <label for="laboratorio">Laboratorio:</label>
       <input id="nome" type="text" name="nome" v-model="nome" disabled />
-      <!-- {{nome}} -->
       <label for="data">Data:</label>
-      <datetime v-model="data" type="date"></datetime>
+      <!-- <datetime v-model="reserva.data" type="date"></datetime> -->
+      <input type="date" name="data" v-model="reserva.data" />
 
       <label for="horaInicio">Horário Início:</label>
       <div class="horario">
-        <!-- <datetime v-model="horarioInicio" type="time"></datetime> -->
         <input type="time" v-model="horarioInicio" />
         {{horarioInicio}}
-        <!-- <input type="text"> v-model= -->
       </div>
 
       <label for="horaFim">Horário Fim:</label>
@@ -23,7 +23,7 @@
       </div>
 
       <label for="observacao">Observação</label>
-      <textarea name="observacao" id="observacao" cols="30" rows="5"></textarea>
+      <textarea name="observacao" id="observacao" cols="30" rows="5" v-model="reserva.observacao"></textarea>
     </div>
 
     <div class="button">
@@ -33,44 +33,74 @@
 </template>
 
 <script>
-import { Datetime } from "vue-datetime";
+// import { mapFields } from "@/helpers/mapFields.js";
+// import { Datetime } from "vue-datetime";
 
 export default {
   name: "AgendamentoForm",
-  props: ["laboratorio", "nome"],
+  props: ["lab_id", "nome"],
   components: {
-    datetime: Datetime
+    // datetime: Datetime
   },
   data() {
     return {
-      data: "",
-      horaInicio: "",
-      minIni: "",
-      horaFim: "",
-      minFim: ""
+      reserva: {
+        data: "",
+        horaInicio: "",
+        minutoInicio: "",
+        usuario: "",
+        horaFim: "",
+        minutoFim: "",
+        laboratorio: ""
+      }
     };
+  },
+  methods: {
+    salvarAgendamento() {
+      console.log("Registro geral: ", this.reserva);
+      if (!this.validaDados()) {
+        this.reserva.usuario = this.$store.state.usuario.id;
+        this.reserva.laboratorio = this.lab_id;
+        this.$store.dispatch("setReserva", this.reserva);
+        alert("Agendamento realizado!!!");
+        this.$router.go(-1);
+      }
+    },
+    validaDados() {
+      console.log("No bruto: ", this.reserva.horaInicio);
+      var erro = false;
+
+      if (!this.reserva.horaInicio || !this.reserva.horaFim) {
+        erro = true;
+      }
+
+      if (!this.reserva.minutoInicio || !this.reserva.minutoFim) {
+        erro = true;
+      }
+
+      if (!this.reserva.data) erro = true;
+
+      return erro;
+    }
   },
   computed: {
     horarioInicio: {
       set(valor) {
-        console.log("Valor: ", valor);
-        this.horaInicio = valor;
+        var hora_entrada = valor.split(":");
+        this.reserva.horaInicio = hora_entrada[0];
+        this.reserva.minutoInicio = hora_entrada[1];
       },
-      get() {
-        return this.horaInicio;
-      }
+      get() {}
     },
     horarioFim: {
       set(valor) {
-        console.log("Horario Fim: ", valor);
-        this.horaFim = valor;
+        var hora_saida = valor.split(":");
+        this.reserva.horaFim = hora_saida[0];
+        this.reserva.minutoFim = hora_saida[1];
       },
-      get() {
-        return this.horaFim;
-      }
+      get() {}
     }
-  },
-  methods: {}
+  }
 };
 </script>
 

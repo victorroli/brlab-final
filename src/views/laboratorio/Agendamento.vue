@@ -1,20 +1,45 @@
 <template>
   <section class="agendamento">
-    <h1>Agendar Laboratório</h1>
-    <AgendamentoForm :laboratorio="laboratorio" :nome="nome_lab">
-      <button class="btn" @click.prevent="lab">Reservar</button>
-    </AgendamentoForm>
+    <transition mode="out-in">
+      <AgendamentoForm ref="agendaLaboratorio" :lab_id="lab_id" :nome="nome_lab">
+        <template v-slot:titulo>
+          <h1>Agendar Laboratório</h1>
+        </template>
+        <template>
+          <slot>
+            <button class="btn" @click.prevent="reservaLab">Reservar</button>
+          </slot>
+        </template>
+      </AgendamentoForm>
+    </transition>
   </section>
 </template>
 
 <script>
 import AgendamentoForm from "@/components/ReservaForm.vue";
-
+import { mapFields } from "@/helpers/mapFields.js";
 export default {
   name: "Agendamento",
-  props: ["laboratorio", "nome_lab"],
+  props: ["lab_id", "nome_lab"],
   components: {
     AgendamentoForm
+  },
+  methods: {
+    reservaLab() {
+      console.log("Enter in the function !");
+      console.log("Agendamento: ", this.$refs.agendaLaboratorio);
+      this.$refs.agendaLaboratorio.salvarAgendamento();
+      //  if()
+    },
+    verificaCampos() {
+      console.log("horaInicio", this.horaInicio);
+    }
+  },
+  computed: {
+    // ...mapFields({
+    //   fields: ["horaInicio", "horaFim", "observacoes", "laboratorio", "data"],
+    //   base: "reserva"
+    // })
   }
 };
 </script>

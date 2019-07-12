@@ -25,7 +25,7 @@
           <b-row>
             <b-col class="text-center btn-div">
               <router-link
-                :to="{name: 'agendamento', params: {agendamento: 'agendamento', nome_lab: lab_selecionado.name}}"
+                :to="{name: 'agendamento', params: {agendamento: 'agendamento', nome_lab: lab_selecionado.name, lab_id:lab_selecionado.id}}"
                 tag="b-button"
                 class="btn"
               >Reservar</router-link>
@@ -57,7 +57,7 @@ export default {
   props: ["laboratorio"],
   data() {
     return {
-      lab_selecionado: null
+      lab_selecionado: ""
     };
   },
   methods: {

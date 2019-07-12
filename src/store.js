@@ -20,6 +20,16 @@ export default new Vuex.Store({
       ativo: "",
       horarioInicio: "",
       horarioTermino: ""
+    },
+    reserva: {
+      data: "",
+      horaInicio: "",
+      minutoInicio: "",
+      horaFim: "",
+      minutoFim: "",
+      observacoes: "",
+      laboratorio: "",
+      usuario: ""
     }
   },
   getters: {
@@ -37,6 +47,12 @@ export default new Vuex.Store({
     },
 
     // Mutations de Experimento
+    UPDATE_RESERVA(state, payload) {
+      state.reserva = Object.assign(state.reserva, payload);
+    },
+    SET_HORA_RESERVA_INICIO(state, valor) {
+      state.reserva.horarioInicio = valor;
+    },
     UPDATE_TIMER(state) {
       state.experimento.tempoRestante--;
     },
@@ -68,6 +84,23 @@ export default new Vuex.Store({
             context.commit("UPDATE_LOGIN", true);
           } else if (response.data == 200) {
             alert("Usuário já cadastrado!!!");
+          }
+        });
+    },
+    setReserva(context, payload) {
+      api
+        .post(`/agendamento`, {
+          horario_inicio: payload.horaInicio,
+          minuto_inicio: payload.minutoInicio,
+          horario_fim: payload.horaFim,
+          minuto_fim: payload.minutoFim,
+          observacao: payload.observacao,
+          laboratorio_id: payload.laboratorio,
+          usuario_id: payload.usuario
+        })
+        .then(response => {
+          if (response.data == 200) {
+            context.commit("UPDATE_RESERVA", payload);
           }
         });
     },
