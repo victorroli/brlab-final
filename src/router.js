@@ -12,6 +12,7 @@ import Agendamento from "@/views/laboratorio/Agendamento.vue";
 import DadosLaboratorio from "@/views/laboratorio/DadosLaboratorio.vue";
 import IniciaExperimento from "@/views/laboratorio/IniciaExperimento.vue";
 import DadosColetados from "@/views/laboratorio/DadosColetados.vue";
+import NovoLaboratorio from "@/views/laboratorio/NovoLaboratorio.vue";
 
 Vue.use(Router);
 
@@ -33,6 +34,11 @@ export default new Router({
           name: "laboratorios",
           component: ListaLaboratorios,
           props: true
+        },
+        {
+          path: "/novo",
+          name: "novo-laboratorio",
+          component: NovoLaboratorio
         },
         {
           path: ":laboratorio",

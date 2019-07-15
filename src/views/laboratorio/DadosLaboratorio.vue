@@ -2,17 +2,16 @@
   <b-container class="lab-container">
     <b-row>
       <b-col class="lab-selecionado">
-        <!-- <div class="lab-selecionado"> -->
         <div class="lab-img">
           <img src="../../assets/lab.svg" alt />
         </div>
         <div class="lab-info">
           <h3>{{lab_selecionado.name}}</h3>
+          <p>{{lab_selecionado.description}}</p>
           <div class="tempo-experimento">
             <p>Tempo de Experimentação: {{lab_selecionado.tempo}}</p>
           </div>
           <b-row>
-            <!-- <b-col sm="2"></b-col> -->
             <b-col class="text-center btn-div">
               <router-link
                 :to="{name: 'iniciaExperimento', params:{iniciaExperimento:'inicia-experimento'}}"
@@ -20,7 +19,6 @@
                 class="btn"
               >Iniciar</router-link>
             </b-col>
-            <!-- <b-col sm="2"></b-col> -->
           </b-row>
           <b-row>
             <b-col class="text-center btn-div">
@@ -32,12 +30,17 @@
             </b-col>
           </b-row>
         </div>
-        <!-- </div> -->
       </b-col>
     </b-row>
-    <b-row class="descricao-lab text-center">
-      <b-col>
-        <p>{{lab_selecionado.description}}</p>
+    <b-row>
+      <b-col class="text-left" v-if="equipamentos != ''">
+        <h4>Equipamentos Disponíveis</h4>
+        <ul>
+          <li
+            v-for="(equipamentos, index) in equipamentos"
+            :key="index"
+          >{{equipamentos.nome}}: {{equipamentos.descricao}}</li>
+        </ul>
       </b-col>
     </b-row>
     <hr />
@@ -57,15 +60,17 @@ export default {
   props: ["laboratorio"],
   data() {
     return {
-      lab_selecionado: ""
+      lab_selecionado: "",
+      equipamentos: ""
     };
   },
   methods: {
     getLaboratorio() {
       api.get(`/labs/${this.laboratorio}`).then(response => {
-        console.log("Dados: ", response.data);
+        console.log("Retorno: ", response.data);
         this.lab_selecionado = response.data;
-        console.log("Dados: ", this.lab_selecionado);
+        this.equipamentos = this.lab_selecionado.equipamentos;
+        console.log("Equipamentos: ", this.lab_selecionado.equipamentos.length);
       });
     }
   },

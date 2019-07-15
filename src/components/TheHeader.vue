@@ -16,9 +16,9 @@
             <b-nav-item>
               <router-link class="menu" to="/reservas">Reservas</router-link>
             </b-nav-item>
-            <b-nav-item>
+            <!-- <b-nav-item>
               <router-link class="menu" to="/grupos">Grupos</router-link>
-            </b-nav-item>
+            </b-nav-item>-->
             <b-nav-item>
               <router-link class="menu" to="/laboratorios">Laboratórios</router-link>
             </b-nav-item>

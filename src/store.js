@@ -87,6 +87,19 @@ export default new Vuex.Store({
           }
         });
     },
+    setLaboratorio(context, payload) {
+      api
+        .post(`/labs/`, {
+          name: payload.nome,
+          description: payload.descricao,
+          host: payload.host,
+          port: payload.porta,
+          tempo_experimento: payload.tempo
+        })
+        .then(response => {
+          console.log("Responsta obtida: ", response.data);
+        });
+    },
     setReserva(context, payload) {
       api
         .post(`/agendamento`, {
