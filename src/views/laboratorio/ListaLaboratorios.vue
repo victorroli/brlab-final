@@ -23,7 +23,6 @@
                 <img src="../../assets/lab.svg" />
               </div>
               <p>{{laboratorio.name}}</p>
-              <!-- <p>{{laboratorio.description}}</p> -->
             </router-link>
           </div>
         </div>
@@ -41,15 +40,11 @@
 <script>
 import { api } from "@/services.js";
 import { serialize } from "@/helpers/url.js";
-// import { mapState } from "vuex";
-
-// import LaboratorioBusca from "@/components/LaboratorioBusca.vue";
 import Erro from "@/components/Erro.vue";
 
 export default {
   name: "Laboratorios",
   components: {
-    // LaboratorioBusca,
     Erro
   },
   data() {
@@ -63,7 +58,10 @@ export default {
   methods: {
     getLaboratorios() {
       api.get("/labs").then(response => {
-        this.laboratorios = response.data;
+        let lab_filtrados = response.data.filter(
+          elemento => elemento.status == 2
+        );
+        this.laboratorios = lab_filtrados;
         this.labsaux = this.laboratorios;
       });
     },

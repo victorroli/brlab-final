@@ -30,7 +30,8 @@ export default new Vuex.Store({
       observacoes: "",
       laboratorio: "",
       usuario: ""
-    }
+    },
+    equipamentos: []
   },
   getters: {
     status: state => {
@@ -45,7 +46,14 @@ export default new Vuex.Store({
     UPDATE_USUARIO(state, payload) {
       state.usuario = Object.assign(state.usuario, payload);
     },
-
+    UPDATE_EQUIPAMENTOS(state, payload) {
+      console.log("Equipamntos: ", payload);
+      state.equipamentos.push(payload);
+    },
+    REMOVE_EQUIPAMENTO(state, payload) {
+      console.log("Valor do pay: ", payload);
+      state.equipamentos.splice(payload, 1);
+    },
     // Mutations de Experimento
     UPDATE_RESERVA(state, payload) {
       state.reserva = Object.assign(state.reserva, payload);
@@ -87,19 +95,7 @@ export default new Vuex.Store({
           }
         });
     },
-    setLaboratorio(context, payload) {
-      api
-        .post(`/labs/`, {
-          name: payload.nome,
-          description: payload.descricao,
-          host: payload.host,
-          port: payload.porta,
-          tempo_experimento: payload.tempo
-        })
-        .then(response => {
-          console.log("Responsta obtida: ", response.data);
-        });
-    },
+
     setReserva(context, payload) {
       api
         .post(`/agendamento`, {

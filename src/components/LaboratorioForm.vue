@@ -16,12 +16,21 @@
 
       <label for="descricao">Descrição:</label>
       <textarea name="descricao" id="descricao" cols="30" rows="5" v-model="laboratorio.descricao"></textarea>
+
+      <fieldset class="equipamentos">
+        <legend class="titulo-equipamento">Equipamentos</legend>
+        <div class="add-equipamento">
+          <EquipamentoForm ref="equipamentoRef"></EquipamentoForm>
+        </div>
+      </fieldset>
     </div>
     <slot></slot>
   </form>
 </template>
 
 <script>
+import EquipamentoForm from "@/components/EquipamentoForm.vue";
+import { api } from "../services.js";
 export default {
   name: "LaboratorioForm",
   data() {
@@ -31,16 +40,34 @@ export default {
         host: "",
         porta: "",
         tempo: "",
-        descricao: ""
+        descricao: "",
+        equipamentos: []
       }
     };
   },
+  components: {
+    EquipamentoForm
+  },
   methods: {
     incluirLab() {
-      this.$store.dispatch("setLaboratorio", this.laboratorio);
-      alert("Solicitação enviada...");
-      this.limpaVariaveis();
+      let listaEquipamentos = this.$refs.equipamentoRef.retornaEquipamentos();
+      listaEquipamentos.forEach((elemento, index) => {
+        let equipamento = Object({
+          nome: elemento.nome,
+          descricao: elemento.descricao,
+          uri: elemento.uri
+        });
+        this.laboratorio.equipamentos.push(equipamento);
+      });
+      if (this.verificaCampos()) {
+        this.setLaboratorio();
+        alert("Solicitação enviada...");
+        this.limpaVariaveis();
+      }
       this.$router.go(-1);
+    },
+    verificaCampos() {
+      return true;
     },
     limpaVariaveis() {
       (this.nome = ""),
@@ -48,6 +75,21 @@ export default {
         (this.porta = ""),
         (this.tempo = ""),
         (this.descricao = "");
+    },
+    setLaboratorio() {
+      api
+        .post(`/labs/`, {
+          name: this.laboratorio.nome,
+          description: this.laboratorio.descricao,
+          host: this.laboratorio.host,
+          port: this.laboratorio.porta,
+          tempo_experimento: this.laboratorio.tempo,
+          equipamentos: this.laboratorio.equipamentos
+        })
+        .then(response => {
+          console.log("Resposta obtida: ", response.data);
+        });
+      this.laboratorio.equipamentos = [];
     }
   }
 };
@@ -68,5 +110,20 @@ form,
 
 textarea {
   max-width: 500px;
+}
+
+.equipamentos {
+  border: 1px groove #17a2b8;
+}
+
+.titulo-equipamento {
+  /* border: 1px groove #17a2b8; */
+  padding: 0 1.4em 1.4em 1.4em;
+  margin: 0 0 1.5em 0;
+}
+
+.add-equipamento {
+  display: flex;
+  justify-content: center;
 }
 </style>
