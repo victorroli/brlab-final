@@ -3,57 +3,73 @@
     <h1>Dados Coletados</h1>
     <div class="info-coletados">
       <p>
-        <b>Tempo do Experimento:</b>
+        <label>Tempo do Experimento:</label>
         {{tempoRestante }}
       </p>
       <p>
-        <b>Horário Início:</b>
-        {{horarioInicio }}
+        <label for>Observação:</label>
+        {{observacao}}
       </p>
       <p>
-        <b>Horário Fim:</b>
-        {{horarioTermino }}
+        <label>Horário Início:</label>
+        {{periodoInicio }}
+      </p>
+      <p>
+        <label>Horário Fim:</label>
+        {{periodoFim }}
       </p>
     </div>
-    <button class="btn" @click.prevent="retornar()">Voltar</button>
+    <b-button class="btn" @click.prevent="retornar()">Voltar</b-button>
   </section>
 </template>
 
 <script>
 import { mapFields } from "@/helpers/mapFields.js";
+import { api } from "@/services.js";
 
 export default {
   name: "DadosColetados",
   methods: {
     retornar() {
       this.$router.back(2);
+    },
+
+    buscaDadosExperimento() {
+      console.log("Id do experimento: ", this.$store.state.experimento.id);
+      api
+        .get(`/experimento/${this.$store.state.experimento.id}`)
+        .then(response => {
+          this.$store.commit("UPDATE_EXPERIMENTO", response.data);
+        });
     }
   },
   computed: {
     ...mapFields({
-      fields: ["horarioInicio", "horarioTermino"],
-      base: "experimento",
-      mutation: ["SET_HORA_INICIO", "SET_HORA_FIM", "SET_STATUS"]
+      fields: ["periodoInicio", "periodoFim", "observacao"],
+      base: "experimento"
     }),
     tempoRestante() {
-      let tempo_inicial = this.horarioInicio.split(":");
-      let tempo_final = this.horarioTermino.split(":");
+      // let tempo_inicial = this.horarioInicio.split(":");
+      // let tempo_final = this.horarioTermino.split(":");
 
-      let hora_inicio = Number(tempo_inicial[0]);
-      let hora_final = Number(tempo_final[0]);
+      // let hora_inicio = Number(tempo_inicial[0]);
+      // let hora_final = Number(tempo_final[0]);
 
-      let minuto_inicio = Number(tempo_inicial[1]);
-      let minuto_final = Number(tempo_final[1]);
+      // let minuto_inicio = Number(tempo_inicial[1]);
+      // let minuto_final = Number(tempo_final[1]);
 
-      let segundo_inicio = Number(tempo_inicial[2]);
-      let segundo_final = Number(tempo_final[2]);
+      // let segundo_inicio = Number(tempo_inicial[2]);
+      // let segundo_final = Number(tempo_final[2]);
 
-      let horaTotal = hora_final - hora_inicio;
-      let minutosTotais = minuto_final - minuto_inicio;
-      let segundosTotais = segundo_final - segundo_inicio;
-
-      return `${horaTotal} Horas, ${minutosTotais} minutos e ${segundosTotais} segundos`;
+      // let horaTotal = hora_final - hora_inicio;
+      // let minutosTotais = minuto_final - minuto_inicio;
+      // let segundosTotais = segundo_final - segundo_inicio;
+      return `A inserir`;
+      // return `${horaTotal} Horas, ${minutosTotais} minutos e ${segundosTotais} segundos`;
     }
+  },
+  created() {
+    this.buscaDadosExperimento();
   }
 };
 </script>

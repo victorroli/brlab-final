@@ -38,6 +38,7 @@ import temporizador from "@/components/temporizador.vue";
 
 export default {
   name: "IniciarExperimento",
+  props: ["laboratorio_id"],
   data() {
     return {
       start: false,
@@ -53,9 +54,16 @@ export default {
   methods: {
     iniciaExperimento() {
       this.start = !this.start;
-      this.$store.commit("SET_STATUS", true);
-      this.$store.commit("SET_TIMER", 10);
-      this.$store.commit("SET_HORA_INICIO", this.retornaTimestamp());
+
+      this.$store.dispatch("setExperimento", {
+        status: true,
+        timer: 10,
+        periodoInicio: new Date().getTime(),
+        laboratorio_id: this.laboratorio_id
+      });
+      // this.$store.commit("SET_STATUS", true);
+      // this.$store.commit("SET_TIMER", 10);
+      // this.$store.commit("SET_HORA_INICIO", this.retornaTimestamp());
     },
     interrompeExperimento() {
       let confirm = window.confirm("Deseja parar experimento?");
@@ -64,14 +72,23 @@ export default {
       }
     },
     finalizaExperimento() {
-      this.$store.commit("SET_STATUS", false);
+      // this.$store.commit("SET_STATUS", false);
       alert("Experimento encerrado");
       this.$router.push({
         name: "dadoscoletados",
         params: { dadoscoletados: "dados-coletados" }
       });
       this.start = false;
-      this.$store.commit("SET_HORA_FIM", this.retornaTimestamp());
+      // this.$store.commit("SET_HORA_FIM", this.retornaTimestamp());
+      // this.$store.dispatch("setExperimento", {
+
+      // });
+
+      this.$store.dispatch("updateExperimento", {
+        status: false,
+        periodoFim: new Date().getTime(),
+        observacao: "Fim do experimento"
+      });
       console.log(this.horarioInicio + " - " + this.horarioTermino);
     },
     retornaTimestamp() {
@@ -81,6 +98,7 @@ export default {
       var minutos = date.getMinutes();
       var segundos = date.getSeconds();
       return `${horas}:${minutos}:${segundos}`;
+      // return 10;
       // console.log("Timestamp retornado: ", timestamp);
     }
   },
@@ -91,6 +109,9 @@ export default {
         this.finalizaExperimento();
       }
     }
+  },
+  created() {
+    console.log("Laboratorio selecionado: ", this.laboratorio_id);
   },
   computed: {
     ...mapFields({

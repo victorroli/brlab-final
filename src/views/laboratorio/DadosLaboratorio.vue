@@ -14,7 +14,7 @@
           <b-row>
             <b-col class="text-center btn-div">
               <router-link
-                :to="{name: 'iniciaExperimento', params:{iniciaExperimento:'inicia-experimento'}}"
+                :to="{name: 'iniciaExperimento', params:{laboratorio_id:lab_selecionado.id}}"
                 tag="b-button"
                 class="btn"
               >Iniciar</router-link>
