@@ -10,10 +10,11 @@ export default new Vuex.Store({
     login: false,
     usuario: {
       id: "",
-      name: "",
+      nome: "",
       nickname: "",
       email: "",
-      senha: ""
+      senha: "",
+      papel_id: ""
     },
     experimento: {
       id: "",
@@ -91,10 +92,11 @@ export default new Vuex.Store({
     setUsuario(context, payload) {
       api
         .post(`/usuario`, {
-          name: payload.name,
+          nome: payload.nome,
           email: payload.email,
           senha: payload.senha,
-          nickname: payload.nickname
+          nickname: payload.nickname,
+          papel_id: payload.papel_id
         })
         .then(response => {
           if (response.data == 201) {
@@ -177,10 +179,11 @@ export default new Vuex.Store({
     logout(context) {
       context.commit("UPDATE_USUARIO", {
         id: "",
-        name: "",
+        nome: "",
         nickname: "",
         email: "",
-        senha: ""
+        senha: "",
+        papel_id: ""
         // rua: "",
         // numero: "",
         // bairro: "",

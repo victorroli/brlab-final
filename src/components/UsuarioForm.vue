@@ -1,23 +1,29 @@
 <template>
   <form>
     <slot name="titulo"></slot>
-
     <div class="usuario" v-if="mostraDadosLogin">
       <label for="nome">Nome:</label>
       <!-- <input id="nome" type="text" name="nome" v-model="name" /> -->
-      <input id="nome" type="text" name="nome" v-model="registro.name" />
+      <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
       <!-- {{registro.name}} -->
       <label for="nickname">Nickname:</label>
-      <input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
+      <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
+
+      <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
 
       <label for="email">Email:</label>
-      <input id="email" type="email" name="email" v-model="registro.email" />
+      <b-form-input id="email" type="email" name="email" v-model="registro.email" />
 
       <label for="senha">Senha:</label>
-      <input id="senha" type="password" name="senha" v-model="registro.senha" />
+      <b-form-input id="senha" type="password" name="senha" v-model="registro.senha" />
 
       <label for="senha">Confirmar Senha:</label>
-      <input id="confirm_senha" type="password" name="confirm_senha" v-model="confirm_senha" />
+      <b-form-input
+        id="confirm_senha"
+        type="password"
+        name="confirm_senha"
+        v-model="confirm_senha"
+      />
     </div>
 
     <!-- <label for="cep">Cep</label>
@@ -50,14 +56,18 @@
 
 export default {
   name: "UsuarioForm",
+  props: ["lista"],
   data() {
     return {
       registro: {
-        name: "",
+        nome: "",
         email: "",
         nickname: "",
-        senha: ""
-      }
+        senha: "",
+        papel_id: ""
+      },
+      // selected: "",
+      papeis: []
     };
   },
   methods: {
@@ -94,6 +104,17 @@ export default {
     mostraDadosLogin() {
       return !this.$store.state.login || this.$route.name === "usuario-editar";
     }
+  },
+  beforeUpdate() {
+    this.papeis = [];
+    this.lista.forEach(elemento => {
+      let opcao = Object({
+        value: elemento.id,
+        text: elemento.nome
+      });
+      this.papeis.push(opcao);
+      console.log("Opção: ", opcao);
+    });
   }
 };
 </script>

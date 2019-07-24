@@ -1,7 +1,7 @@
 <template>
   <section class="register" v-if="!this.$store.state.login">
     <transition mode="out-in">
-      <UsuarioForm ref="registraUsuario">
+      <UsuarioForm ref="registraUsuario" :lista="listaPapeis">
         <template v-slot:titulo>
           <h2>Cadastro de Usuário</h2>
         </template>
@@ -16,26 +16,32 @@
 <script>
 import UsuarioForm from "@/components/UsuarioForm.vue";
 import { mapFields } from "@/helpers/mapFields.js";
+import { api } from "@/services.js";
 
 export default {
   name: "RegisterUser",
+  data() {
+    return {
+      listaPapeis: []
+    };
+  },
   components: {
     UsuarioForm
   },
   methods: {
     salvarUsuario() {
       // if (this.verificaCampos()) {
-      console.log("Entrou...");
+      // console.log("Entrou...");
       this.$refs.registraUsuario.salvarUsuario();
-      console.log("Situacao login: ", this.$store.state.login);
+      // console.log("Situacao login: ", this.$store.state.login);
       if (this.$store.state.login) {
-        console.log("Usuario logado!");
+        // console.log("Usuario logado!");
         this.$router.push({ path: "/" });
       }
       // }
     },
     verificaCampos() {
-      console.log("Nome: ", this.name);
+      // console.log("Nome: ", this.name);
       if (this.name == "") {
         alert("Campo Nome não informado");
         return false;
@@ -73,6 +79,17 @@ export default {
       // mutation: "UPDATE_USUARIO",
       // action: "setUsuario"
     })
+  },
+  created() {
+    api.get(`/papel`).then(response => {
+      response.data.papeis.forEach(elemento => {
+        let papel = Object({
+          id: elemento.id,
+          nome: elemento.nome
+        });
+        this.listaPapeis.push(papel);
+      });
+    });
   }
 };
 </script>

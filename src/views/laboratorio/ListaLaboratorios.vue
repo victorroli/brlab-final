@@ -13,7 +13,10 @@
               @keyup="buscarLaboratorio"
             />
             <input type="submit" id="lupa" value="Buscar" @click.prevent="buscarLaboratorio" />
-            <router-link tag="b-button" :to="{name: 'novo-laboratorio'}">Novo +</router-link>
+
+            <div v-show="papel">
+              <router-link tag="b-button" :to="{name: 'novo-laboratorio'}">Novo +</router-link>
+            </div>
           </form>
         </div>
         <div class="laboratorios" v-if="labsaux && labsaux.length" key="laboratorios">
@@ -95,6 +98,15 @@ export default {
     url() {
       const query = serialize(this.$route.query);
       return `/laboratorio?limit=${this.labsPorPagina}${query}`;
+    },
+    papel() {
+      if (
+        this.$store.state.usuario.papel_id == 1 ||
+        this.$store.state.usuario.papel_id == 3
+      ) {
+        return true;
+      }
+      return false;
     }
   }
 };

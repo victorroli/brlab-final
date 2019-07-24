@@ -10,10 +10,10 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item>
+            <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
             </b-nav-item>
-            <b-nav-item>
+            <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/reservas">Reservas</router-link>
             </b-nav-item>
             <!-- <b-nav-item>
@@ -21,6 +21,10 @@
             </b-nav-item>-->
             <b-nav-item>
               <router-link class="menu" to="/laboratorios">Laboratórios</router-link>
+            </b-nav-item>
+
+            <b-nav-item v-show="usuario_logado">
+              <router-link class="menu" to="/grupos">Grupos</router-link>
             </b-nav-item>
           </b-navbar-nav>
 
@@ -63,6 +67,10 @@ export default {
     }
   },
   computed: {
+    usuario_logado() {
+      if (this.$store.state.login) return true;
+      return false;
+    },
     // ...mapState(["login"])
     nome() {
       // console.log("LOgger: ", this.$store.state.login);
@@ -70,7 +78,7 @@ export default {
       if (this.$store.state.login) {
         stringFinal = "(online)";
       }
-      return this.$store.state.usuario.name + stringFinal;
+      return this.$store.state.usuario.nome + stringFinal;
     }
   }
 };
