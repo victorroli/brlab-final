@@ -22,11 +22,7 @@
           </b-row>
           <b-row>
             <b-col class="text-center btn-div">
-              <router-link
-                :to="{name: 'agendamento', params: {agendamento: 'agendamento', nome_lab: lab_selecionado.name, lab_id:lab_selecionado.id}}"
-                tag="b-button"
-                class="btn"
-              >Reservar</router-link>
+              <vue-calendar></vue-calendar>
             </b-col>
           </b-row>
         </div>
@@ -54,10 +50,14 @@
 
 <script>
 import { api } from "@/services.js";
+import CalendarModal from "@/components/CalendarModal.vue";
 
 export default {
   name: "DadosLaboratorio",
   props: ["laboratorio"],
+  components: {
+    "vue-calendar": CalendarModal
+  },
   data() {
     return {
       lab_selecionado: "",
@@ -74,6 +74,13 @@ export default {
       });
     }
   },
+  watch: {
+    lab_selecionado(valor) {
+      if (valor) {
+        this.$store.commit("UPDATE_LABORATORIO", valor);
+      }
+    }
+  },
   created() {
     this.getLaboratorio();
   }
@@ -87,6 +94,10 @@ h3 {
   font-size: 1.5rem;
   text-align: center;
 }
+
+/* .lab-container {
+  width: 1024px;
+} */
 .lab-selecionado {
   display: grid;
   grid-template-columns: 1fr 1fr;

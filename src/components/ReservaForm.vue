@@ -6,8 +6,10 @@
       <label for="laboratorio">Laboratorio:</label>
       <input id="nome" type="text" name="nome" v-model="nome" disabled />
       <label for="data">Data:</label>
-      <!-- <datetime v-model="reserva.data" type="date"></datetime> -->
-      <input type="date" name="data" v-model="reserva.data" />
+
+      <vue-calendar></vue-calendar>
+
+      <!-- <input type="date" name="data" v-model="reserva.data" />
 
       <label for="horaInicio">Horário Início:</label>
       <div class="horario">
@@ -17,10 +19,10 @@
 
       <label for="horaFim">Horário Fim:</label>
       <div class="horario">
-        <!-- <datetime v-model="horarioFim" type="time"></datetime> -->
-        <input type="time" v-model="horarioFim" />
+      <!-- <datetime v-model="horarioFim" type="time"></datetime>-->
+      <!-- <input type="time" v-model="horarioFim" />
         {{horarioFim}}
-      </div>
+      </div>-->
 
       <label for="observacao">Observação</label>
       <textarea name="observacao" id="observacao" cols="30" rows="5" v-model="reserva.observacao"></textarea>
@@ -35,12 +37,14 @@
 <script>
 // import { mapFields } from "@/helpers/mapFields.js";
 // import { Datetime } from "vue-datetime";
+// import Calendar from "@/components/Calendar.vue";
+import CalendarModal from "@/components/CalendarModal.vue";
 
 export default {
   name: "AgendamentoForm",
   props: ["lab_id", "nome"],
   components: {
-    // datetime: Datetime
+    "vue-calendar": CalendarModal
   },
   data() {
     return {

@@ -34,6 +34,7 @@ export default new Vuex.Store({
       laboratorio: "",
       usuario: ""
     },
+    laboratorio: "",
     equipamentos: []
   },
   getters: {
@@ -48,6 +49,9 @@ export default new Vuex.Store({
     },
     UPDATE_USUARIO(state, payload) {
       state.usuario = Object.assign(state.usuario, payload);
+    },
+    UPDATE_LABORATORIO(state, payload) {
+      state.laboratorio = payload;
     },
     UPDATE_EXPERIMENTO(state, payload) {
       state.experimento = Object.assign(state.experimento, payload);
@@ -148,6 +152,7 @@ export default new Vuex.Store({
     },
 
     setReserva(context, payload) {
+      console.log("Payload: ", payload);
       api
         .post(`/agendamento`, {
           horario_inicio: payload.horaInicio,
