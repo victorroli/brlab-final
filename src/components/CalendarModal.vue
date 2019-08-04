@@ -52,7 +52,7 @@ export default {
   },
   data() {
     return {
-      events: [{}],
+      events: [],
       focusEvento: true
     };
   },
@@ -88,8 +88,15 @@ export default {
     }
   },
 
+  watch: {
+    events(valor) {
+      console.log("Valor pego aqui: ", valor);
+    }
+  },
+
   created() {
-    this.$options.reserva.laboratorio_id = this.laboratorio;
+    console.log("Laboratório cadastrado: ", this.laboratorio);
+    this.$options.reserva.laboratorio_id = this.laboratorio.id;
     console.log("Reserva: ", this.$options.reserva.laboratorio_id);
     this.buscaEventos();
   },
@@ -141,9 +148,12 @@ export default {
     },
 
     verEvento(acao, evento) {
+      console.log("Evento: ", evento);
       evento.laboratorio_id = this.$options.reserva.laboratorio_id;
-      this.$refs.modalForm.recebeValoresReserva(null, evento, "edicao");
-      this.focusEvento = false;
+      if (evento.usuario == this.$store.state.usuario.id) {
+        this.$refs.modalForm.recebeValoresReserva(null, evento, "edicao");
+        this.focusEvento = false;
+      }
     },
     habilitaFocus() {
       this.focusEvento = true;
@@ -172,10 +182,51 @@ export default {
       event.endDate = new Date(event.end);
       return event;
     },
+    converteDate(data) {
+      /*
+        A data obtida do banco não vem com o valor GMT, então
+        deve-se acrescentar na string esse valor.
+        Como neste ano de 2019 não haverá horário de verão
+        então permaneceu padrão o valor "-0300 que corresponde ao horário de Brasília"         
+      */
+      data += "-0300";
+      console.log("Data passada: ", data);
+      let dataConvertida = new Date(data);
+      let dia = "",
+        mes = "",
+        ano = "",
+        hora = "",
+        minutos = "";
+      ano = dataConvertida.getFullYear();
+      mes = this.checValores(dataConvertida.getMonth(), true);
+      dia = this.checValores(dataConvertida.getDate());
+      hora = this.checValores(dataConvertida.getHours());
+      minutos = this.checValores(dataConvertida.getMinutes());
+
+      console.log(`${ano}-${mes}-${dia} ${hora}:${minutos}`);
+      return `${ano}-${mes}-${dia} ${hora}:${minutos}`;
+    },
     buscaEventos() {
-      // console.log("Laboratório: ", this.laboratorio.id);
+      console.log("Laboratório: ", this.laboratorio.id);
       api.get(`/agendamento/${this.laboratorio.id}`, {}).then(response => {
+        console.log("Resposta do get Agendamento");
         console.log(response.data);
+        let aEventos = [];
+        response.data.forEach(reserva => {
+          console.log("Início: ", reserva.periodo_inicio);
+          let oReserva = new Object({
+            start: this.converteDate(reserva.periodo_inicio),
+            end: this.converteDate(reserva.periodo_fim),
+            title: "Horário reservado",
+            content: "reserva.observacao",
+            class: "reserva",
+            usuario: reserva.usuario_id
+          });
+          aEventos.push(oReserva);
+        });
+        // console.log("Eventos pegos: ", aEventos);
+        this.events = [...aEventos];
+        // console.log("Eventos passados: ", this.events);
       });
     }
   }

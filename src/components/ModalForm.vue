@@ -86,7 +86,8 @@ export default {
       observacao: "",
       data: "",
       horarioTermino: "",
-      horarioInicio: ""
+      horarioInicio: "",
+      acao: ""
     };
   },
 
@@ -131,7 +132,7 @@ export default {
       this.$parent.habilitaFocus();
     },
     salvaReserva() {
-      // console.log("Agendamento: ", this.$options.agendamento);
+      console.log("Agendamento: ", this.$options.agendamento);
       api
         .post(`/agendamento`, {
           horario_inicio: this.$options.agendamento.horarioInicio,
@@ -150,6 +151,8 @@ export default {
             alert("Erro ao agendar. Verifique os horários");
           }
         });
+      console.log("Ação aqui: ", this.acao);
+      this.acao = "";
     },
     retornaDados() {
       let dataInicio =
@@ -197,7 +200,7 @@ export default {
 
       let dia = "";
       let mes = "";
-
+      this.acao = acao;
       if (acao == "edicao") {
         let inicio = evento.startDate;
         let fim = evento.endDate;
