@@ -116,7 +116,7 @@ export default {
         this.$refs.modalForm.recebeValoresReserva(
           this.$options.reserva,
           evento,
-          "cadastro"
+          "inclusao"
         );
       } else {
         alert("Horário inválido");
@@ -208,26 +208,29 @@ export default {
     },
     buscaEventos() {
       console.log("Laboratório: ", this.laboratorio.id);
-      api.get(`/agendamento/${this.laboratorio.id}`, {}).then(response => {
-        console.log("Resposta do get Agendamento");
-        console.log(response.data);
-        let aEventos = [];
-        response.data.forEach(reserva => {
-          console.log("Início: ", reserva.periodo_inicio);
-          let oReserva = new Object({
-            start: this.converteDate(reserva.periodo_inicio),
-            end: this.converteDate(reserva.periodo_fim),
-            title: "Horário reservado",
-            content: "reserva.observacao",
-            class: "reserva",
-            usuario: reserva.usuario_id
+      api
+        .get(`/agendamento/laboratorio/${this.laboratorio.id}`, {})
+        .then(response => {
+          console.log("Resposta do get Agendamento");
+          console.log(response.data);
+          let aEventos = [];
+          response.data.forEach(reserva => {
+            console.log("Início: ", reserva.periodo_inicio);
+            let oReserva = new Object({
+              start: this.converteDate(reserva.periodo_inicio),
+              end: this.converteDate(reserva.periodo_fim),
+              title: "Horário reservado",
+              content: reserva.observacao,
+              class: "reserva",
+              usuario: reserva.usuario_id,
+              id: reserva.id
+            });
+            aEventos.push(oReserva);
           });
-          aEventos.push(oReserva);
+          console.log("Eventos pegos: ", aEventos);
+          this.events = [...aEventos];
+          // console.log("Eventos passados: ", this.events);
         });
-        // console.log("Eventos pegos: ", aEventos);
-        this.events = [...aEventos];
-        // console.log("Eventos passados: ", this.events);
-      });
     }
   }
 };

@@ -67,10 +67,10 @@ export default {
   methods: {
     getLaboratorio() {
       api.get(`/labs/${this.laboratorio}`).then(response => {
-        console.log("Retorno: ", response.data);
+        // console.log("Retorno: ", response.data);
         this.lab_selecionado = response.data;
         this.equipamentos = this.lab_selecionado.equipamentos;
-        console.log("Equipamentos: ", this.lab_selecionado.equipamentos.length);
+        // console.log("Equipamentos: ", this.lab_selecionado.equipamentos.length);
       });
     }
   },

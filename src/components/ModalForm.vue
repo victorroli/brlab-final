@@ -92,6 +92,7 @@ export default {
   },
 
   agendamento: {
+    id: "",
     solicitante: "",
     horarioInicio: "",
     horarioTermino: "",
@@ -101,24 +102,24 @@ export default {
   },
 
   watch: {
-    data(valor) {
-      if (valor) {
-        this.$options.agendamento.data = valor;
+    data(antigo, novo) {
+      if (antigo != novo) {
+        this.$options.agendamento.data = novo;
       }
     },
-    observacao(valor) {
-      if (valor) {
-        this.$options.agendamento.observacao = valor;
+    observacao(antigo, novo) {
+      if (antigo != novo) {
+        this.$options.agendamento.observacao = novo;
       }
     },
-    horarioInicio(valor) {
-      if (valor) {
-        this.$options.agendamento.horarioInicio = valor;
+    horarioInicio(antigo, novo) {
+      if (antigo != novo) {
+        this.$options.agendamento.horarioInicio = novo;
       }
     },
-    horarioTermino(valor) {
-      if (valor) {
-        this.$options.agendamento.horarioTermino = valor;
+    horarioTermino(antigo, novo) {
+      if (antigo != novo) {
+        this.$options.agendamento.horarioTermino = novo;
       }
     }
   },
@@ -133,24 +134,55 @@ export default {
     },
     salvaReserva() {
       console.log("Agendamento: ", this.$options.agendamento);
-      api
-        .post(`/agendamento`, {
-          horario_inicio: this.$options.agendamento.horarioInicio,
-          horario_fim: this.$options.agendamento.horarioTermino,
-          observacao: this.$options.agendamento.observacao,
-          data: this.$options.agendamento.data,
-          laboratorio_id: this.$options.agendamento.laboratorio_id,
-          usuario_id: this.$store.state.usuario.id
-        })
-        .then(response => {
-          if (response.data == 201) {
-            this.retornaDados();
-            alert("Agendamento realizado com sucesso!");
-          }
-          if (response.data == 200) {
-            alert("Erro ao agendar. Verifique os horários");
-          }
-        });
+      console.log("Ação a ser realizada", this.acao);
+      switch (this.acao) {
+        case "inclusao": {
+          api
+            .post(`/agendamento`, {
+              horario_inicio: this.$options.agendamento.horarioInicio,
+              horario_fim: this.$options.agendamento.horarioTermino,
+              observacao: this.$options.agendamento.observacao,
+              data: this.$options.agendamento.data,
+              laboratorio_id: this.$options.agendamento.laboratorio_id,
+              usuario_id: this.$store.state.usuario.id
+            })
+            .then(response => {
+              if (response.data == 201) {
+                this.retornaDados();
+                alert("Agendamento realizado com sucesso!");
+              }
+              if (response.data == 200) {
+                alert("Erro ao agendar. Verifique os horários");
+              }
+            });
+          break;
+        }
+        case "edicao": {
+          api
+            .put(`/agendamento/${this.$options.agendamento.id}`, {
+              horario_inicio: this.$options.agendamento.horarioInicio,
+              horario_fim: this.$options.agendamento.horarioTermino,
+              observacao: this.$options.agendamento.observacao,
+              data: this.$options.agendamento.data,
+              laboratorio_id: this.$options.agendamento.laboratorio_id,
+              usuario_id: this.$store.state.usuario.id
+            })
+            .then(response => {
+              if (response.data == 201) {
+                this.retornaDados();
+                alert("Agendamento atualizado com sucesso!");
+                console.log("Pai: ", this.$parent);
+              }
+              if (response.data == 200) {
+                alert("Alteração não realizada");
+              }
+            });
+          break;
+        }
+        case "exclusao": {
+          break;
+        }
+      }
       console.log("Ação aqui: ", this.acao);
       this.acao = "";
     },
@@ -178,6 +210,7 @@ export default {
       this.horarioInicioState = true;
       this.horarioTerminoState = true;
       this.dataState = true;
+      this.$options.agendamento.id = reserva.id;
     },
     limparCampos() {
       this.agendamento = null;
@@ -187,11 +220,13 @@ export default {
       this.horarioTermino = "";
       this.horarioInicio = "";
     },
-    checValores(valor, mes = false) {
+    checValores(valor, mes) {
       let valorFinal = valor;
       if (valor < 10) {
-        if (mes) valorFinal = valor + 1;
-        return `0${valor}`;
+        if (mes) {
+          valorFinal += 1;
+        }
+        return `0${valorFinal}`;
       }
       return valorFinal;
     },
@@ -218,11 +253,9 @@ export default {
           ":" +
           this.checValores(fim.getMinutes());
         valoresReserva.data = fim.getFullYear() + "-" + mes + "-" + dia;
-        valoresReserva.observacao = evento.content;
-        valoresReserva.laboratorio_id = evento.laboratorio_id;
       }
 
-      if (reserva && acao == "cadastro") {
+      if (reserva && acao == "inclusao") {
         let minutoInicio = this.checValores(reserva.minutos);
         valoresReserva.inicio = `${reserva.hora}:${minutoInicio}`;
         let minutoFim = "";
@@ -236,13 +269,14 @@ export default {
           valoresReserva.termino = `${reserva.hora}:${reserva.minutos +
             reserva.tempo}`;
         }
-        dia = reserva.dia < 10 ? `0${reserva.dia}` : reserva.dia;
-        mes = reserva.mes < 10 ? `0${reserva.mes + 1}` : reserva.mes + 1;
+        dia = this.checValores(reserva.dia);
+        mes = this.checValores(reserva.mes, true);
 
         valoresReserva.data = `${reserva.ano}-${mes}-${dia}`;
-        valoresReserva.observacao = reserva.observacao;
-        valoresReserva.laboratorio_id = reserva.laboratorio_id;
       }
+      valoresReserva.observacao = evento.content;
+      valoresReserva.laboratorio_id = evento.laboratorio_id;
+      valoresReserva.id = evento.id;
       this.preencheCampos(valoresReserva);
       this.showModal();
       this.evento = evento;
