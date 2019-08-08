@@ -34,7 +34,10 @@ export default new Vuex.Store({
       laboratorio: "",
       usuario: ""
     },
-    laboratorio: "",
+    laboratorio: {
+      id: "",
+      tempo: ""
+    },
     equipamentos: []
   },
   getters: {
@@ -51,7 +54,7 @@ export default new Vuex.Store({
       state.usuario = Object.assign(state.usuario, payload);
     },
     UPDATE_LABORATORIO(state, payload) {
-      console.log("Seta laboratório: ", payload);
+      // console.log("Seta laboratório: ", payload);
       state.laboratorio = payload;
     },
     UPDATE_EXPERIMENTO(state, payload) {

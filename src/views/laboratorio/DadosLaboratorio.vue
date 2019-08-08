@@ -22,7 +22,12 @@
           </b-row>
           <b-row>
             <b-col class="text-center btn-div">
-              <vue-calendar></vue-calendar>
+              <router-link
+                :to="{name: 'agendamento', params:{laboratorio:lab_selecionado}}"
+                tag="b-button"
+                class="btn"
+              >Reservar</router-link>
+              <!-- <vue-calendar :laboratorio="lab_selecionado"></vue-calendar> -->
             </b-col>
           </b-row>
         </div>
@@ -66,12 +71,15 @@ export default {
   },
   methods: {
     getLaboratorio() {
-      api.get(`/labs/${this.laboratorio}`).then(response => {
-        // console.log("Retorno: ", response.data);
-        this.lab_selecionado = response.data;
-        this.equipamentos = this.lab_selecionado.equipamentos;
-        // console.log("Equipamentos: ", this.lab_selecionado.equipamentos.length);
-      });
+      // console.log("Laboratório selecionado: ", this.laboratorio);
+      if (this.laboratorio) {
+        api.get(`/labs/${this.laboratorio}`).then(response => {
+          // console.log("Retorno: ", response.data);
+          this.lab_selecionado = response.data;
+          this.equipamentos = this.lab_selecionado.equipamentos;
+          // console.log("Equipamentos: ", this.lab_selecionado.equipamentos.length);
+        });
+      }
     }
   },
   watch: {
@@ -82,6 +90,7 @@ export default {
     }
   },
   created() {
+    // console.log("Laboratório pego neste trecho: ", this.laboratorio);
     this.getLaboratorio();
   }
 };

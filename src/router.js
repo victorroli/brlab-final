@@ -9,6 +9,7 @@ import Login from "@/views/usuario/Login.vue";
 import Home from "@/views/Home.vue";
 import RegisterUser from "@/views/usuario/RegisterUser.vue";
 import Agendamento from "@/views/laboratorio/Agendamento.vue";
+// import CalendarModal from "@/views/laboratorio/CalendarModal.vue";
 import DadosLaboratorio from "@/views/laboratorio/DadosLaboratorio.vue";
 import IniciaExperimento from "@/views/laboratorio/IniciaExperimento.vue";
 import DadosColetados from "@/views/laboratorio/DadosColetados.vue";

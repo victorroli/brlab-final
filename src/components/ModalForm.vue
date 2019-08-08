@@ -3,8 +3,11 @@
     id="modal-form"
     ref="modal"
     title="Reserva Laboratório"
+    :ok-title="txtBotaoIncluir"
+    :cancel-title="txtBotaoExcluir"
     @show="showModal"
     @hidden="resetModal"
+    @cancel="excluiReserva"
     @ok="salvaReserva"
   >
     <!-- {{laboratorio}} -->
@@ -87,7 +90,9 @@ export default {
       data: "",
       horarioTermino: "",
       horarioInicio: "",
-      acao: ""
+      acao: "",
+      txtBotaoIncluir: "Salvar",
+      txtBotaoExcluir: "Cancelar"
     };
   },
 
@@ -102,22 +107,24 @@ export default {
   },
 
   watch: {
-    data(antigo, novo) {
+    data(novo, antigo) {
+      console.log("Data agora: ", novo);
+      console.log("Antiga: ", antigo);
       if (antigo != novo) {
         this.$options.agendamento.data = novo;
       }
     },
-    observacao(antigo, novo) {
+    observacao(novo, antigo) {
       if (antigo != novo) {
         this.$options.agendamento.observacao = novo;
       }
     },
-    horarioInicio(antigo, novo) {
+    horarioInicio(novo, antigo) {
       if (antigo != novo) {
         this.$options.agendamento.horarioInicio = novo;
       }
     },
-    horarioTermino(antigo, novo) {
+    horarioTermino(novo, antigo) {
       if (antigo != novo) {
         this.$options.agendamento.horarioTermino = novo;
       }
@@ -132,9 +139,21 @@ export default {
       this.$bvModal.hide("modal-form");
       this.$parent.habilitaFocus();
     },
+    excluiReserva() {
+      if (this.acao == "edicao") {
+        let resposta = confirm("Deseja remover agendamento?");
+        if (resposta) {
+          api
+            .delete(`/agendamento/${this.$options.agendamento.id}`)
+            .then(response => {
+              if (response.status == 200) {
+                alert("Agendamento excluído com sucesso!");
+              }
+            });
+        }
+      }
+    },
     salvaReserva() {
-      console.log("Agendamento: ", this.$options.agendamento);
-      console.log("Ação a ser realizada", this.acao);
       switch (this.acao) {
         case "inclusao": {
           api
@@ -165,13 +184,13 @@ export default {
               observacao: this.$options.agendamento.observacao,
               data: this.$options.agendamento.data,
               laboratorio_id: this.$options.agendamento.laboratorio_id,
-              usuario_id: this.$store.state.usuario.id
+              usuario_id: this.$store.state.usuario.id,
+              id: this.$options.agendamento.id
             })
             .then(response => {
               if (response.data == 201) {
                 this.retornaDados();
                 alert("Agendamento atualizado com sucesso!");
-                console.log("Pai: ", this.$parent);
               }
               if (response.data == 200) {
                 alert("Alteração não realizada");
@@ -183,7 +202,7 @@ export default {
           break;
         }
       }
-      console.log("Ação aqui: ", this.acao);
+      this.$parent.buscaEventos();
       this.acao = "";
     },
     retornaDados() {
@@ -198,7 +217,7 @@ export default {
       });
     },
     preencheCampos(reserva) {
-      console.log("Preenche campos: {}", reserva);
+      console.log("Como tá chegando? ", reserva);
       this.limparCampos();
       this.solicitante = this.$store.state.usuario.nome;
       this.horarioInicio = reserva.inicio;
@@ -237,12 +256,13 @@ export default {
       let mes = "";
       this.acao = acao;
       if (acao == "edicao") {
+        this.txtBotaoIncluir = "Editar";
+        this.txtBotaoExcluir = "Excluir";
         let inicio = evento.startDate;
         let fim = evento.endDate;
 
         dia = this.checValores(inicio.getDate());
         mes = this.checValores(inicio.getMonth(), true);
-
         valoresReserva.inicio =
           this.checValores(inicio.getHours()) +
           ":" +
@@ -253,9 +273,13 @@ export default {
           ":" +
           this.checValores(fim.getMinutes());
         valoresReserva.data = fim.getFullYear() + "-" + mes + "-" + dia;
+        valoresReserva.id = evento.id;
+        valoresReserva.laboratorio_id = evento.laboratorio_id;
       }
 
       if (reserva && acao == "inclusao") {
+        this.txtBotaoIncluir = "Cadastrar";
+        this.txtBotaoExcluir = "Cancelar";
         let minutoInicio = this.checValores(reserva.minutos);
         valoresReserva.inicio = `${reserva.hora}:${minutoInicio}`;
         let minutoFim = "";
@@ -273,10 +297,9 @@ export default {
         mes = this.checValores(reserva.mes, true);
 
         valoresReserva.data = `${reserva.ano}-${mes}-${dia}`;
+        valoresReserva.laboratorio_id = reserva.laboratorio_id;
       }
       valoresReserva.observacao = evento.content;
-      valoresReserva.laboratorio_id = evento.laboratorio_id;
-      valoresReserva.id = evento.id;
       this.preencheCampos(valoresReserva);
       this.showModal();
       this.evento = evento;

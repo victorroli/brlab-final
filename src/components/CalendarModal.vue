@@ -1,37 +1,37 @@
 <template>
   <section class="calendarioModal">
-    <b-button class="btn" @click="$bvModal.show('modal-scoped')">Reservar</b-button>
-    <b-modal id="modal-scoped" size="xl">
-      <template slot="modal-header" slot-scope="{ close }">
-        <h5>Horários no {{laboratorio.name}}</h5>
-      </template>
+    <!-- <b-button class="btn" @click="$bvModal.show('modal-scoped')">Reservar</b-button> -->
+    <!-- <b-modal id="modal-scoped" size="xl"> -->
+    <!-- <template slot="modal-header" slot-scope="{ close }">
+      <h5>Horários no {{laboratorio.name}}</h5>
+    </template>
 
-      <template slot="default" slot-scope="{ hide }" ref="teste">
-        <vue-calendario
-          ref="vuecal"
-          locale="pt-br"
-          :startDate="selectedDate"
-          :min-date="selectedDate"
-          :selected-date="selectedDate"
-          :time-from="12 * 60"
-          :time-to="23 * 60"
-          :disable-views="['years', 'year', 'day', 'month']"
-          :cell-click-hold="false"
-          :events="events"
-          :on-event-create="onEventCreate"
-          :time-step="laboratorio.tempo"
-          @cell-dblclick="efetuarReserva($event)"
-          @event-focus="(focusEvento ? verEvento('event-focus', $event): '')"
-        ></vue-calendario>
-        <!-- Evento Focus não utilizado por enquanto -->
-        <!-- @event-mouse-enter="verEvento('event-mouse-enter', $event)" -->
-      </template>
+    <template slot="default" slot-scope="{ hide }" ref="teste">-->
+    <vue-calendario
+      ref="vuecal"
+      locale="pt-br"
+      :startDate="selectedDate"
+      :min-date="selectedDate"
+      :selected-date="selectedDate"
+      :time-from="12 * 60"
+      :time-to="23 * 60"
+      :disable-views="['years', 'year', 'day', 'month']"
+      :cell-click-hold="false"
+      :events="events"
+      :on-event-create="onEventCreate"
+      :time-step="laboratorio.tempo"
+      @cell-dblclick="efetuarReserva($event)"
+      @event-focus="(focusEvento ? verEvento('event-focus', $event): '')"
+    ></vue-calendario>
+    <!-- Evento Focus não utilizado por enquanto -->
+    <!-- @event-mouse-enter="verEvento('event-mouse-enter', $event)" -->
+    <!-- </template> -->
 
-      <template slot="modal-footer" slot-scope="{ ok, cancel, hide }">
-        <!-- <b-button size="sm" variant="success" @click="ok()">Salvar</b-button> -->
-        <b-button size="sm" variant="danger" @click="cancel()">Fechar</b-button>
-      </template>
-    </b-modal>
+    <!-- <template slot="modal-footer" slot-scope="{ ok, cancel, hide }"> -->
+    <!-- <b-button size="sm" variant="success" @click="ok()">Salvar</b-button> -->
+    <!-- <b-button size="sm" variant="danger" @click="cancel()">Fechar</b-button> -->
+    <!-- </template> -->
+    <!-- </b-modal> -->
     <modal-form ref="modalForm"></modal-form>
   </section>
 </template>
@@ -45,7 +45,7 @@ import { api } from "@/services.js";
 
 export default {
   name: "Calendar",
-  // props: ["laboratorio"],
+  props: ["laboratorio"],
   components: {
     "vue-calendario": VueCal,
     "modal-form": ModalForm
@@ -82,23 +82,20 @@ export default {
           ? "0" + dataAtual.getDate()
           : dataAtual.getDate()
       } ${hora}:${minuto}`;
-    },
-    laboratorio() {
-      return this.$store.state.laboratorio;
     }
+    // laboratorio() {
+    //   // console.log("Valor antigo: ", antigo);
+    //   console.log("Valor laboratório: ", this.laboratorio);
+    // }
   },
 
-  watch: {
-    events(valor) {
-      console.log("Valor pego aqui: ", valor);
-    }
-  },
+  watch: {},
 
   created() {
     console.log("Laboratório cadastrado: ", this.laboratorio);
-    this.$options.reserva.laboratorio_id = this.laboratorio.id;
-    console.log("Reserva: ", this.$options.reserva.laboratorio_id);
-    this.buscaEventos();
+    // this.$options.reserva.laboratorio_id = this.laboratorio.id;
+    // console.log("Reserva: ", this.$options.reserva.laboratorio_id);
+    if (this.laboratorio) this.buscaEventos();
   },
 
   methods: {
@@ -148,7 +145,7 @@ export default {
     },
 
     verEvento(acao, evento) {
-      console.log("Evento: ", evento);
+      // console.log("Evento: ", evento);
       evento.laboratorio_id = this.$options.reserva.laboratorio_id;
       if (evento.usuario == this.$store.state.usuario.id) {
         this.$refs.modalForm.recebeValoresReserva(null, evento, "edicao");
@@ -190,7 +187,7 @@ export default {
         então permaneceu padrão o valor "-0300 que corresponde ao horário de Brasília"         
       */
       data += "-0300";
-      console.log("Data passada: ", data);
+      // console.log("Data passada: ", data);
       let dataConvertida = new Date(data);
       let dia = "",
         mes = "",
@@ -203,19 +200,17 @@ export default {
       hora = this.checValores(dataConvertida.getHours());
       minutos = this.checValores(dataConvertida.getMinutes());
 
-      console.log(`${ano}-${mes}-${dia} ${hora}:${minutos}`);
+      // console.log(`${ano}-${mes}-${dia} ${hora}:${minutos}`);
       return `${ano}-${mes}-${dia} ${hora}:${minutos}`;
     },
     buscaEventos() {
-      console.log("Laboratório: ", this.laboratorio.id);
+      console.log("Enter in a function!!!");
+      // console.log("Laboratório: ", this.laboratorio);
       api
         .get(`/agendamento/laboratorio/${this.laboratorio.id}`, {})
         .then(response => {
-          console.log("Resposta do get Agendamento");
-          console.log(response.data);
           let aEventos = [];
           response.data.forEach(reserva => {
-            console.log("Início: ", reserva.periodo_inicio);
             let oReserva = new Object({
               start: this.converteDate(reserva.periodo_inicio),
               end: this.converteDate(reserva.periodo_fim),
@@ -227,9 +222,7 @@ export default {
             });
             aEventos.push(oReserva);
           });
-          console.log("Eventos pegos: ", aEventos);
           this.events = [...aEventos];
-          // console.log("Eventos passados: ", this.events);
         });
     }
   }

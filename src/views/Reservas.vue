@@ -53,7 +53,6 @@ export default {
         então permaneceu padrão o valor "-0300 que corresponde ao horário de Brasília"         
       */
       data += "-0300";
-      console.log("Data passada: ", data);
       let dataConvertida = new Date(data);
       let dia = "",
         mes = "",
