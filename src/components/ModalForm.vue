@@ -5,6 +5,7 @@
     title="Reserva Laboratório"
     :ok-title="txtBotaoIncluir"
     :cancel-title="txtBotaoExcluir"
+    cancel-variant="danger"
     @show="showModal"
     @hidden="resetModal"
     @cancel="excluiReserva"
@@ -108,8 +109,6 @@ export default {
 
   watch: {
     data(novo, antigo) {
-      console.log("Data agora: ", novo);
-      console.log("Antiga: ", antigo);
       if (antigo != novo) {
         this.$options.agendamento.data = novo;
       }
@@ -256,7 +255,7 @@ export default {
       let mes = "";
       this.acao = acao;
       if (acao == "edicao") {
-        this.txtBotaoIncluir = "Editar";
+        this.txtBotaoIncluir = "Salvar";
         this.txtBotaoExcluir = "Excluir";
         let inicio = evento.startDate;
         let fim = evento.endDate;

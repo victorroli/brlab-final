@@ -121,6 +121,13 @@ export default {
     },
 
     horarioValido(horarioEvento) {
+      let dataSelecionada =
+        horarioEvento.getFullYear() +
+        "-" +
+        horarioEvento.getMonth() +
+        "-" +
+        horarioEvento.getDate();
+      console.log("Data do evento: ", dataSelecionada);
       let dataAtual = new Date(this.selectedDate);
       let horaAtual = dataAtual.getHours();
       let minutoAtual = dataAtual.getMinutes();
@@ -146,6 +153,8 @@ export default {
 
     verEvento(acao, evento) {
       // console.log("Evento: ", evento);
+      // console.log("Usuário evento: ", evento.usuario);
+      // console.log("Usuário do sistema: ", this.$options.reserva.usuario.id);
       evento.laboratorio_id = this.$options.reserva.laboratorio_id;
       if (evento.usuario == this.$store.state.usuario.id) {
         this.$refs.modalForm.recebeValoresReserva(null, evento, "edicao");
@@ -204,24 +213,23 @@ export default {
       return `${ano}-${mes}-${dia} ${hora}:${minutos}`;
     },
     buscaEventos() {
-      console.log("Enter in a function!!!");
-      // console.log("Laboratório: ", this.laboratorio);
       api
         .get(`/agendamento/laboratorio/${this.laboratorio.id}`, {})
         .then(response => {
           let aEventos = [];
-          response.data.forEach(reserva => {
-            let oReserva = new Object({
-              start: this.converteDate(reserva.periodo_inicio),
-              end: this.converteDate(reserva.periodo_fim),
-              title: "Horário reservado",
-              content: reserva.observacao,
-              class: "reserva",
-              usuario: reserva.usuario_id,
-              id: reserva.id
+          if (Array.isArray(response.data))
+            response.data.forEach(reserva => {
+              let oReserva = new Object({
+                start: this.converteDate(reserva.periodo_inicio),
+                end: this.converteDate(reserva.periodo_fim),
+                title: "Horário reservado",
+                content: reserva.observacao,
+                class: "reserva",
+                usuario: reserva.usuario_id,
+                id: reserva.id
+              });
+              aEventos.push(oReserva);
             });
-            aEventos.push(oReserva);
-          });
           this.events = [...aEventos];
         });
     }
@@ -244,5 +252,9 @@ export default {
 
 .btn:hover {
   background: #65d;
+}
+
+.vuecal__cell.disabled {
+  background: red;
 }
 </style>

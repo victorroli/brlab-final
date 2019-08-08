@@ -117,18 +117,27 @@ export default {
       }
     },
 
-    horarioValido(horarioEvento) {
+    horarioValido(horario) {
+      // let dataSelecionada =
+      //   horario.getFullYear() +
+      //   "-" +
+      //   this.checValores(horario.getMonth()) +
+      //   "-" +
+      //   this.checValores(horario.getDate());
+      // console.log("Data no momento: ", dataSelecionada);
       let dataAtual = new Date(this.selectedDate);
       let horaAtual = dataAtual.getHours();
       let minutoAtual = dataAtual.getMinutes();
 
-      if (horarioEvento.getHours() < horaAtual) return false;
-
-      if (horarioEvento.getHours() == horaAtual) {
-        if (minutoAtual > horarioEvento.getMinutes()) {
-          return false;
-        }
-      }
+      if (horario.getFullYear() == dataAtual.getFullYear())
+        if (horario.getMonth() == dataAtual.getMonth())
+          if (horario.getDate() == dataAtual.getDate())
+            if (horario.getHours() < dataAtual.getHours()) return false;
+            else if (horario.getHours() == horaAtual) {
+              if (minutoAtual > horario.getMinutes()) {
+                return false;
+              }
+            }
       return true;
     },
 
