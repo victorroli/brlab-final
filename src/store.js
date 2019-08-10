@@ -20,8 +20,8 @@ export default new Vuex.Store({
       id: "",
       tempoRestante: "",
       ativo: "",
-      periodoInicio: "",
-      periodoFim: "",
+      periodo_inicio: "",
+      periodo_fim: "",
       observacao: ""
     },
     reserva: {
@@ -54,7 +54,6 @@ export default new Vuex.Store({
       state.usuario = Object.assign(state.usuario, payload);
     },
     UPDATE_LABORATORIO(state, payload) {
-      // console.log("Seta laboratório: ", payload);
       state.laboratorio = payload;
     },
     UPDATE_EXPERIMENTO(state, payload) {
@@ -64,7 +63,6 @@ export default new Vuex.Store({
       state.equipamentos.push(payload);
     },
     REMOVE_EQUIPAMENTO(state, payload) {
-      console.log("Valor do pay: ", payload);
       state.equipamentos.splice(payload, 1);
     },
     // Mutations de Experimento
@@ -84,10 +82,10 @@ export default new Vuex.Store({
       state.experimento.ativo = valor;
     },
     SET_HORA_INICIO(state, hora_inicio) {
-      state.experimento.horarioInicio = hora_inicio;
+      state.experimento.periodo_inicio = hora_inicio;
     },
     SET_HORA_FIM(state, hora_fim) {
-      state.experimento.horarioTermino = hora_fim;
+      state.experimento.periodo_fim = hora_fim;
     },
     SET_OBSERVACAO(state, observacao) {
       state.experimento.observacao = observacao;
@@ -117,46 +115,48 @@ export default new Vuex.Store({
     },
 
     setExperimento(context, payload) {
-      console.log("Payload: ", payload);
-      console.log("Context: ", context);
+      console.log("Objeto passado: ", payload);
+
       api
         .post("/experimento", {
-          periodoInicio: payload.periodoInicio,
+          periodo_inicio: payload.periodo_inicio,
           usuario_id: context.state.usuario.id,
           laboratorio_id: payload.laboratorio_id
         })
         .then(response => {
+          console.log("Dados obtidos: ", response.data);
           if (response.data.status == 201) {
             if (payload.status) {
               context.commit("SET_TIMER", payload.timer);
               context.commit("SET_STATUS", payload.status);
-              context.commit("SET_HORA_INICIO", payload.periodoInicio);
+              context.commit("SET_HORA_INICIO", payload.periodo_inicio);
               context.commit(
                 "SET_EXPERIMENTO_ID",
                 parseInt(response.data.experimento_id)
               );
-              console.log("Response: ", context.state.experimento.id);
+              // console.log("Response: ", context.state.experimento.id);
             }
           }
         });
     },
 
     updateExperimento(context, payload) {
+      console.log("Enter in a function: ", payload);
       context.commit("SET_STATUS", payload.status);
       api
         .put(`/experimento/${context.state.experimento.id}`, {
-          periodoFim: payload.periodoFim,
+          periodo_fim: payload.periodo_fim,
           observacao: payload.observacao
         })
         .then(response => {
           if (response.data.status == 201) {
-            context.commit("SET_HORA_FIM", response.data.periodoFim);
+            context.commit("SET_HORA_FIM", payload.periodo_fim);
+            context.commit("SET_OBSERVACAO", payload.observacao);
           }
         });
     },
 
     setReserva(context, payload) {
-      console.log("Payload: ", payload);
       api
         .post(`/agendamento`, {
           horario_inicio: payload.horaInicio,
@@ -169,7 +169,7 @@ export default new Vuex.Store({
         })
         .then(response => {
           if (response.data == 201) {
-            console.log("Passou com 201");
+            // console.log("Passou com 201");
           }
         });
     },

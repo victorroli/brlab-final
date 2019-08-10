@@ -34,8 +34,6 @@ import axios from "axios";
 import { mapFields } from "@/helpers/mapFields.js";
 import temporizador from "@/components/temporizador.vue";
 
-// console.log("Modal: ", Simplert);
-
 export default {
   name: "IniciarExperimento",
   props: ["laboratorio_id"],
@@ -54,16 +52,25 @@ export default {
   methods: {
     iniciaExperimento() {
       this.start = !this.start;
-
+      let horarioAtual = this.getHorarioAtual();
+      console.log("Hora no momento do inicio: ", horarioAtual);
       this.$store.dispatch("setExperimento", {
         status: true,
-        timer: 10,
-        periodoInicio: new Date().getTime(),
+        timer: this.$store.state.laboratorio.tempo,
+        periodo_inicio: horarioAtual,
         laboratorio_id: this.laboratorio_id
       });
-      // this.$store.commit("SET_STATUS", true);
-      // this.$store.commit("SET_TIMER", 10);
-      // this.$store.commit("SET_HORA_INICIO", this.retornaTimestamp());
+    },
+    getHorarioAtual() {
+      let data = new Date();
+
+      let horarioAtual = `${data.getFullYear()}-${this.checValores(
+        data.getMonth()
+      )}-${this.checValores(data.getDate())} ${this.checValores(
+        data.getHours()
+      )}:${this.checValores(data.getMinutes())}`;
+
+      return horarioAtual;
     },
     interrompeExperimento() {
       let confirm = window.confirm("Deseja parar experimento?");
@@ -72,39 +79,33 @@ export default {
       }
     },
     finalizaExperimento() {
-      // this.$store.commit("SET_STATUS", false);
       alert("Experimento encerrado");
+      this.start = false;
+      let horario_final = this.getHorarioAtual();
+      console.log("Horário Final: ", horario_final);
+      this.$store.commit("SET_HORA_FIM", this.getHorarioAtual());
+      this.$store.dispatch("updateExperimento", {
+        status: false,
+        periodo_fim: horario_final,
+        observacao: "Fim do experimento"
+      });
+
       this.$router.push({
         name: "dadoscoletados",
         params: { dadoscoletados: "dados-coletados" }
       });
-      this.start = false;
-      // this.$store.commit("SET_HORA_FIM", this.retornaTimestamp());
-      // this.$store.dispatch("setExperimento", {
-
-      // });
-
-      this.$store.dispatch("updateExperimento", {
-        status: false,
-        periodoFim: new Date().getTime(),
-        observacao: "Fim do experimento"
-      });
-      console.log(this.horarioInicio + " - " + this.horarioTermino);
     },
-    retornaTimestamp() {
-      var date = new Date();
-      // console.log("rece: ", Date.now());
-      var horas = date.getHours();
-      var minutos = date.getMinutes();
-      var segundos = date.getSeconds();
-      return `${horas}:${minutos}:${segundos}`;
-      // return 10;
-      // console.log("Timestamp retornado: ", timestamp);
+    checValores(valor, mes) {
+      let valorFinal = valor;
+      if (valor < 10) {
+        if (mes) valorFinal = valor + 1;
+        return `0${valorFinal}`;
+      }
+      return valorFinal;
     }
   },
   watch: {
     ativo(novo, old) {
-      console.log("Novo: ", novo);
       if (!novo) {
         this.finalizaExperimento();
       }
@@ -115,7 +116,7 @@ export default {
   },
   computed: {
     ...mapFields({
-      fields: ["tempoRestante", "ativo", "horarioInicio", "horarioTermino"],
+      fields: ["tempoRestante", "ativo", "periodo_inicio", "periodo_fim"],
       base: "experimento"
       // mutation: ["SET_HORA_INICIO", "SET_HORA_FIM", "SET_STATUS"]
     })

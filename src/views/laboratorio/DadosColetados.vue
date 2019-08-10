@@ -12,11 +12,11 @@
       </p>
       <p>
         <label>Horário Início:</label>
-        {{periodoInicio }}
+        {{periodo_inicio }}
       </p>
       <p>
         <label>Horário Fim:</label>
-        {{periodoFim }}
+        {{periodo_fim }}
       </p>
     </div>
     <b-button class="btn" @click.prevent="retornar()">Voltar</b-button>
@@ -31,7 +31,7 @@ export default {
   name: "DadosColetados",
   methods: {
     retornar() {
-      this.$router.back(2);
+      this.$router.back(1);
     },
 
     buscaDadosExperimento() {
@@ -39,13 +39,23 @@ export default {
       api
         .get(`/experimento/${this.$store.state.experimento.id}`)
         .then(response => {
-          this.$store.commit("UPDATE_EXPERIMENTO", response.data);
+          console.log("Resposta obtida: ", response.data);
+          // let experimento = response.data.experimento;
+          // console.log("Experimento retornado: ", experimento);
+          // this.periodo_inicio = experimento.periodo_inicio;
+          // this.periodo_fim = experimento.periodo_fim;
+          // this.observacao = experimento.observacao;
         });
+    }
+  },
+  watch: {
+    periodo_inicio(novo) {
+      console.log("Periodo Inicio", novo);
     }
   },
   computed: {
     ...mapFields({
-      fields: ["periodoInicio", "periodoFim", "observacao"],
+      fields: ["periodo_inicio", "periodo_fim", "observacao", "id"],
       base: "experimento"
     }),
     tempoRestante() {
