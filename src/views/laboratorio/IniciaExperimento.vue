@@ -30,6 +30,7 @@
 
 <script>
 import axios from "axios";
+import { api } from "@/services.js";
 // import { mapState, mapGetters } from "vuex";
 import { mapFields } from "@/helpers/mapFields.js";
 import temporizador from "@/components/temporizador.vue";
@@ -53,10 +54,9 @@ export default {
     iniciaExperimento() {
       this.start = !this.start;
       let horarioAtual = this.getHorarioAtual();
-      console.log("Hora no momento do inicio: ", horarioAtual);
       this.$store.dispatch("setExperimento", {
         status: true,
-        timer: this.$store.state.laboratorio.tempo,
+        timer: this.$store.state.laboratorio.tempo * 60,
         periodo_inicio: horarioAtual,
         laboratorio_id: this.laboratorio_id
       });

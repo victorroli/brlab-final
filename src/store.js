@@ -36,6 +36,7 @@ export default new Vuex.Store({
     },
     laboratorio: {
       id: "",
+      //Tempo dado em segundos
       tempo: ""
     },
     equipamentos: []

@@ -12,7 +12,7 @@
             <p>Tempo de Experimentação: {{lab_selecionado.tempo}}</p>
           </div>
           <b-row>
-            <b-col class="text-center btn-div">
+            <b-col class="text-center btn-div" v-if="mostrarBotaoIniciar">
               <router-link
                 :to="{name: 'iniciaExperimento', params:{laboratorio_id:lab_selecionado.id}}"
                 tag="b-button"
@@ -66,20 +66,27 @@ export default {
   data() {
     return {
       lab_selecionado: "",
-      equipamentos: ""
+      equipamentos: "",
+      mostrarBotaoIniciar: false
     };
   },
   methods: {
     getLaboratorio() {
-      // console.log("Laboratório selecionado: ", this.laboratorio);
       if (this.laboratorio) {
         api.get(`/labs/${this.laboratorio}`).then(response => {
-          // console.log("Retorno: ", response.data);
           this.lab_selecionado = response.data;
           this.equipamentos = this.lab_selecionado.equipamentos;
-          // console.log("Equipamentos: ", this.lab_selecionado.equipamentos.length);
         });
       }
+    },
+    horarioMarcado() {
+      api
+        .get(`agendamento/valida_horario/${this.$store.state.usuario.id}`)
+        .then(response => {
+          if (response.data == 203) {
+            this.mostrarBotaoIniciar = false;
+          } else this.mostrarBotaoIniciar = true;
+        });
     }
   },
   watch: {
@@ -92,6 +99,7 @@ export default {
   created() {
     // console.log("Laboratório pego neste trecho: ", this.laboratorio);
     this.getLaboratorio();
+    this.horarioMarcado();
   }
 };
 </script>
