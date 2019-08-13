@@ -14,7 +14,8 @@ export default new Vuex.Store({
       nickname: "",
       email: "",
       senha: "",
-      papel_id: ""
+      papel_id: "",
+      descricao_papel: ""
     },
     experimento: {
       id: "",
@@ -93,6 +94,9 @@ export default new Vuex.Store({
     },
     SET_EXPERIMENTO_ID(state, payload) {
       state.experimento.id = payload;
+    },
+    SET_DESCRICAO_PAPEL(state, payload) {
+      state.usuario.descricao_papel = payload;
     }
   },
   actions: {
@@ -174,12 +178,21 @@ export default new Vuex.Store({
           }
         });
     },
+    busca_papel(context, papel) {
+      api.get(`/papel/${papel}`).then(response => {
+        if (response.data) {
+          context.commit("SET_DESCRICAO_PAPEL", response.data.descricao);
+          console.log("Resposta da função: ", response.data);
+        }
+      });
+    },
     login(context, payload) {
       api.get(`/usuario/${payload.email}`).then(response => {
         if (response.data) {
           context.commit("UPDATE_USUARIO", response.data);
           if (context.state.usuario.senha == payload.senha) {
             context.commit("UPDATE_LOGIN", true);
+            context.dispatch("busca_papel", context.state.usuario.papel_id);
           } else {
             alert("Credenciais erradas!!");
           }

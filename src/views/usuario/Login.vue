@@ -59,16 +59,15 @@ export default {
         .msgBoxConfirm(this.resposta, {
           size: "md",
           buttonSize: "md",
-          // okTitle: "Ok",
+          okTitle: "Ok",
           // okOnly: true,
-          cancelOnly: true,
+          okOnly: true,
           // cancelVariant: true,
           // footerClass: "p-3",
           // hideHeaderClose: true,
           centered: true
         })
         .then(resposta => {
-          // this.boxOne = value;
           if (this.login) {
             if (resposta == null || resposta) {
               this.$router.push({ path: "/" });

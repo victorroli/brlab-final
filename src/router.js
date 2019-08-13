@@ -14,6 +14,8 @@ import DadosLaboratorio from "@/views/laboratorio/DadosLaboratorio.vue";
 import IniciaExperimento from "@/views/laboratorio/IniciaExperimento.vue";
 import DadosColetados from "@/views/laboratorio/DadosColetados.vue";
 import NovoLaboratorio from "@/views/laboratorio/NovoLaboratorio.vue";
+import ListaUsuarios from "@/views/ListaUsuarios.vue";
+import DivisaoHorarios from "@/views/DivisaoHorarios.vue";
 
 Vue.use(Router);
 
@@ -78,6 +80,16 @@ export default new Router({
       path: "/experimentos",
       name: "experimentos",
       component: Experimentos
+    },
+    {
+      path: "/divisao_horarios",
+      name: "divisao-horarios",
+      component: DivisaoHorarios
+    },
+    {
+      path: "/usuarios",
+      name: "usuarios",
+      component: ListaUsuarios
     },
     {
       path: "/reservas",

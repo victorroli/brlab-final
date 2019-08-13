@@ -26,6 +26,14 @@
             <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/grupos">Grupos</router-link>
             </b-nav-item>
+
+            <b-nav-item v-show="usuario_logado">
+              <router-link class="menu" to="/usuarios">Usuários</router-link>
+            </b-nav-item>
+
+            <b-nav-item v-show="usuario_logado">
+              <router-link class="menu" to="/divisao_horarios">Divisão de Horários</router-link>
+            </b-nav-item>
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
@@ -53,11 +61,14 @@
 
 <script>
 // import { mapState } from "vuex";
+import { api } from "@/services.js";
 export default {
   name: "TheHeader",
-  // data() {
-  //   return {};
-  // },
+  data() {
+    return {
+      papel: ""
+    };
+  },
   // watch: {},
   methods: {
     logout() {
@@ -68,7 +79,11 @@ export default {
   },
   computed: {
     usuario_logado() {
-      if (this.$store.state.login) return true;
+      if (this.$store.state.login) {
+        console.log("Usuario pego: ", this.$store.state.usuario);
+        this.papel = this.papel = this.$store.state.usuario.descricao_papel;
+        return true;
+      }
       return false;
     },
     // ...mapState(["login"])
@@ -76,7 +91,7 @@ export default {
       // console.log("LOgger: ", this.$store.state.login);
       let stringFinal = "";
       if (this.$store.state.login) {
-        stringFinal = "(online)";
+        stringFinal = " (" + this.papel + ")";
       }
       return this.$store.state.usuario.nome + stringFinal;
     }
