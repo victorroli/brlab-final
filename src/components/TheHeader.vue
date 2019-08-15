@@ -16,16 +16,23 @@
             <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/reservas">Reservas</router-link>
             </b-nav-item>
-            <!-- <b-nav-item>
-              <router-link class="menu" to="/grupos">Grupos</router-link>
-            </b-nav-item>-->
             <b-nav-item>
               <router-link class="menu" to="/laboratorios">Laboratórios</router-link>
             </b-nav-item>
 
-            <b-nav-item v-show="usuario_logado">
+            <!-- <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/grupos">Grupos</router-link>
-            </b-nav-item>
+            </b-nav-item>-->
+
+            <b-nav-item-dropdown text="Convênios" left>
+              <router-link tag="b-dropdown-item" :to="{name:'convenios_ativos'}">Ativos</router-link>
+              <router-link tag="b-dropdown-item" :to="{name:'novo_convenio'}">Novo</router-link>
+            </b-nav-item-dropdown>
+
+            <b-nav-item-dropdown text="Instituições" left>
+              <router-link tag="b-dropdown-item" :to="{name:'instituicoes_conveniadas'}">Cadastradas</router-link>
+              <router-link tag="b-dropdown-item" :to="{name:'nova_instituicao'}">Nova</router-link>
+            </b-nav-item-dropdown>
 
             <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/usuarios">Usuários</router-link>

@@ -9,13 +9,18 @@ import Login from "@/views/usuario/Login.vue";
 import Home from "@/views/Home.vue";
 import RegisterUser from "@/views/usuario/RegisterUser.vue";
 import Agendamento from "@/views/laboratorio/Agendamento.vue";
-// import CalendarModal from "@/views/laboratorio/CalendarModal.vue";
 import DadosLaboratorio from "@/views/laboratorio/DadosLaboratorio.vue";
 import IniciaExperimento from "@/views/laboratorio/IniciaExperimento.vue";
 import DadosColetados from "@/views/laboratorio/DadosColetados.vue";
 import NovoLaboratorio from "@/views/laboratorio/NovoLaboratorio.vue";
 import ListaUsuarios from "@/views/ListaUsuarios.vue";
 import DivisaoHorarios from "@/views/DivisaoHorarios.vue";
+import InstituicoesConveniadas from "@/views/instituicao/InstituicoesConveniadas.vue";
+import NovaInstituicao from "@/views/instituicao/NovaInstituicao.vue";
+import Instituicoes from "@/views/instituicao/Instituicoes.vue";
+import NovoConvenio from "@/views/convenio/NovoConvenio.vue";
+import ConveniosAtivos from "@/views/convenio/ConveniosAtivos.vue";
+import Convenios from "@/views/convenio/Convenios.vue";
 
 Vue.use(Router);
 
@@ -85,6 +90,42 @@ export default new Router({
       path: "/divisao_horarios",
       name: "divisao-horarios",
       component: DivisaoHorarios
+    },
+    {
+      path: "",
+      name: "convenios",
+      component: Convenios,
+      children: [
+        {
+          path: "",
+          name: "convenios_ativos",
+          component: ConveniosAtivos
+        },
+        {
+          path: "/novo",
+          name: "novo_convenio",
+          component: NovoConvenio
+        }
+      ]
+    },
+    {
+      path: "/instituicoes",
+      name: "instituicoes",
+      component: Instituicoes,
+      children: [
+        {
+          path: "",
+          name: "instituicoes_conveniadas",
+          component: InstituicoesConveniadas,
+          props: true
+        },
+        {
+          path: "/instituicao",
+          name: "nova_instituicao",
+          component: NovaInstituicao,
+          props: true
+        }
+      ]
     },
     {
       path: "/usuarios",

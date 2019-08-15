@@ -1,0 +1,103 @@
+<template>
+  <section class="instituicao">
+    <h1>Nova Instituição</h1>
+    <form>
+      <label for="nome">Nome da Instituição:</label>
+      <b-form-input id="nome" type="text" name="nome" v-model="nome" />
+
+      <label for="telefone">Telefone:</label>
+      <b-form-input id="telefone" type="text" name="telefone" v-model="telefone" />
+
+      <label for="cnpj">CNPJ:</label>
+      <b-form-input id="cnpj" type="text" name="cnpj" v-model="cnpj" />
+
+      <div class="dados-menores">
+        <label for="cep">CEP:</label>
+        <b-form-input id="cep" type="text" name="cep" v-model="cep" />
+
+        <label for="numero">Número:</label>
+        <b-form-input id="numero" type="text" name="numero" v-model="numero" />
+      </div>
+      <label for="rua">Rua:</label>
+      <b-form-input id="rua" type="text" name="rua" v-model="rua" />
+
+      <label for="complemento">Complemento:</label>
+      <b-form-input id="complemento" type="text" name="complemento" v-model="complemento" />
+
+      <label for="bairro">Bairro:</label>
+      <b-form-input id="bairro" type="text" name="bairro" v-model="bairro" />
+
+      <label for="cidade">Cidade:</label>
+      <b-form-input id="cidade" type="text" name="cidade" v-model="cidade" />
+
+      <label for="tipo">Tipo:</label>
+      <b-form-select v-model="tipo" :options="options"></b-form-select>
+    </form>
+    <b-button id="salvar" @click="salvaInstituicao()">Salvar</b-button>
+  </section>
+</template>
+
+<script>
+import { api } from "@/services.js";
+export default {
+  name: "NovaInstituicao",
+  data() {
+    return {
+      nome: "",
+      telefone: "",
+      cnpj: "",
+      cep: "",
+      rua: "",
+      bairro: "",
+      cidade: "",
+      tipo: "",
+      cep: "",
+      options: [
+        { value: 0, text: "Educação Básica" },
+        { value: 1, text: "Educação Superior" },
+        { value: 2, text: "Outro" }
+      ]
+    };
+  },
+  methods: {
+    salvaInstituicao() {
+      alert("Passou instituição...");
+      api
+        .post("/instituicao", {
+          nome: this.nome,
+          telefone: this.telefone,
+          cnpj: this.cnpj,
+          cep: this.cep,
+          rua: this.rua,
+          bairro: this.bairro,
+          cidade: this.cidade,
+          tipo: this.tipo,
+          cep: this.cep
+        })
+        .then(response => {
+          if (reseponse.data == 201) {
+            alert("Laboratório cadastrado com sucesso!!!");
+          }
+        });
+    }
+  }
+};
+</script>
+
+<style scoped>
+.instituicao {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+#salvar {
+  margin-top: 20px;
+  /* text-align: center; */
+}
+
+.dados-menores {
+  margin-top: 10px;
+  display: inline-flex;
+}
+</style>
