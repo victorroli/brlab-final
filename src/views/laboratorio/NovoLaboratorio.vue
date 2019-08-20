@@ -30,6 +30,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin: auto auto 20px auto;
+}
 .laboratorio {
   max-width: 500px;
   margin: 0 auto;

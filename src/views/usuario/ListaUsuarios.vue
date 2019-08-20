@@ -2,7 +2,7 @@
   <section>
     <h1>Usuários do sistema</h1>
     <div id="usuarios">
-      <b-table striped hover :items="listaUsuarios"></b-table>
+      <b-table striped hover :items="listaUsuarios" :fields="fields"></b-table>
     </div>
   </section>
 </template>
@@ -12,7 +12,26 @@ import { api } from "@/services.js";
 export default {
   name: "ListaUsuarios",
   data() {
-    return { listaUsuarios: [] };
+    return {
+      listaUsuarios: [],
+      fields: {
+        id: {
+          label: "ID"
+        },
+        nome: {
+          label: "Nome"
+        },
+        nickname: {
+          label: "Nickname"
+        },
+        email: {
+          label: "Email"
+        },
+        funcao: {
+          label: "Papel"
+        }
+      }
+    };
   },
   created() {
     this.buscaUsuarios();
@@ -20,22 +39,44 @@ export default {
   methods: {
     buscaUsuarios() {
       api.get(`/usuarios`, {}).then(response => {
-        console.log("Resposta obtida: ", response.data);
-        // let horarioInicio = this.converteDate(reserva.periodo_inicio);
-        let usuarios_sistema = [];
-        response.data.forEach(usuario => {
-          let oUsuario = new Object({
-            id: usuario.id,
-            nome: usuario.nome,
-            email: usuario.email,
-            nickname: usuario.nickname,
-            papel_id: usuario.papel_id
-          });
-          usuarios_sistema.push(oUsuario);
+        let usuarios_sistema = response.data.filter(usuario => {
+          return usuario.verificado;
         });
 
-        this.listaUsuarios = [...usuarios_sistema];
+        usuarios_sistema.map(usuario => {
+          let novoUsuario = new Object({
+            id: usuario.id,
+            nome: usuario.nome,
+            nickname: usuario.nickname,
+            email: usuario.email,
+            funcao: this.descricaoPapel(usuario.papel_id)
+          });
+          this.listaUsuarios.push(novoUsuario);
+        });
       });
+    },
+    descricaoPapel(tipo) {
+      console.log("Tipo recebido: ", tipo);
+      let papel = "";
+      switch (tipo) {
+        case 1: {
+          papel = "Administrador";
+          break;
+        }
+        case 2: {
+          papel = "Aluno";
+          break;
+        }
+        case 3: {
+          papel = "Professor";
+          break;
+        }
+        case 4: {
+          papel = "Pesquisador";
+          break;
+        }
+      }
+      return papel;
     },
     converteDate(data) {
       /*
@@ -73,6 +114,10 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
 #usuarios {
   max-width: 80%;
   margin-left: 10%;

@@ -14,15 +14,19 @@
               <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
             </b-nav-item>
             <b-nav-item v-show="usuario_logado">
-              <router-link class="menu" to="/reservas">Reservas</router-link>
-            </b-nav-item>
-            <b-nav-item>
-              <router-link class="menu" to="/laboratorios">Laboratórios</router-link>
+              <router-link class="menu" to="/reservas">Realizadas</router-link>
+              <router-link class="menu" to="/reservas">Aguardando</router-link>
             </b-nav-item>
 
-            <!-- <b-nav-item v-show="usuario_logado">
-              <router-link class="menu" to="/grupos">Grupos</router-link>
-            </b-nav-item>-->
+            <b-nav-item-dropdown text="Laboratórios" left>
+              <router-link class="menu" tag="b-dropdown-item" to="/laboratorios">Cadastrados</router-link>
+              <router-link
+                class="menu"
+                tag="b-dropdown-item"
+                :to="{name: 'solicitacoes-laboratorios'}"
+              >Solicitações</router-link>
+              <router-link class="menu" tag="b-dropdown-item" :to="{name: 'novo-laboratorio'}">Novo</router-link>
+            </b-nav-item-dropdown>
 
             <b-nav-item-dropdown text="Convênios" left>
               <router-link tag="b-dropdown-item" :to="{name:'convenios_ativos'}">Ativos</router-link>
@@ -34,9 +38,15 @@
               <router-link tag="b-dropdown-item" :to="{name:'nova_instituicao'}">Nova</router-link>
             </b-nav-item-dropdown>
 
-            <b-nav-item v-show="usuario_logado">
-              <router-link class="menu" to="/usuarios">Usuários</router-link>
-            </b-nav-item>
+            <b-nav-item-dropdown text="Usuários" class="menu">
+              <router-link tag="b-dropdown-item" class="menu" to="/usuarios">Todos</router-link>
+              <router-link
+                tag="b-dropdown-item"
+                class="menu"
+                :to="{name:'solicitacoes_usuarios'}"
+              >Solicitações</router-link>
+              <router-link tag="b-dropdown-item" class="menu" :to="{name: 'register-user'}">Novo</router-link>
+            </b-nav-item-dropdown>
 
             <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/divisao_horarios">Divisão de Horários</router-link>
@@ -76,7 +86,7 @@ export default {
       papel: ""
     };
   },
-  // watch: {},
+
   methods: {
     logout() {
       console.log("Logout...");
@@ -93,9 +103,8 @@ export default {
       }
       return false;
     },
-    // ...mapState(["login"])
+
     nome() {
-      // console.log("LOgger: ", this.$store.state.login);
       let stringFinal = "";
       if (this.$store.state.login) {
         stringFinal = " (" + this.papel + ")";
@@ -107,6 +116,12 @@ export default {
 </script>
 
 <style scoped>
+/* b-nav-item-dropdown a {
+  color: #fff;
+} */
+.nav-link span {
+  color: #fff;
+}
 /* nav {
   display: grid;
   grid-template-columns: 10% 70% 20%;

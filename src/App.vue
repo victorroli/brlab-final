@@ -41,6 +41,11 @@ ul {
   list-style: none;
 }
 
+h1 {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
 body {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   color: #345;

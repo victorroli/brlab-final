@@ -1,6 +1,8 @@
 <template>
   <section class="instituicao">
+    <br />
     <h1>Nova Instituição</h1>
+    <br />
     <form>
       <label for="nome">Nome da Instituição:</label>
       <b-form-input id="nome" type="text" name="nome" v-model="nome" />

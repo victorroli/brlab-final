@@ -9,6 +9,7 @@
       <label for="nickname">Nickname:</label>
       <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
 
+      <label for="papel">Função atual:</label>
       <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
 
       <label for="email">Email:</label>

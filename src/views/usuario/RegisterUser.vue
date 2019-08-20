@@ -3,8 +3,9 @@
     <transition mode="out-in">
       <UsuarioForm ref="registraUsuario" :lista="listaPapeis">
         <template v-slot:titulo>
-          <h2>Cadastro de Usuário</h2>
+          <h1>Cadastro de Usuário</h1>
         </template>
+        <br />
         <template>
           <button class="btn" @click.prevent="salvarUsuario">Criar Usuário</button>
         </template>
@@ -81,7 +82,7 @@ export default {
     })
   },
   created() {
-    api.get(`/papel`).then(response => {
+    api.get(`/papel/`).then(response => {
       response.data.papeis.forEach(elemento => {
         let papel = Object({
           id: elemento.id,
@@ -95,9 +96,9 @@ export default {
 </script>
 
 <style scoped>
-h2 {
+h1 {
   text-align: center;
-  margin: 40px auto 10px auto;
+  margin: 20px auto 20px auto;
 }
 
 .btn {
@@ -105,6 +106,10 @@ h2 {
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
+}
+
+.button {
+  text-align-last: center;
 }
 
 .btn-form {
