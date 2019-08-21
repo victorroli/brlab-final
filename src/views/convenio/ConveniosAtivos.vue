@@ -1,10 +1,14 @@
 <template>
   <section>
     <h1>Convênios Ativos</h1>
-
     <transition mode="out-in">
       <div id="convenios" v-if="convenios.length > 0">
-        <b-table striped hover :items="convenios" :fields="fields"></b-table>
+        <b-table striped hover :items="convenios" :fields="fields" class="text-center">
+          <template slot="opcoes" slot-scope="row">
+            <b-button class="editar" @click="editar(row.item.id)">Editar</b-button>
+            <b-button class="excluir" @click="excluir(row.item.id)">Excluir</b-button>
+          </template>
+        </b-table>
       </div>
       <div v-else>
         <h3>Nenhum registro encontrado!!!</h3>
@@ -35,6 +39,9 @@ export default {
         },
         validade: {
           label: "Valido até"
+        },
+        opcoes: {
+          label: "Opções"
         }
       }
     };

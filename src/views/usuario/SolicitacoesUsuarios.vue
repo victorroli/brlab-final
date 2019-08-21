@@ -1,12 +1,19 @@
 <template>
   <section>
     <h1>Solicitações Pendentes</h1>
-    <div id="usuarios" v-if="pendentes.length > 0">
-      <b-table striped hover :items="pendentes" :fields="fields"></b-table>
-    </div>
-    <div v-else>
-      <h3>Nenhum registrado encontrado!!!</h3>
-    </div>
+    <transition mode="out-in">
+      <div id="usuarios" v-if="pendentes.length > 0">
+        <b-table striped hover :items="pendentes" :fields="fields" class="text-center">
+          <template slot="opcoes" slot-scope="row">
+            <b-button class="aceitar" @click="aceitar(row.item.id)">Aceitar</b-button>
+            <b-button class="rejeitar" @click="rejeitar(row.item.id)">Rejeitar</b-button>
+          </template>
+        </b-table>
+      </div>
+      <div v-else>
+        <h3>Nenhuma solicitação no momento!!!</h3>
+      </div>
+    </transition>
   </section>
 </template>
 
@@ -32,6 +39,9 @@ export default {
         },
         papel: {
           label: "Função Solicitada"
+        },
+        opcoes: {
+          label: "Opções"
         }
       }
     };
@@ -40,9 +50,26 @@ export default {
     this.solicitacoesPendentes();
   },
   methods: {
+    aceitar(item) {
+      api
+        .put(`/usuario/${item}`, {
+          verificado: "true"
+        })
+        .then(response => {
+          console.log("Resposta obtida: ", response);
+        });
+      this.solicitacoesPendentes();
+    },
+    rejeitar(item) {
+      api.delete(`usuario/${item}`).then(response => {
+        let usuario = response.data.content;
+        alert("Usuário " + usuario + " deletado com sucesso!!!");
+      });
+      this.solicitacoesPendentes();
+    },
     solicitacoesPendentes() {
       api.get("/usuarios").then(response => {
-        console.log("Resposta: ", response.data);
+        this.pendentes = [];
         let pendentes = response.data.filter(usuario => {
           return usuario.verificado == false;
         });
@@ -56,7 +83,6 @@ export default {
           });
           this.pendentes.push(novoUsuario);
         });
-        // this.pendentes = [...pendentes];
       });
     },
     descricaoPapel(papel) {
@@ -94,5 +120,11 @@ h1 {
   max-width: 80%;
   margin-left: 10%;
   margin-right: 10%;
+}
+.aceitar {
+  /* background: blue; */
+}
+.rejeitar {
+  /* background: red; */
 }
 </style>

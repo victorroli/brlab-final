@@ -2,7 +2,7 @@
   <section>
     <h1>Usuários do sistema</h1>
     <div id="usuarios">
-      <b-table striped hover :items="listaUsuarios" :fields="fields"></b-table>
+      <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center"></b-table>
     </div>
   </section>
 </template>

@@ -1,10 +1,13 @@
 <template>
   <section>
-    <br />
     <h1>Instituições cadastradas</h1>
-    <br />
     <div id="instituicoes" v-if="instituicoes.length > 0">
-      <b-table striped hover :items="instituicoes" :fields="fields"></b-table>
+      <b-table striped hover :items="instituicoes" :fields="fields" class="text-center">
+        <template slot="opcoes" slot-scope="row">
+          <b-button class="editar" @click="editar(row.item)">Editar</b-button>
+          <b-button class="excluir" @click="excluir(row.item)">Excluir</b-button>
+        </template>
+      </b-table>
     </div>
     <div v-else>
       <h3>Nenhum registrado encontrado!!!</h3>
@@ -34,6 +37,9 @@ export default {
         },
         cidade: {
           label: "Cidade"
+        },
+        opcoes: {
+          label: "Opções"
         }
       }
     };
@@ -83,6 +89,12 @@ export default {
       }
       console.log("Descrição no momento: ", descricao);
       return descricao;
+    },
+    editar(item) {
+      console.log("Item selecionado: ", item);
+    },
+    excluir(item) {
+      console.log("Item para excluir: ", item);
     }
   }
 };
