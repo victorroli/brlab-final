@@ -5,10 +5,11 @@
       <div id="convenios" v-if="convenios.length > 0">
         <b-table striped hover :items="convenios" :fields="fields" class="text-center">
           <template slot="opcoes" slot-scope="row">
-            <b-button class="editar" @click="editar(row.item.id)">Editar</b-button>
-            <b-button class="excluir" @click="excluir(row.item.id)">Excluir</b-button>
+            <b-button class="editar" @click="editar(row.item)">Editar</b-button>
+            <b-button class="excluir" @click="excluir(row.item)">Excluir</b-button>
           </template>
         </b-table>
+        <modal-convenio ref="modal"></modal-convenio>
       </div>
       <div v-else>
         <h3>Nenhum registro encontrado!!!</h3>
@@ -19,8 +20,12 @@
 
 <script>
 import { api } from "@/services.js";
+import ModalConvenio from "@/components/ModalConvenio.vue";
 export default {
   name: "ConveniosAtivos",
+  components: {
+    "modal-convenio": ModalConvenio
+  },
   data() {
     return {
       convenios: [],
@@ -72,7 +77,6 @@ export default {
       }
       return valorFinal;
     },
-
     converteDate(data) {
       console.log("Não tratada: ", data);
       let dataTratada = new Date(data);
@@ -82,6 +86,12 @@ export default {
         dataTratada.getMonth()
       )}/${dataTratada.getFullYear()}`;
       return stringFinal;
+    },
+    editar(convenio) {
+      this.$refs.modal.recebeValoresConvenio(convenio);
+    },
+    excluir(convenio) {
+      console.log("Convenio selecionado: ", convenio);
     }
   }
 };

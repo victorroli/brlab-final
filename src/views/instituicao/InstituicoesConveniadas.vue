@@ -5,9 +5,10 @@
       <b-table striped hover :items="instituicoes" :fields="fields" class="text-center">
         <template slot="opcoes" slot-scope="row">
           <b-button class="editar" @click="editar(row.item)">Editar</b-button>
-          <b-button class="excluir" @click="excluir(row.item)">Excluir</b-button>
+          <b-button class="excluir" @click="excluirInstituicao(row.item)">Excluir</b-button>
         </template>
       </b-table>
+      <modal-instituicao ref="modal"></modal-instituicao>
     </div>
     <div v-else>
       <h3>Nenhum registrado encontrado!!!</h3>
@@ -17,8 +18,12 @@
 
 <script>
 import { api } from "@/services.js";
+import ModalInstituicao from "@/components/ModalInstituicao.vue";
 export default {
   name: "InstituicoesConveniadas",
+  components: {
+    "modal-instituicao": ModalInstituicao
+  },
   data() {
     return {
       instituicoes: [],
@@ -41,7 +46,8 @@ export default {
         opcoes: {
           label: "Opções"
         }
-      }
+      },
+      confirm: ""
     };
   },
   created() {
@@ -49,9 +55,9 @@ export default {
   },
   methods: {
     buscaInstituicoes() {
+      this.instituicoes = [];
       api.get("/instituicao/").then(response => {
         if (response.data) {
-          console.log(response.data);
           response.data.map(instituicao => {
             let instit = new Object({
               id: instituicao.id,
@@ -71,7 +77,6 @@ export default {
       });
     },
     buscaTipo(tipo) {
-      console.log("Tipo recebido: ", tipo);
       let descricao = "";
       switch (tipo) {
         case 0: {
@@ -87,14 +92,50 @@ export default {
           break;
         }
       }
-      console.log("Descrição no momento: ", descricao);
       return descricao;
     },
     editar(item) {
-      console.log("Item selecionado: ", item);
+      this.$refs.modal.recebeValoresInstituicao(item);
     },
-    excluir(item) {
-      console.log("Item para excluir: ", item);
+    excluir(instituicao) {
+      api.delete(`/instituicao/${instituicao.id}`).then(response => {
+        if (response.data.status == 200) {
+          this.confirmExclusao(instituicao.nome);
+          this.buscaInstituicoes();
+        }
+      });
+    },
+    excluirInstituicao(instituicao) {
+      this.confirm = "";
+      this.$bvModal
+        .msgBoxConfirm(
+          "Deseja realmente deletar a instituição " + instituicao.nome + "?",
+          {
+            title: "",
+            // size: "sm",
+            buttonSize: "md",
+            okVariant: "danger",
+            okTitle: "Remover",
+            cancelTitle: "Cancelar",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true
+          }
+        )
+        .then(value => {
+          if (value) this.excluir(instituicao);
+        })
+        .catch(err => {
+          console.log("Erro: ", err);
+        });
+    },
+    confirmExclusao(nome) {
+      this.$bvModal
+        .msgBoxOk("Instituição " + nome + " excluída com sucesso!")
+        .then(value => {})
+        .catch(err => {
+          // An error occurred
+        });
     }
   }
 };
