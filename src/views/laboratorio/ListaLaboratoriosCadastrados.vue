@@ -26,14 +26,14 @@ export default {
     return {
       laboratorios: [],
       fields: {
+        name: {
+          label: "Nome"
+        },
         description: {
           label: "Descrição"
         },
         host: {
           label: "Host"
-        },
-        name: {
-          label: "Nome"
         },
         port: {
           label: "Porta"

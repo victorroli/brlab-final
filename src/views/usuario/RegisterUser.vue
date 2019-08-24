@@ -8,7 +8,7 @@
         <br />
         <template>
           <div class="group-button">
-            <button class="btn" @click.prevent="salvarUsuario">Criar Usuário</button>
+            <b-button class="btn salvar" @click.prevent="salvarUsuario">Criar Usuário</b-button>
           </div>
         </template>
       </UsuarioForm>

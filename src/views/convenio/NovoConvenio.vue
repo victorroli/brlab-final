@@ -23,7 +23,7 @@
       <b-form-input id="validade" type="date" name="validade" v-model="validade" />
       <br />
       <div class="group-button">
-        <b-button @click="salvaConvenio()">Salvar</b-button>
+        <b-button class="salvar" @click="salvaConvenio()">Salvar</b-button>
       </div>
     </div>
   </section>

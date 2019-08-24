@@ -137,4 +137,22 @@ textarea:focus {
   width: 100%;
   text-align: center;
 }
+
+.btn.editar.btn-secondary {
+  background: dodgerblue;
+}
+
+.btn.excluir.btn-secondary {
+  background: rgb(225, 11, 11);
+}
+
+.btn-secondary {
+  margin: 1px 3px 1px 3px;
+}
+
+.btn.salvar {
+  background: #0ece3a;
+}
+
+/* .btn.new-button.btn-secondary */
 </style>

@@ -6,7 +6,7 @@
           <h1>Novo Laboratório</h1>
         </template>
         <template>
-          <b-button class="btn" @click.prevent="cadastraLab">Cadastrar</b-button>
+          <b-button class="btn salvar" @click.prevent="cadastraLab">Cadastrar</b-button>
         </template>
       </LaboratorioForm>
     </transition>

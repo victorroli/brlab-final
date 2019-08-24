@@ -36,7 +36,7 @@
       <b-form-select v-model="tipo" :options="options"></b-form-select>
     </form>
     <div class="group-button">
-      <b-button id="salvar" @click="salvaInstituicao()">Salvar</b-button>
+      <b-button id="salvar" class="salvar" @click="salvaInstituicao()">Salvar</b-button>
     </div>
   </section>
 </template>

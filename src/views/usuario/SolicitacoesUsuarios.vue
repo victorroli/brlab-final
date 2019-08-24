@@ -5,8 +5,8 @@
       <div id="usuarios" v-if="pendentes.length > 0">
         <b-table striped hover :items="pendentes" :fields="fields" class="text-center">
           <template slot="opcoes" slot-scope="row">
-            <b-button class="aceitar" @click="aceitar(row.item.id)">Aceitar</b-button>
-            <b-button class="rejeitar" @click="rejeitar(row.item.id)">Rejeitar</b-button>
+            <b-button class="editar" @click="aceitar(row.item.id)">Aceitar</b-button>
+            <b-button class="excluir" @click="rejeitar(row.item.id)">Rejeitar</b-button>
           </template>
         </b-table>
       </div>
