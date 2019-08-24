@@ -13,13 +13,26 @@
             <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
             </b-nav-item>
-            <b-nav-item v-show="usuario_logado">
-              <router-link class="menu" to="/reservas">Realizadas</router-link>
-              <router-link class="menu" to="/reservas">Aguardando</router-link>
-            </b-nav-item>
-
+            <b-nav-item-dropdown v-show="usuario_logado" text="Reservas">
+              <!-- <b-nav-item-dropdown text="Convênios" left> -->
+              <router-link class="menu" tag="b-dropdown-item" :to="{name: reservas}">Realizadas</router-link>
+              <router-link class="menu" tag="b-dropdown-item" :to="{reservas}">Agendadas</router-link>
+            </b-nav-item-dropdown>
+            <!-- {{this.$store.state.usuario}} -->
             <b-nav-item-dropdown text="Laboratórios" left>
-              <router-link class="menu" tag="b-dropdown-item" to="/laboratorios">Cadastrados</router-link>
+              <router-link
+                v-if="this.$store.state.papel_id != 1"
+                class="menu"
+                tag="b-dropdown-item"
+                to="/laboratorios"
+              >Disponíveis</router-link>
+              <router-link
+                v-if="this.$store.state.papel_id = 1"
+                class="menu"
+                tag="b-dropdown-item"
+                :to="{name: 'laboratorios-cadastrados'}"
+              >Cadastrados</router-link>
+
               <router-link
                 class="menu"
                 tag="b-dropdown-item"
@@ -48,9 +61,9 @@
               <router-link tag="b-dropdown-item" class="menu" :to="{name: 'register-user'}">Novo</router-link>
             </b-nav-item-dropdown>
 
-            <b-nav-item v-show="usuario_logado">
+            <!-- <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/divisao_horarios">Divisão de Horários</router-link>
-            </b-nav-item>
+            </b-nav-item>-->
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">

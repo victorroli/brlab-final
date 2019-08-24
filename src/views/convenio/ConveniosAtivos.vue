@@ -1,14 +1,19 @@
 <template>
-  <section>
+  <section id="convenios">
     <h1>Convênios Ativos</h1>
     <transition mode="out-in">
-      <div id="convenios" v-if="convenios.length > 0">
+      <div v-if="convenios.length > 0">
         <b-table striped hover :items="convenios" :fields="fields" class="text-center">
           <template slot="opcoes" slot-scope="row">
             <b-button class="editar" @click="editar(row.item)">Editar</b-button>
             <b-button class="excluir" @click="excluir(row.item)">Excluir</b-button>
           </template>
         </b-table>
+        <!-- <b-button>Novo convênio +</b-button> -->
+        <div class="group-button">
+          <router-link tag="b-button" :to="{name:'novo_convenio'}">Novo Convênio +</router-link>
+        </div>
+
         <modal-convenio ref="modal"></modal-convenio>
       </div>
       <div v-else>
@@ -56,7 +61,10 @@ export default {
   },
   methods: {
     buscaConvenios() {
+      console.log("Entrou na busca convênios...");
+      this.convenios = [];
       api.get("/convenios").then(response => {
+        console.log("Resposta obtida: ", response.data);
         response.data.map(convenio => {
           let novoConvenio = new Object({
             id: convenio.id,
@@ -71,20 +79,31 @@ export default {
     },
     checValores(valor, mes) {
       let valorFinal = valor;
-      if (valor < 10) {
-        if (mes) valorFinal = valor + 1;
-        return `0${valorFinal}`;
+      console.log("Valor que chega: ", valor);
+      console.log("Adiciona: ", mes);
+      if (!mes) {
+        valorFinal += 1;
       }
+      if (mes) {
+        valorFinal += 1;
+        if (valor < 10) {
+          return `0${valorFinal}`;
+        }
+      }
+      console.log("Valor final: ", valorFinal);
       return valorFinal;
     },
     converteDate(data) {
-      console.log("Não tratada: ", data);
+      console.log("Data que chega: ", data);
       let dataTratada = new Date(data);
       let stringFinal = `${this.checValores(
-        dataTratada.getDate()
+        dataTratada.getDate(),
+        false
       )}/${this.checValores(
-        dataTratada.getMonth()
+        dataTratada.getMonth(),
+        true
       )}/${dataTratada.getFullYear()}`;
+      console.log("Data que sai: ", stringFinal);
       return stringFinal;
     },
     editar(convenio) {

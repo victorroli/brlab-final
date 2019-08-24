@@ -2,7 +2,7 @@
   <b-modal
     id="modal-form"
     ref="modal"
-    title="Instituição cadastrada"
+    title="Convênio cadastrado"
     :ok-title="txtBotaoIncluir"
     :cancel-title="txtBotaoExcluir"
     cancel-variant="danger"
@@ -12,7 +12,7 @@
     @ok="salvaInstituicao"
   >
     <form ref="form" @submit.stop.prevent="handleSubmit">
-      <label for="uri-input">Instituição:</label>
+      <label for="uri-input">Criado em:</label>
       <b-form-input
         id="criacao-input"
         v-model="criacao"
@@ -27,19 +27,18 @@
       <b-form-input id="validade-input" v-model="validade" :state="validadeState" type="date"></b-form-input>
       <b-form-invalid-feedback id="observacao-input">Campo Data de validade obrigatório</b-form-invalid-feedback>
 
-      <label for="laboratorio-input">Laboratório:</label>
-      <b-form-input id="laboratorio-input" v-model="laboratorio" :state="laboratorioState"></b-form-input>
-      <b-form-invalid-feedback id="laboratorio-input">Campo laboratorio obrigatório</b-form-invalid-feedback>
+      <label for="tipo">Instituição:</label>
+      <b-form-select v-model="instituicao" :options="instituicoes"></b-form-select>
 
-      <label for="instituicao-input">Instituição:</label>
-      <b-form-input id="instituicao-input" v-model="instituicao" :state="instituicaoState"></b-form-input>
-      <b-form-invalid-feedback id="instituicao-input">Campo instituicao obrigatório</b-form-invalid-feedback>
+      <label for="tipo">Laboratório:</label>
+      <b-form-select v-model="laboratorio" :options="laboratorios"></b-form-select>
     </form>
   </b-modal>
 </template>
 
 <script>
 import { api } from "@/services.js";
+import { setTimeout } from "timers";
 export default {
   name: "ModalConvenio",
   // props: [laboratorio],
@@ -62,8 +61,14 @@ export default {
         { value: 0, text: "Educação Básica" },
         { value: 1, text: "Educação Superior" },
         { value: 2, text: "Outro" }
-      ]
+      ],
+      laboratorios: [],
+      instituicoes: []
     };
+  },
+  created() {
+    this.buscaLaboratorios();
+    this.buscaInstituicoes();
   },
   methods: {
     showModal() {
@@ -73,27 +78,59 @@ export default {
       this.$bvModal.hide("modal-form");
     },
     salvaInstituicao() {
+      console.log("Criacao: ", this.criacao);
+      console.log("Validade: ", this.validade);
+      // return;
       api
         .put(`/convenio/${this.id}`, {
-          //   nome: this.nome,
-          //   telefone: this.telefone,
-          //   cnpj: this.cnpj,
-          //   cep: this.cep,
-          //   tipo: this.tipo,
-          //   bairro: this.bairro,
-          //   rua: this.rua,
-          //   numero: this.numero,
-          //   complemento: this.complemento,
-          //   cidade: this.cidade
+          criacao: this.criacao,
+          validade: this.validade,
+          laboratorio: this.laboratorio,
+          instituicao: this.instituicao
         })
         .then(response => {
-          //   if (response.data.status == 201) {
-          //     this.preencheCampos(response.data.instituicao);
-          //   }
+          if (response.data.status == 201) {
+            console.log("Obtido: ", response.data);
+            this.preencheCampos(response.data.content, true);
+          }
         });
+
+      setTimeout(() => {
+        this.$parent.buscaConvenios();
+      }, 500);
     },
-    preencheCampos(convenio) {
-      console.log("Convenio: ", convenio);
+    preencheCampos(convenio, atualiza = false) {
+      this.id = convenio.id;
+      this.instituicao = convenio.instituicao_id;
+      this.laboratorio = convenio.laboratorio_id;
+      this.criacao = this.quebraData(convenio.criacao, atualiza); //convenio.criacao.replace(/\//g, "-");
+      this.validade = this.quebraData(convenio.validade, atualiza);
+    },
+    quebraData(data, atualiza) {
+      console.log("Data pega:", data);
+      let dataFinal = "";
+      if (data.includes("/")) {
+        let dataRecebida = data.split("/");
+        dataFinal =
+          this.checValores(dataRecebida[2]) +
+          "-" +
+          this.checValores(dataRecebida[1]) +
+          "-" +
+          this.checValores(dataRecebida[0], atualiza);
+      } else {
+        let recebido = new Date(data);
+        dataFinal =
+          recebido.getFullYear() +
+          "-" +
+          this.checValores(recebido.getMonth(), atualiza) +
+          "-" +
+          this.checValores(recebido.getDate());
+      }
+      // if (!atualiza)
+      // return dataRecebida[2] + "-" + dataRecebida[1] + "-" + dataRecebida[0];
+
+      console.log("Final date: ", dataFinal);
+      return dataFinal;
     },
     limparCampos() {
       this.agendamento = null;
@@ -106,16 +143,39 @@ export default {
     checValores(valor, mes) {
       let valorFinal = valor;
       if (valor < 10) {
+        console.log("Valor trago: ", valor);
         if (mes) {
           valorFinal += 1;
         }
-        return `0${valorFinal}`;
+        if (valor.length < 2) return `0${valorFinal}`;
       }
       return valorFinal;
     },
     recebeValoresConvenio(convenio) {
       this.preencheCampos(convenio);
       this.showModal();
+    },
+    buscaLaboratorios() {
+      this.laboratorios = [];
+      this.laboratorio = "";
+      api.get("/labs/").then(response => {
+        response.data.map(response => {
+          this.laboratorios.push({ value: response.id, text: response.name });
+        });
+      });
+    },
+    buscaInstituicoes() {
+      this.instituicoes = [];
+      this.instituicao = "";
+      api.get("/instituicao/").then(response => {
+        response.data.map(instituicao => {
+          this.instituicoes.push({
+            value: instituicao.id,
+            text: instituicao.nome
+          });
+        });
+        // this.instituicoes = [...response.data];
+      });
     }
   }
 };

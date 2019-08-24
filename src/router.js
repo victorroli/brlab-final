@@ -24,6 +24,7 @@ import NovoConvenio from "@/views/convenio/NovoConvenio.vue";
 import ConveniosAtivos from "@/views/convenio/ConveniosAtivos.vue";
 import Convenios from "@/views/convenio/Convenios.vue";
 import SolicitacoesLaboratorios from "@/views/laboratorio/SolicitacoesLaboratorios.vue";
+import LaboratoriosCadastrados from "@/views/laboratorio/ListaLaboratoriosCadastrados.vue";
 
 Vue.use(Router);
 
@@ -45,6 +46,11 @@ export default new Router({
           name: "laboratorios",
           component: ListaLaboratorios,
           props: true
+        },
+        {
+          path: "/cadastrados",
+          name: "laboratorios-cadastrados",
+          component: LaboratoriosCadastrados
         },
         {
           path: "/novo",
@@ -158,6 +164,13 @@ export default new Router({
       path: "/reservas",
       name: "reservas",
       component: Reservas
+      // children:[
+      //   {
+      //     path: '',
+      //     name: "reservas-realizadas",
+      //     component:
+      //   }
+      // ]
     },
     {
       path: "/login",

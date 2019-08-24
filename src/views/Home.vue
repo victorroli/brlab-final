@@ -1,17 +1,14 @@
 <template>
   <div>
-    <h1>Home</h1>
-    <!-- <ListaLaboratorios :titulo="Home"></ListaLaboratorios> -->
+    <h2>Seja bem vindo {{this.$store.state.usuario.nome}}</h2>
+    <!-- <b-button></b-button> -->
   </div>
 </template>
 
 <script>
-// import ListaLaboratorios from "@/components/ListaLaboratorios.vue";
 export default {
   name: "home",
-  components: {
-    // ListaLaboratorios
-  }
+  components: {}
 };
 </script>
 

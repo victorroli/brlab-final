@@ -8,6 +8,10 @@
           <b-button class="excluir" @click="excluirInstituicao(row.item)">Excluir</b-button>
         </template>
       </b-table>
+      <div class="group-button">
+        <router-link tag="b-button" :to="{name:'nova_instituicao'}">Nova Instituição</router-link>
+      </div>
+
       <modal-instituicao ref="modal"></modal-instituicao>
     </div>
     <div v-else>
@@ -142,6 +146,9 @@ export default {
 </script>
 
 <style scoped>
+h1 {
+  margin: 20px auto 20px auto;
+}
 #instituicoes {
   max-width: 80%;
   margin-left: 10%;

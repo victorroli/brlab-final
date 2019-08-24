@@ -2,7 +2,15 @@
   <section>
     <h1>Usuários do sistema</h1>
     <div id="usuarios">
-      <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center"></b-table>
+      <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center">
+        <template slot="opcoes" slot-scope="row">
+          <b-button class="editar" @click="editar(row.item)">Editar</b-button>
+          <b-button class="excluir" @click="excluirInstituicao(row.item)">Excluir</b-button>
+        </template>
+      </b-table>
+      <div class="group-button">
+        <router-link tag="b-button" class="btn" :to="{name: 'register-user'}">Novo Usuário</router-link>
+      </div>
     </div>
   </section>
 </template>
@@ -29,6 +37,9 @@ export default {
         },
         funcao: {
           label: "Papel"
+        },
+        opcoes: {
+          label: "Opções"
         }
       }
     };

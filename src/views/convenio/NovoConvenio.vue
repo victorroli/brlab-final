@@ -1,8 +1,6 @@
 <template>
   <section class="convenios">
-    <br />
     <h1>Novo Convênio</h1>
-    <br />
     <div class="usuario">
       <label for="nome">Instituição:</label>
       <b-form-select v-model="instituicao" :options="listaInstituicoes"></b-form-select>
@@ -24,7 +22,9 @@
       <label for="validade">Válido até:</label>
       <b-form-input id="validade" type="date" name="validade" v-model="validade" />
       <br />
-      <b-button @click="salvaConvenio()">Salvar</b-button>
+      <div class="group-button">
+        <b-button @click="salvaConvenio()">Salvar</b-button>
+      </div>
     </div>
   </section>
 </template>

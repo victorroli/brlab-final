@@ -131,4 +131,10 @@ textarea:focus {
 .v-leave-active {
   transition: all 0.3s;
 }
+
+/* Alinha botão das tabelas nas listagens */
+.group-button {
+  width: 100%;
+  text-align: center;
+}
 </style>

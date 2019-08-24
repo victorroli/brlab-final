@@ -7,7 +7,9 @@
         </template>
         <br />
         <template>
-          <button class="btn" @click.prevent="salvarUsuario">Criar Usuário</button>
+          <div class="group-button">
+            <button class="btn" @click.prevent="salvarUsuario">Criar Usuário</button>
+          </div>
         </template>
       </UsuarioForm>
     </transition>
@@ -31,18 +33,12 @@ export default {
   },
   methods: {
     salvarUsuario() {
-      // if (this.verificaCampos()) {
-      // console.log("Entrou...");
       this.$refs.registraUsuario.salvarUsuario();
-      // console.log("Situacao login: ", this.$store.state.login);
       if (this.$store.state.login) {
-        // console.log("Usuario logado!");
         this.$router.push({ path: "/" });
       }
-      // }
     },
     verificaCampos() {
-      // console.log("Nome: ", this.name);
       if (this.name == "") {
         alert("Campo Nome não informado");
         return false;
