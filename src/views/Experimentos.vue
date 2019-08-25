@@ -94,4 +94,9 @@ export default {
 table {
   text-align: center;
 }
+#experimentos {
+  max-width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+}
 </style>

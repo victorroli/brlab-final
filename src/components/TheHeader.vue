@@ -60,10 +60,6 @@
               >Solicitações</router-link>
               <router-link tag="b-dropdown-item" class="menu" :to="{name: 'register-user'}">Novo</router-link>
             </b-nav-item-dropdown>
-
-            <!-- <b-nav-item v-show="usuario_logado">
-              <router-link class="menu" to="/divisao_horarios">Divisão de Horários</router-link>
-            </b-nav-item>-->
           </b-navbar-nav>
 
           <b-navbar-nav class="ml-auto">
@@ -72,15 +68,17 @@
                 <em>{{nome}}</em>
               </template>
               <b-dropdown-item>
-                <router-link class="menu" to="/">Perfil</router-link>
+                <router-link tag="b-dropdown-item" class="menu" :to="{name: 'editar_perfil'}">Perfil</router-link>
               </b-dropdown-item>
-              <b-dropdown-item>
-                <b-button @click="logout">Logout</b-button>
-              </b-dropdown-item>
+              <!-- <b-dropdown-item> -->
+              <!-- <router-link tag="b-dropdown-item" class="menu" @click="logout">Logout</router-link> -->
+              <!-- <b-button @click="logout">Logout</b-button> -->
+              <b-dropdown-item-btn @click="logout()">Logout</b-dropdown-item-btn>
+              <!-- </b-dropdown-item> -->
             </b-nav-item-dropdown>
 
             <b-nav-item v-if="!this.$store.state.login">
-              <router-link class="menu" to="/login">Login</router-link>
+              <router-link class="menu" tag="b-nav-item" to="/login">Login</router-link>
             </b-nav-item>
           </b-navbar-nav>
         </b-collapse>
@@ -96,15 +94,41 @@ export default {
   name: "TheHeader",
   data() {
     return {
-      papel: ""
+      papel: "",
+      respostaLogout: ""
     };
   },
 
   methods: {
     logout() {
-      console.log("Logout...");
-      this.$store.dispatch("logout");
-      this.$router.push({ path: "/login" });
+      this.confirmaAcao();
+    },
+    confirmaAcao() {
+      this.respostaLogout = "";
+      this.$bvModal
+        .msgBoxConfirm("Deseja realmente sair do BrLab?", {
+          title: "Logout",
+          okVariant: "info",
+          okTitle: "Sim",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(value => {
+          this.respostaLogout = value;
+        })
+        .catch(err => {
+          // An error occurred
+        });
+    }
+  },
+  watch: {
+    respostaLogout(valor) {
+      if (valor) {
+        this.$store.dispatch("logout");
+        this.$router.push({ path: "/login" });
+      }
     }
   },
   computed: {

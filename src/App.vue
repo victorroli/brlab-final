@@ -94,10 +94,11 @@ img {
 }
 
 input,
-textarea {
+textarea,
+.form-control {
   border-radius: 4px;
-  border: 1px solid white;
-  padding: 15px;
+  border: 1px solid rgb(147, 154, 168);
+  padding: 10px;
   box-shadow: 0 4px 8px rgba(30, 60, 90, 0.1);
   transition: all 0.3s;
   font-size: 1rem;
@@ -153,6 +154,4 @@ textarea:focus {
 .btn.salvar {
   background: #0ece3a;
 }
-
-/* .btn.new-button.btn-secondary */
 </style>

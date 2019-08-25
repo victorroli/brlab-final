@@ -6,7 +6,7 @@
       <input type="email" name="email" id="email" v-model="dadosLogin.email" />
       <label for="Senha">Senha:</label>
       <input type="password" name="senha" id="senha" v-model="dadosLogin.senha" />
-      <button class="btn" @click.prevent="logar">Entrar</button>
+      <b-button class="btn login" @click.prevent="logar">Entrar</b-button>
     </form>
     <div class="opcoes-adicionais">
       <p class="perdeu">
@@ -60,8 +60,8 @@ export default {
           size: "md",
           buttonSize: "md",
           okTitle: "Ok",
-          // okOnly: true,
           okOnly: true,
+          // okOnly: true,
           // cancelVariant: true,
           // footerClass: "p-3",
           // hideHeaderClose: true,
@@ -134,12 +134,12 @@ form {
   display: grid;
 }
 
-.btn {
+/* .btn {
   width: 100%;
   max-width: 300px;
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
 .opcoes-adicionais {
   text-align: center;
@@ -154,5 +154,15 @@ form {
 .perdeu a:hover {
   color: #84f;
   text-decoration: underline;
+}
+
+.btn {
+  margin-top: 13px;
+  padding: 10px 20px 10px 20px;
+  background-color: #17a2b8;
+}
+
+.btn:hover {
+  background: rgb(22, 112, 196);
 }
 </style>

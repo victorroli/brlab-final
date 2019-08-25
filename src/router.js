@@ -1,16 +1,16 @@
 import Vue from "vue";
 import Router from "vue-router";
+import Laboratorio from "@/views/laboratorio/Laboratorio.vue";
 import Laboratorios from "@/views/laboratorio/Laboratorios.vue";
 import ListaLaboratorios from "@/views/laboratorio/ListaLaboratorios.vue";
-import Laboratorio from "@/views/laboratorio/Laboratorio.vue";
 import Experimentos from "@/views/Experimentos.vue";
 import Reservas from "@/views/Reservas.vue";
+import Home from "@/views/Home.vue";
 import Login from "@/views/usuario/Login.vue";
-import RegisterUser from "@/views/usuario/RegisterUser.vue";
 import Usuarios from "@/views/usuario/Usuarios.vue";
+import RegisterUser from "@/views/usuario/RegisterUser.vue";
 import ListaUsuarios from "@/views/usuario/ListaUsuarios.vue";
 import SolicitacoesUsuarios from "@/views/usuario/SolicitacoesUsuarios.vue";
-import Home from "@/views/Home.vue";
 import Agendamento from "@/views/laboratorio/Agendamento.vue";
 import DadosLaboratorio from "@/views/laboratorio/DadosLaboratorio.vue";
 import NovoLaboratorio from "@/views/laboratorio/NovoLaboratorio.vue";
@@ -156,6 +156,12 @@ export default new Router({
           path: "/solicitacoes",
           name: "solicitacoes_usuarios",
           component: SolicitacoesUsuarios,
+          props: true
+        },
+        {
+          path: "/editar",
+          name: "editar_perfil",
+          component: RegisterUser,
           props: true
         }
       ]
