@@ -1,16 +1,16 @@
 <template>
-  <div>
-    <div>
+  <div class="container-equipamento">
+    <div class="novo-equipamento">
       <b-button @click="$bvModal.show('modal-equipamento')">Adicionar Equipamento</b-button>
     </div>
 
-    <div class="mt-3">
+    <div class="mt-3 lista-equipamentos">
       <ul v-if="this.listaEquipamentos !== 0" class="mb-0 pl-3">
         <li v-for="(equipamento, index) in this.$options.equipamentos" :key="index">
-          <div>
+          <div class="equipamento">
             {{ equipamento.nome }}
-            <b-button @click="removeItem(index)">Remover</b-button>
-            <b-button @click="editarItem(index)">Editar</b-button>
+            <b-button class="editar" @click="editarItem(index)">Editar</b-button>
+            <b-button class="excluir" @click="removeItem(index)">Remover</b-button>
           </div>
         </li>
       </ul>
@@ -20,6 +20,8 @@
       id="modal-equipamento"
       ref="modal"
       title="Novo Equipamento"
+      ok-title="Salvar"
+      cancel-title="Cancelar"
       @show="showModal"
       @hidden="resetModal"
       @ok="handleOk"
@@ -207,3 +209,26 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.novo-equipamento {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.container-equipamento {
+  width: 100%;
+}
+
+.lista-equipamentos {
+  display: flex;
+}
+
+.lista-equipamentos ul {
+  width: 100%;
+}
+
+.equipamento {
+  /* align-items */
+}
+</style>

@@ -5,8 +5,10 @@
         <template v-slot:titulo>
           <h1>Novo Laboratório</h1>
         </template>
-        <template>
-          <b-button class="btn salvar" @click.prevent="cadastraLab">Cadastrar</b-button>
+        <template class="cadastro">
+          <div class="group-button">
+            <b-button class="btn salvar" @click.prevent="cadastraLab">Cadastrar</b-button>
+          </div>
         </template>
       </LaboratorioForm>
     </transition>
@@ -22,7 +24,6 @@ export default {
   },
   methods: {
     cadastraLab() {
-      console.log("Entrou na função!");
       this.$refs.novoLaboratorio.incluirLab();
     }
   }
@@ -47,5 +48,12 @@ label {
 form {
   margin-top: 30px;
   display: grid;
+}
+.cadastro {
+  display: flex;
+}
+.group-button {
+  margin-top: 20px;
+  align-items: center;
 }
 </style>

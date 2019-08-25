@@ -17,12 +17,10 @@
       <label for="descricao">Descrição:</label>
       <textarea name="descricao" id="descricao" cols="30" rows="5" v-model="laboratorio.descricao"></textarea>
 
-      <fieldset class="equipamentos">
-        <legend class="titulo-equipamento">Equipamentos</legend>
-        <div class="add-equipamento">
-          <EquipamentoForm ref="equipamentoRef"></EquipamentoForm>
-        </div>
-      </fieldset>
+      <label for="equipamento">Equipamentos:</label>
+      <div class="add-equipamento">
+        <EquipamentoForm ref="equipamentoRef"></EquipamentoForm>
+      </div>
     </div>
     <slot></slot>
   </form>
@@ -61,7 +59,6 @@ export default {
       });
       if (this.verificaCampos()) {
         this.setLaboratorio();
-        alert("Solicitação enviada...");
         this.limpaVariaveis();
       }
       this.$router.go(-1);
@@ -99,25 +96,18 @@ export default {
 form,
 .laboratorio {
   display: grid;
-  /* grid-template-columns: 1fr; */
   align-items: center;
 }
 
 .horario input {
   margin: 10px;
-  /* width: 50px; */
 }
 
 textarea {
   max-width: 500px;
 }
 
-.equipamentos {
-  border: 1px groove #17a2b8;
-}
-
 .titulo-equipamento {
-  /* border: 1px groove #17a2b8; */
   padding: 0 1.4em 1.4em 1.4em;
   margin: 0 0 1.5em 0;
 }
@@ -125,5 +115,12 @@ textarea {
 .add-equipamento {
   display: flex;
   justify-content: center;
+  background: white;
+  padding: 10px;
+  border: 1px solid rebeccapurple;
+  border-radius: 4px;
+}
+label {
+  margin-top: 5px;
 }
 </style>
