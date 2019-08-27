@@ -9,6 +9,7 @@ import Home from "@/views/Home.vue";
 import Login from "@/views/usuario/Login.vue";
 import Usuarios from "@/views/usuario/Usuarios.vue";
 import RegisterUser from "@/views/usuario/RegisterUser.vue";
+import EditarPerfil from "@/views/usuario/EditarPerfil.vue";
 import ListaUsuarios from "@/views/usuario/ListaUsuarios.vue";
 import SolicitacoesUsuarios from "@/views/usuario/SolicitacoesUsuarios.vue";
 import Agendamento from "@/views/laboratorio/Agendamento.vue";
@@ -161,7 +162,7 @@ export default new Router({
         {
           path: "/editar",
           name: "editar_perfil",
-          component: RegisterUser,
+          component: EditarPerfil,
           props: true
         }
       ]

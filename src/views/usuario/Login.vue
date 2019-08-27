@@ -17,13 +17,17 @@
       </p>
     </div>
 
-    <b-modal ref="my-modal" hide-footer>
+    <!-- <b-modal id="my-modal" ref="my-modal" hide-footer centered>
       <div class="d-block text-center">
         <slot>
-          <h1>{{resposta}}</h1>
+          <p>{{resposta}}</p>
         </slot>
       </div>
-      <b-button class="mt-3" variant="outline-danger" block @click="hideModal">Fechar</b-button>
+      <b-button class="sm-2" @click="hideModal">Fechar</b-button>
+    </b-modal>-->
+
+    <b-modal id="my-modal" centered title="Entrar no sistema" ok-only>
+      <p class="my-2">{{resposta}}</p>
     </b-modal>
   </section>
 </template>
@@ -52,31 +56,14 @@ export default {
     logar() {
       if (this.verificaCampos()) {
         this.$store.dispatch("login", this.dadosLogin);
-        this.resposta = "Logado com sucesso!";
-        //   // console.log("Login: ", this.$store.state.login);
-      } else this.resposta = "Credenciais erradas";
-      this.$bvModal
-        .msgBoxConfirm(this.resposta, {
-          size: "md",
-          buttonSize: "md",
-          okTitle: "Ok",
-          okOnly: true,
-          // okOnly: true,
-          // cancelVariant: true,
-          // footerClass: "p-3",
-          // hideHeaderClose: true,
-          centered: true
-        })
-        .then(resposta => {
-          if (this.login) {
-            if (resposta == null || resposta) {
-              this.$router.push({ path: "/" });
-            }
-          }
-        })
-        .catch(err => {
-          // An error occurred
-        });
+        setTimeout(() => {
+          if (this.$store.state.login) {
+            this.resposta = "Logado com sucesso!";
+            this.$router.push({ path: "/" });
+          } else this.resposta = "Credenciais erradas. Verifique";
+          this.$bvModal.show("my-modal");
+        }, 500);
+      } else this.resposta = "Verifique os campos";
     },
     verificaCampos() {
       if (!this.dadosLogin.email) {

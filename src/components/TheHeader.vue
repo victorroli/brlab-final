@@ -13,11 +13,11 @@
             <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
             </b-nav-item>
-            <b-nav-item-dropdown v-show="usuario_logado" text="Reservas">
-              <!-- <b-nav-item-dropdown text="Convênios" left> -->
-              <router-link class="menu" tag="b-dropdown-item" :to="{name: reservas}">Realizadas</router-link>
+            <!-- <b-nav-item-dropdown v-show="usuario_logado" text="Reservas"> -->
+            <!-- <b-nav-item-dropdown text="Convênios" left> -->
+            <!-- <router-link class="menu" tag="b-dropdown-item" :to="{name: reservas}">Realizadas</router-link>
               <router-link class="menu" tag="b-dropdown-item" :to="{reservas}">Agendadas</router-link>
-            </b-nav-item-dropdown>
+            </b-nav-item-dropdown>-->
             <!-- {{this.$store.state.usuario}} -->
             <b-nav-item-dropdown text="Laboratórios" left>
               <router-link

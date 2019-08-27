@@ -182,19 +182,18 @@ export default new Vuex.Store({
       api.get(`/papel/${papel}`).then(response => {
         if (response.data) {
           context.commit("SET_DESCRICAO_PAPEL", response.data.descricao);
-          console.log("Resposta da função: ", response.data);
         }
       });
     },
     login(context, payload) {
       api.get(`/usuario/${payload.email}`).then(response => {
         if (response.data) {
-          context.commit("UPDATE_USUARIO", response.data);
-          if (context.state.usuario.senha == payload.senha) {
+          if (response.data.senha == payload.senha) {
+            context.commit("UPDATE_USUARIO", response.data);
             context.commit("UPDATE_LOGIN", true);
             context.dispatch("busca_papel", context.state.usuario.papel_id);
           } else {
-            alert("Credenciais erradas!!");
+            context.commit("UPDATE_LOGIN", false);
           }
         }
       });

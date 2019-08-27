@@ -5,7 +5,7 @@
       <label for="nome">Nome:</label>
       <!-- <input id="nome" type="text" name="nome" v-model="name" /> -->
       <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
-      <!-- {{registro.name}} -->
+
       <label for="nickname">Nickname:</label>
       <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
 
@@ -53,11 +53,11 @@
 
 <script>
 // import { mapFields } from "@/helpers/mapFields.js";
-// import { getCep } from "@/services.js";
+import { api } from "@/services.js";
 
 export default {
   name: "UsuarioForm",
-  props: ["lista"],
+  props: ["lista", "usuario"],
   data() {
     return {
       registro: {
@@ -74,7 +74,32 @@ export default {
   methods: {
     salvarUsuario() {
       this.$store.dispatch("setUsuario", this.registro);
+    },
+    checUsuario() {
+      if (this.usuario) {
+        this.registro.nome = this.usuario.nome;
+        this.registro.nickname = this.usuario.nickname;
+        this.registro.senha = this.usuario.senha;
+        this.registro.email = this.usuario.email;
+        this.registro.papel_id = this.usuario.papel_id;
+      }
+    },
+    buscaPapeis() {
+      api.get(`/papel/`).then(response => {
+        response.data.papeis.forEach(elemento => {
+          let papel = Object({
+            value: elemento.id,
+            text: elemento.nome
+          });
+          // console.log("Paper: ", papel.nome);
+          this.papeis.push(papel);
+        });
+      });
     }
+  },
+  created() {
+    this.checUsuario();
+    this.buscaPapeis();
   },
   watch: {
     "registro.name": function(novo, velho) {
@@ -89,6 +114,9 @@ export default {
     },
     "registro.email": function(novo) {
       console.log("Novo email: ", novo);
+    },
+    usuario(valor) {
+      console.log("Usuario: ", valor);
     }
   },
   computed: {
@@ -103,19 +131,18 @@ export default {
       }
     },
     mostraDadosLogin() {
-      return !this.$store.state.login || this.$route.name === "usuario-editar";
+      return !this.$store.state.login || this.$route.name === "editar_perfil";
     }
   },
   beforeUpdate() {
-    this.papeis = [];
-    this.lista.forEach(elemento => {
-      let opcao = Object({
-        value: elemento.id,
-        text: elemento.nome
-      });
-      this.papeis.push(opcao);
-      console.log("Opção: ", opcao);
-    });
+    // this.papeis = [];
+    // this.lista.forEach(elemento => {
+    //   let opcao = Object({
+    //     value: elemento.id,
+    //     text: elemento.nome
+    //   });
+    //   this.papeis.push(opcao);
+    // });
   }
 };
 </script>
