@@ -16,12 +16,12 @@
       <b-form-input id="email" type="email" name="email" v-model="registro.email" />
 
       <label for="senha">Senha:</label>
-      <b-form-input id="senha" type="password" name="senha" v-model="registro.senha" />
-
+      <b-form-input id="senha" :type="tipo_senha" name="senha" v-model="registro.senha" />
+      <b-button @click="exibeSenha">mostrar</b-button>
       <label for="senha">Confirmar Senha:</label>
       <b-form-input
         id="confirm_senha"
-        type="password"
+        :type="tipo_senha"
         name="confirm_senha"
         v-model="confirm_senha"
       />
@@ -67,13 +67,17 @@ export default {
         senha: "",
         papel_id: ""
       },
-      // selected: "",
+      mostrar: false,
+      tipo_senha: "password",
       papeis: []
     };
   },
   methods: {
-    salvarUsuario() {
-      this.$store.dispatch("setUsuario", this.registro);
+    salvarUsuario(acao = null) {
+      if (acao == "editar") {
+        this.$store.dispatch("updateUsuario", this.registro);
+      }
+      // this.$store.dispatch("setUsuario", this.registro);
     },
     checUsuario() {
       if (this.usuario) {
@@ -95,6 +99,11 @@ export default {
           this.papeis.push(papel);
         });
       });
+    },
+    exibeSenha() {
+      this.mostrar = !this.mostrar;
+      if (this.mostrar) this.tipo_senha = "text";
+      else this.tipo_senha = "password";
     }
   },
   created() {

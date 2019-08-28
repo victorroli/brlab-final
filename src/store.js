@@ -119,6 +119,20 @@ export default new Vuex.Store({
         });
     },
 
+    updateUsuario(context, payload) {
+      api
+        .put(`/usuario/${context.state.usuario.id}`, {
+          nome: payload.nome,
+          email: payload.email,
+          senha: payload.senha,
+          nickname: payload.nickname,
+          papel_id: payload.papel_id
+        })
+        .then(resposta => {
+          console.log("Resposta: ", resposta);
+        });
+    },
+
     setExperimento(context, payload) {
       console.log("Objeto passado: ", payload);
 

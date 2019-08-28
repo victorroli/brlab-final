@@ -1,7 +1,7 @@
 <template>
-  <section class="register" v-if="this.$store.state.login">
+  <section class="edicao" v-if="this.$store.state.login">
     <transition mode="out-in">
-      <UsuarioForm ref="registraUsuario" :usuario="this.$store.state.usuario">
+      <UsuarioForm ref="editaUsuario" :usuario="this.$store.state.usuario">
         <template v-slot:titulo>
           <h1>Editar Perfil</h1>
         </template>
@@ -33,10 +33,7 @@ export default {
   },
   methods: {
     salvarUsuario() {
-      this.$refs.registraUsuario.salvarUsuario();
-      if (this.$store.state.login) {
-        this.$router.push({ path: "/" });
-      }
+      this.$refs.editaUsuario.salvarUsuario("editar");
     },
     verificaCampos() {
       if (this.name == "") {
@@ -102,7 +99,7 @@ h1 {
   max-width: 100%;
 }
 
-.register {
+.edicao {
   max-width: 500px;
   margin: 0 auto;
   padding: 0 20px;
