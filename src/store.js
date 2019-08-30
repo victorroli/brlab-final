@@ -143,7 +143,6 @@ export default new Vuex.Store({
           laboratorio_id: payload.laboratorio_id
         })
         .then(response => {
-          console.log("Dados obtidos: ", response.data);
           if (response.data.status == 201) {
             if (payload.status) {
               context.commit("SET_TIMER", payload.timer);
@@ -153,7 +152,6 @@ export default new Vuex.Store({
                 "SET_EXPERIMENTO_ID",
                 parseInt(response.data.experimento_id)
               );
-              // console.log("Response: ", context.state.experimento.id);
             }
           }
         });

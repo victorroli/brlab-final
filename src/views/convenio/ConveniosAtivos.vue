@@ -15,6 +15,9 @@
         </div>
 
         <modal-convenio ref="modal"></modal-convenio>
+        <b-modal id="my-modal" centered title="Gestão de Convênios" ok-only>
+          <p class="my-2">{{mensagem}}</p>
+        </b-modal>
       </div>
       <div v-else>
         <h3>Nenhum registro encontrado!!!</h3>
@@ -26,6 +29,7 @@
 <script>
 import { api } from "@/services.js";
 import ModalConvenio from "@/components/ModalConvenio.vue";
+import { setTimeout } from "timers";
 export default {
   name: "ConveniosAtivos",
   components: {
@@ -34,6 +38,7 @@ export default {
   data() {
     return {
       convenios: [],
+      mensagem: "",
       fields: {
         id: {
           label: "ID"
@@ -61,26 +66,26 @@ export default {
   },
   methods: {
     buscaConvenios() {
-      console.log("Entrou na busca convênios...");
       this.convenios = [];
       api.get("/convenios").then(response => {
-        console.log("Resposta obtida: ", response.data);
-        response.data.map(convenio => {
+        response.data.content.map(convenio => {
           let novoConvenio = new Object({
             id: convenio.id,
             instituicao_id: convenio.instituicao_id,
             laboratorio_id: convenio.laboratorio_id,
             criacao: this.converteDate(convenio.criacao),
-            validade: this.converteDate(convenio.validade)
+            validade: this.converteDate(convenio.validade),
+            tempo: convenio.tempo,
+            dias: convenio.dias
           });
+          console.log("Convenio final: ", novoConvenio);
           this.convenios.push(novoConvenio);
         });
       });
     },
     checValores(valor, mes) {
       let valorFinal = valor;
-      console.log("Valor que chega: ", valor);
-      console.log("Adiciona: ", mes);
+
       if (!mes) {
         valorFinal += 1;
       }
@@ -90,11 +95,10 @@ export default {
           return `0${valorFinal}`;
         }
       }
-      console.log("Valor final: ", valorFinal);
       return valorFinal;
     },
     converteDate(data) {
-      console.log("Data que chega: ", data);
+      // console.log("Data que chega: ", data);
       let dataTratada = new Date(data);
       let stringFinal = `${this.checValores(
         dataTratada.getDate(),
@@ -103,14 +107,40 @@ export default {
         dataTratada.getMonth(),
         true
       )}/${dataTratada.getFullYear()}`;
-      console.log("Data que sai: ", stringFinal);
+      // console.log("Data que sai: ", stringFinal);
       return stringFinal;
     },
     editar(convenio) {
       this.$refs.modal.recebeValoresConvenio(convenio);
     },
     excluir(convenio) {
-      console.log("Convenio selecionado: ", convenio);
+      this.$bvModal
+        .msgBoxConfirm("Deseja excluir convênio?", {
+          title: "Exclusão de convênio",
+          okVariant: "info",
+          okTitle: "Sim",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(resposta => {
+          if (resposta) {
+            this.removeConvenio(convenio.id);
+            this.$bvModal.show("my-modal");
+            this.buscaConvenios()
+          }
+        })
+        .catch(err => {
+          // An error occurred
+        });
+    },
+    removeConvenio(id) {
+      api.delete(`/convenio/${id}`).then(response => {
+        if (response.data.status == 201) {
+          this.mensagem = "Convênio excluído com sucesso!";
+        } else this.mensagem = "Erro ao excluir convênio!";
+      });
     }
   }
 };

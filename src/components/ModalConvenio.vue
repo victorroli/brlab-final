@@ -9,7 +9,7 @@
     @show="showModal"
     @hidden="resetModal"
     @cancel="resetModal"
-    @ok="salvaInstituicao"
+    @ok="salvaConvenio"
   >
     <form ref="form" @submit.stop.prevent="handleSubmit">
       <label for="uri-input">Criado em:</label>
@@ -27,11 +27,23 @@
       <b-form-input id="validade-input" v-model="validade" :state="validadeState" type="date"></b-form-input>
       <b-form-invalid-feedback id="observacao-input">Campo Data de validade obrigatório</b-form-invalid-feedback>
 
-      <label for="tipo">Instituição:</label>
+      <label for="instituicao">Instituição:</label>
       <b-form-select v-model="instituicao" :options="instituicoes"></b-form-select>
 
-      <label for="tipo">Laboratório:</label>
+      <label for="laboratorio">Laboratório:</label>
       <b-form-select v-model="laboratorio" :options="laboratorios"></b-form-select>
+
+      <b-form-group label="Dias que será disponibilizado:">
+        <b-form-checkbox-group
+          id="dias-semana"
+          v-model="diasSelecionados"
+          :options="diasSemana"
+          name="diasSemana"
+        ></b-form-checkbox-group>
+      </b-form-group>
+
+      <label for="tempo">Tempo Máximo de Uso (por dia)</label>
+      <b-form-input id="tempo-input" v-model="tempo" :state="tempoState" type="time"></b-form-input>
     </form>
   </b-modal>
 </template>
@@ -45,6 +57,7 @@ export default {
   data() {
     return {
       evento: "",
+      tempoState: "",
       criacaoState: "",
       validadeState: "",
       instituicaoState: "",
@@ -57,13 +70,23 @@ export default {
       txtBotaoExcluir: "Cancelar",
       tipo: "",
       id: "",
+      tempo: "",
       options: [
         { value: 0, text: "Educação Básica" },
         { value: 1, text: "Educação Superior" },
         { value: 2, text: "Outro" }
       ],
       laboratorios: [],
-      instituicoes: []
+      instituicoes: [],
+      diasSelecionados: [],
+      diasSemana: [
+        { text: "Domingo", value: 1 },
+        { text: "Segunda", value: 2 },
+        { text: "Terça", value: 3 },
+        { text: "Quarta", value: 4 },
+        { text: "Quinta", value: 5 },
+        { text: "Sábado", value: 6 }
+      ]
     };
   },
   created() {
@@ -77,20 +100,20 @@ export default {
     resetModal() {
       this.$bvModal.hide("modal-form");
     },
-    salvaInstituicao() {
-      console.log("Criacao: ", this.criacao);
-      console.log("Validade: ", this.validade);
-      // return;
+    salvaConvenio() {
+      let tempoMinutos = this.tempoEmMinutos(this.tempo);
+
       api
         .put(`/convenio/${this.id}`, {
           criacao: this.criacao,
           validade: this.validade,
           laboratorio: this.laboratorio,
-          instituicao: this.instituicao
+          instituicao: this.instituicao,
+          tempo: tempoMinutos,
+          dias: this.diasSelecionados.filter(dia => dia)
         })
         .then(response => {
           if (response.data.status == 201) {
-            console.log("Obtido: ", response.data);
             this.preencheCampos(response.data.content, true);
           }
         });
@@ -103,11 +126,33 @@ export default {
       this.id = convenio.id;
       this.instituicao = convenio.instituicao_id;
       this.laboratorio = convenio.laboratorio_id;
-      this.criacao = this.quebraData(convenio.criacao, atualiza); //convenio.criacao.replace(/\//g, "-");
+      this.criacao = this.quebraData(convenio.criacao, atualiza);
       this.validade = this.quebraData(convenio.validade, atualiza);
+      this.tempo = this.formataTempoInput(convenio.tempo);
+      this.diasSelecionados = convenio.dias.split(",").map(response => {
+        return parseInt(response);
+      });
+    },
+    tempoEmMinutos(tempo) {
+      let valorTempo = tempo.split(":");
+      let valorFinal = parseInt(valorTempo[0]) * 60 + parseInt(valorTempo[1]);
+      return valorFinal;
+    },
+    formataTempoInput(tempo) {
+      if (tempo >= 60) {
+        let horaFormatada = parseInt(tempo);
+        let horaFinal = 0;
+        while (horaFormatada >= 60) {
+          horaFinal += 1;
+          horaFormatada -= 60;
+        }
+        horaFinal = this.checValores(horaFinal.toString());
+        let minutoFinal = this.checValores(horaFormatada);
+        return `${horaFinal}:${minutoFinal == 0 ? "00" : minutoFinal}`;
+      }
+      return `00:${tempo}`;
     },
     quebraData(data, atualiza) {
-      console.log("Data pega:", data);
       let dataFinal = "";
       if (data.includes("/")) {
         let dataRecebida = data.split("/");
@@ -126,10 +171,7 @@ export default {
           "-" +
           this.checValores(recebido.getDate());
       }
-      // if (!atualiza)
-      // return dataRecebida[2] + "-" + dataRecebida[1] + "-" + dataRecebida[0];
 
-      console.log("Final date: ", dataFinal);
       return dataFinal;
     },
     limparCampos() {
@@ -143,7 +185,6 @@ export default {
     checValores(valor, mes) {
       let valorFinal = valor;
       if (valor < 10) {
-        console.log("Valor trago: ", valor);
         if (mes) {
           valorFinal += 1;
         }
@@ -174,7 +215,6 @@ export default {
             text: instituicao.nome
           });
         });
-        // this.instituicoes = [...response.data];
       });
     }
   }
