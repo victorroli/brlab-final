@@ -136,6 +136,7 @@ export default {
       this.rua = instituicao.rua;
       let tipoInstit = instituicao.tipo;
       this.id = instituicao.id;
+      this.numero = instituicao.numero;
       switch (tipoInstit) {
         case "Ensino Fundamental": {
           this.tipo = 0;
