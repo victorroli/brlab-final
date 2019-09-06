@@ -124,12 +124,8 @@ export default {
         });
         if (this.modo == "editar") {
           this.$options.equipamentos.forEach((elemento, indice) => {
-            console.log("Equipamento: ", indice);
-            console.log("Elemento: ", equipamento.id);
-
             if (indice == equipamento.id) {
               indexSelecionado = indice;
-              console.log("Selecionado: ", indexSelecionado);
             }
           });
           if (indexSelecionado == 0 || indexSelecionado != "")
@@ -176,6 +172,10 @@ export default {
     },
     retornaEquipamentos() {
       return this.$options.equipamentos;
+    },
+    preencheEquipamentos(equipamentos) {
+      this.listaEquipamentos = equipamentos;
+      this.$options.equipamentos = equipamentos;
     }
   },
 
