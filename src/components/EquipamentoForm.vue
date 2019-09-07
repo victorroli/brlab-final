@@ -3,18 +3,22 @@
     <div class="novo-equipamento">
       <b-button @click="$bvModal.show('modal-equipamento')">Adicionar Equipamento</b-button>
     </div>
-
-    <div class="mt-3 lista-equipamentos">
-      <ul v-if="this.listaEquipamentos !== 0" class="mb-0 pl-3">
-        <li v-for="(equipamento, index) in this.$options.equipamentos" :key="index">
-          <div class="equipamento">
-            {{ equipamento.nome }}
-            <b-button class="editar" @click="editarItem(index)">Editar</b-button>
-            <b-button class="excluir" @click="removeItem(index)">Remover</b-button>
-          </div>
-        </li>
-      </ul>
-    </div>
+    <br />
+    <b-container class="lista-equipamentos">
+      <b-row class="equipamentos" v-if="this.listaEquipamentos !== 0">
+        <b-col cols="12">
+          <b-row v-for="(equipamento, index) in this.$options.equipamentos" :key="index">
+            <b-col cols="7">{{ equipamento.nome }}</b-col>
+            <b-col cols="2">
+              <b-button class="editar" @click="editarItem(index)">Editar</b-button>
+            </b-col>
+            <b-col cols="3">
+              <b-button class="excluir" @click="removeItem(index)">Remover</b-button>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
 
     <b-modal
       id="modal-equipamento"
@@ -224,11 +228,18 @@ export default {
   display: flex;
 }
 
-.lista-equipamentos ul {
+.equipamentos {
   width: 100%;
 }
 
-.equipamento {
-  /* align-items */
+.container {
+  padding-right: 0px;
+  padding-left: 0px;
+}
+
+.col-2,
+.col-3 {
+  padding-right: 0px;
+  padding-left: 0px;
 }
 </style>
