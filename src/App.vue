@@ -151,7 +151,22 @@ textarea:focus {
   margin: 1px 3px 1px 3px;
 }
 
-.btn.salvar {
+.btn.salvar:hover {
   background: #0ece3a;
+}
+
+.btn.salvar {
+  background: #18bbb2;
+}
+
+/* Estilização dos ícones */
+.svg-inline--fa {
+  margin-right: 3px;
+  width: 20px;
+}
+
+.labels {
+  margin-top: 3px;
+  padding-right: 0px;
 }
 </style>
