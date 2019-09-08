@@ -7,6 +7,33 @@ import BootstrapVue from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import "vue-datetime/dist/vue-datetime.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+import {
+  faUserPlus,
+  faUsers,
+  faEdit,
+  faTrash,
+  faPlusCircle,
+  faCheckCircle,
+  faEye,
+  faEyeSlash,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(
+  faUserPlus,
+  faUsers,
+  faEdit,
+  faTrash,
+  faPlusCircle,
+  faCheckCircle,
+  faEye,
+  faEyeSlash,
+  faTimesCircle
+);
+
+Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 // You need a specific loader for CSS files
 

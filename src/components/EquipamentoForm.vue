@@ -1,6 +1,6 @@
 <template>
   <div class="container-equipamento">
-    <div class="novo-equipamento">
+    <div class="novo-equipamento" v-if="cadastro">
       <b-button @click="$bvModal.show('modal-equipamento')">Adicionar Equipamento</b-button>
     </div>
     <br />
@@ -9,10 +9,10 @@
         <b-col cols="12">
           <b-row v-for="(equipamento, index) in this.$options.equipamentos" :key="index">
             <b-col cols="7">{{ equipamento.nome }}</b-col>
-            <b-col cols="2">
+            <b-col cols="2" v-if="cadastro">
               <b-button class="editar" @click="editarItem(index)">Editar</b-button>
             </b-col>
-            <b-col cols="3">
+            <b-col cols="3" v-if="cadastro">
               <b-button class="excluir" @click="removeItem(index)">Remover</b-button>
             </b-col>
           </b-row>
@@ -79,7 +79,8 @@ export default {
         descricao: "",
         uri: ""
       },
-      listaEquipamentos: []
+      listaEquipamentos: [],
+      cadastro: true
     };
   },
   equipamentos: [],
@@ -177,9 +178,10 @@ export default {
     retornaEquipamentos() {
       return this.$options.equipamentos;
     },
-    preencheEquipamentos(equipamentos) {
+    preencheEquipamentos(equipamentos, cadastro) {
       this.listaEquipamentos = equipamentos;
       this.$options.equipamentos = equipamentos;
+      this.cadastro = cadastro;
     }
   },
 

@@ -69,7 +69,7 @@ export default {
       });
     },
     editar(item) {
-      this.$refs.modal.recebeValoresLaboratorios(item);
+      this.$refs.modal.recebeValoresLaboratorios(item, true);
     },
     excluir(item) {
       api.delete(`/laboratorios/${instituicao.id}`).then(response => {
