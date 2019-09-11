@@ -79,12 +79,6 @@ export default {
   components: {
     EquipamentoForm
   },
-  mounted() {
-    this.$refs.equipamentoRef.preencheEquipamentos(
-      this.equipamentos,
-      this.cadastro
-    );
-  },
   data() {
     return {
       evento: "",
@@ -112,11 +106,7 @@ export default {
       cadastro: true
     };
   },
-  watch: {
-    cadastro(valor) {
-      console.log("Valor: ", valor);
-    }
-  },
+
   methods: {
     showModal() {
       this.$bvModal.show("modal-form");
@@ -141,7 +131,8 @@ export default {
           host: this.host,
           port: this.porta,
           tempo_experimento: this.tempoEmMinutos(this.tempo),
-          status_id: this.status
+          status_id: this.status,
+          equipamentos: this.equipamentos
         })
         .then(response => {
           if (response.data.status == 201) {
