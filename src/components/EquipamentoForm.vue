@@ -7,7 +7,7 @@
     <b-container class="lista-equipamentos">
       <b-row class="equipamentos" v-if="this.listaEquipamentos !== 0">
         <b-col cols="12">
-          <b-row v-for="(equipamento, index) in this.$options.equipamentos" :key="index">
+          <b-row v-for="(equipamento, index) in this.listaEquipamentos" :key="index">
             <b-col cols="7">{{ equipamento.nome }}</b-col>
             <b-col cols="2" v-if="cadastro">
               <b-button class="editar" @click="editarItem(index)">Editar</b-button>
@@ -20,68 +20,22 @@
       </b-row>
     </b-container>
 
-    <b-modal
-      id="modal-equipamento"
-      ref="modal"
-      title="Novo Equipamento"
-      ok-title="Salvar"
-      cancel-title="Cancelar"
-      @show="showModal"
-      @hidden="resetModal"
-      @ok="handleOk"
-    >
-      <form ref="form" @submit.stop.prevent="handleSubmit">
-        <label for="uri-input">Nome:</label>
-        <b-form-input
-          id="name-input"
-          v-model="name"
-          :state="nameState"
-          required
-          aria-describedby="name-input"
-        ></b-form-input>
-        <b-form-invalid-feedback id="name-input">Campo Nome obrigatório</b-form-invalid-feedback>
-
-        <label for="uri-input">URI:</label>
-        <b-form-input
-          invalid-feedback="O URI é obrigatório"
-          id="uri-input"
-          v-model="uri"
-          :state="uriState"
-          required
-        ></b-form-input>
-        <b-form-invalid-feedback id="uri-input">Campo URI obrigatório</b-form-invalid-feedback>
-
-        <label for="uri-input">Descrição:</label>
-        <b-form-textarea
-          id="descricao-input"
-          v-model="descricao"
-          placeholder="Descreva um pouco sobre o equipamento..."
-          rows="3"
-          max-rows="6"
-          required
-        ></b-form-textarea>
-        <b-form-invalid-feedback id="descricao-input">Campo descrição obrigatório</b-form-invalid-feedback>
-      </form>
-    </b-modal>
+    <modal-equipamento ref="modalEquipamento"></modal-equipamento>
   </div>
 </template>
 
 <script>
+import ModalEquipamento from "@/components/ModalEquipamento.vue";
 export default {
   data() {
     return {
-      nameState: null,
-      descricaoState: null,
-      uriState: null,
-      modo: "",
-      equipamento: {
-        nome: "",
-        descricao: "",
-        uri: ""
-      },
       listaEquipamentos: [],
-      cadastro: true
+      cadastro: true,
+      exclusao: false
     };
+  },
+  components: {
+    ModalEquipamento
   },
   equipamentos: [],
   nome: "",
@@ -89,124 +43,96 @@ export default {
   uri: "",
   id: "",
   methods: {
-    checkFormValidity() {
-      const valid = this.$refs.form.checkValidity();
-      this.nameState = valid ? "valid" : "invalid";
-      this.descricaoState = valid ? "valid" : "invalid";
-      this.uriState = valid ? "valid" : "invalid";
-      return valid;
-    },
-    showModal() {
-      this.equipamento.name = "";
-      this.equipamento.descricao = "";
-      this.equipamento.uri = "";
-      this.uriState = null;
-      this.nameState = null;
-      this.descricaoState = null;
-    },
-    resetModal() {
-      this.uriState = null;
-      this.nameState = null;
-      this.descricaoState = null;
-    },
-    handleOk(bvModalEvt) {
-      // Prevent modal from closing
-      bvModalEvt.preventDefault();
-      // Trigger submit handler
-      this.handleSubmit();
-    },
-    handleSubmit() {
-      if (!this.checkFormValidity()) {
-        return;
-      }
-      let indexSelecionado = "";
-      if (this.$options.nome && this.$options.nome != undefined) {
-        let equipamento = Object({
-          nome: this.$options.nome,
-          descricao: this.$options.descricao,
-          uri: this.$options.uri,
-          id: this.$options.id
+    modalExclusao(index) {
+      console.log("Indice: ", index);
+      let retorno = false;
+      this.$bvModal
+        .msgBoxConfirm(
+          "Deseja realmente remover o equipamento " +
+            this.listaEquipamentos[index].nome +
+            "?",
+          {
+            title: "Exclusão de Equipamento",
+            okVariant: "danger",
+            okTitle: "Sim",
+            cancelTitle: "Cancelar",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true
+          }
+        )
+        .then(value => {
+          if (value) {
+            // if (!index) {
+            //   index += 1;
+            // }
+            console.log("Equipamentos 1: ", this.listaEquipamentos);
+            this.listaEquipamentos.splice(index, 1);
+            console.log("Equipamentos 2: ", this.listaEquipamentos);
+          }
+        })
+        .catch(err => {
+          console.log(err);
         });
-        if (this.modo == "editar") {
-          this.$options.equipamentos.forEach((elemento, indice) => {
-            if (indice == equipamento.id) {
-              indexSelecionado = indice;
-            }
-          });
-          if (indexSelecionado == 0 || indexSelecionado != "")
-            this.$options.equipamentos[indexSelecionado] = equipamento;
-          this.$nextTick(() => {
-            this.$refs.modal.hide();
-          });
-          return;
-        }
-
-        console.log("Índice selecionado: ", indexSelecionado);
-
-        this.$options.equipamentos.push(equipamento);
-      }
-
-      // Hide the modal manually
-      this.$nextTick(() => {
-        this.$refs.modal.hide();
-      });
+      console.log("Retorno na função: ", retorno);
+      return retorno;
     },
     removeItem(index) {
-      let confirmaExclusao = confirm(
-        `Remover equipamento ${this.$options.equipamentos[index].nome}?`
-      );
-      if (confirmaExclusao) {
-        this.$options.equipamentos.splice(index, 1);
-        this.listaEquipamentos = this.$options.equipamentos;
-      }
+      this.modalExclusao(index);
+      // if (this.modalExclusao(index)) {
+      //   console.log("Entrou na exclusão");
+      //   this.listaEquipamentos.splice(index, 1);
+      //   this.listaEquipamentos = novaLista;
+      // }
     },
     editarItem(index) {
-      this.$bvModal.show("modal-equipamento");
-      this.modo = "editar";
-      setTimeout(() => {
-        let equipamento = this.$options.equipamentos[index];
-        document.getElementById("name-input").value = equipamento.nome;
-        document.getElementById("uri-input").value = equipamento.uri;
-        document.getElementById("descricao-input").value =
-          equipamento.descricao;
-        this.$options.nome = equipamento.nome;
-        this.$options.uri = equipamento.uri;
-        this.$options.descricao = equipamento.descricao;
-        this.$options.id = index;
-      }, 80);
+      console.log("Selecionado: ", this.listaEquipamentos[index]);
+      this.$refs.modalEquipamento.recebeValores(
+        this.listaEquipamentos[index],
+        "editar"
+      );
     },
     retornaEquipamentos() {
-      return this.$options.equipamentos;
+      return this.listaEquipamentos;
     },
     preencheEquipamentos(equipamentos, cadastro) {
+      console.log("Equipamentos: ", equipamentos);
       this.listaEquipamentos = equipamentos;
-      this.$options.equipamentos = equipamentos;
       this.cadastro = cadastro;
+    },
+    equipamentoEditado(equipamento) {
+      let aEquipamentos = this.listaEquipamentos;
+      aEquipamentos.map((equip, indice) => {
+        if (equip.id == equipamento.id) {
+          aEquipamentos[indice] = equipamento;
+        }
+      });
+      this.listaEquipamentos = aEquipamentos;
     }
   },
 
-  computed: {
-    descricao: {
-      set(valor) {
-        if (valor) this.$options.descricao = valor;
-      },
-      get() {
-        return this.$options.descricao;
-      }
-    },
-    uri: {
-      set(valor) {
-        if (valor) this.$options.uri = valor;
-      },
-      get() {}
-    },
-    name: {
-      set(valor) {
-        if (valor) this.$options.nome = valor;
-      },
-      get() {}
-    }
-  },
+  // computed: {
+  //   descricao: {
+  //     set(valor) {
+  //       if (valor) this.$options.descricao = valor;
+  //     },
+  //     get() {
+  //       return this.$options.descricao;
+  //     }
+  //   },
+  //   uri: {
+  //     set(valor) {
+  //       if (valor) this.$options.uri = valor;
+  //     },
+  //     get() {}
+  //   },
+  //   name: {
+  //     set(valor) {
+  //       if (valor) this.$options.nome = valor;
+  //     },
+  //     get() {}
+  //   }
+  // },
   created() {
     (this.$options.equipamentos = []),
       (this.nome = ""),
