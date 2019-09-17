@@ -98,7 +98,9 @@ export default {
           dias: this.diasSelecionados
         })
         .then(response => {
-          console.log("Resposta obitda: ", response.data);
+          if(response.data.status == 201){
+            this.$router.push({ path: "/convenios_ativos" });
+          }
         });
     }
   }
