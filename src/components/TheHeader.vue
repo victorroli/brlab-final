@@ -20,12 +20,8 @@
             </b-nav-item-dropdown>-->
             <!-- {{this.$store.state.usuario}} -->
             <b-nav-item-dropdown text="Laboratórios" left>
-              <router-link
-                v-if="this.$store.state.papel_id != 1"
-                class="menu"
-                tag="b-dropdown-item"
-                to="/laboratorios"
-              >Disponíveis</router-link>
+              <!-- v-if="this.$store.state.papel_id = 1" -->
+              <router-link class="menu" tag="b-dropdown-item" to="/laboratorios">Disponíveis</router-link>
               <router-link
                 v-if="this.$store.state.papel_id = 1"
                 class="menu"
@@ -217,6 +213,10 @@ nav .btn {
 a {
   color: #fff;
 }
+a .dropdown-item {
+  background: green;
+}
+
 .ml-auto a {
   color: #000;
 }
