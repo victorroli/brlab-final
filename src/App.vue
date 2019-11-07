@@ -169,4 +169,11 @@ textarea:focus {
   margin-top: 3px;
   padding-right: 0px;
 }
+.dropdown-menu.show {
+  background: #17a2b8;
+}
+
+.dropdown-item a {
+  color: white;
+}
 </style>

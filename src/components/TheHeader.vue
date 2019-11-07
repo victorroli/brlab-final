@@ -13,14 +13,8 @@
             <b-nav-item v-show="usuario_logado">
               <router-link class="menu" to="/experimentos">Meus Experimentos</router-link>
             </b-nav-item>
-            <!-- <b-nav-item-dropdown v-show="usuario_logado" text="Reservas"> -->
-            <!-- <b-nav-item-dropdown text="Convênios" left> -->
-            <!-- <router-link class="menu" tag="b-dropdown-item" :to="{name: reservas}">Realizadas</router-link>
-              <router-link class="menu" tag="b-dropdown-item" :to="{reservas}">Agendadas</router-link>
-            </b-nav-item-dropdown>-->
-            <!-- {{this.$store.state.usuario}} -->
-            <b-nav-item-dropdown text="Laboratórios" left>
-              <!-- v-if="this.$store.state.papel_id = 1" -->
+
+            <b-nav-item-dropdown text="Laboratórios" left v-if="usuario_logado">
               <router-link class="menu" tag="b-dropdown-item" to="/laboratorios">Disponíveis</router-link>
               <router-link
                 v-if="this.$store.state.papel_id = 1"
@@ -37,17 +31,29 @@
               <router-link class="menu" tag="b-dropdown-item" :to="{name: 'novo-laboratorio'}">Novo</router-link>
             </b-nav-item-dropdown>
 
-            <b-nav-item-dropdown text="Convênios" left>
+            <b-nav-item-dropdown
+              text="Convênios"
+              left
+              v-if="this.$store.state.papel_id = 1 && usuario_logado"
+            >
               <router-link tag="b-dropdown-item" :to="{name:'convenios_ativos'}">Ativos</router-link>
               <router-link tag="b-dropdown-item" :to="{name:'novo_convenio'}">Novo</router-link>
             </b-nav-item-dropdown>
 
-            <b-nav-item-dropdown text="Instituições" left>
+            <b-nav-item-dropdown
+              text="Instituições"
+              v-if="this.$store.state.papel_id = 1 && usuario_logado"
+              left
+            >
               <router-link tag="b-dropdown-item" :to="{name:'instituicoes_conveniadas'}">Cadastradas</router-link>
               <router-link tag="b-dropdown-item" :to="{name:'nova_instituicao'}">Nova</router-link>
             </b-nav-item-dropdown>
 
-            <b-nav-item-dropdown text="Usuários" class="menu">
+            <b-nav-item-dropdown
+              text="Usuários"
+              class="menu"
+              v-if="this.$store.state.papel_id = 1 && usuario_logado"
+            >
               <router-link tag="b-dropdown-item" class="menu" to="/usuarios">Todos</router-link>
               <router-link
                 tag="b-dropdown-item"
@@ -84,8 +90,6 @@
 </template>
 
 <script>
-// import { mapState } from "vuex";
-import { api } from "@/services.js";
 export default {
   name: "TheHeader",
   data() {
@@ -114,8 +118,8 @@ export default {
         .then(value => {
           this.respostaLogout = value;
         })
-        .catch(err => {
-          // An error occurred
+        .catch(erro => {
+          return;
         });
     }
   },
@@ -130,8 +134,7 @@ export default {
   computed: {
     usuario_logado() {
       if (this.$store.state.login) {
-        console.log("Usuario pego: ", this.$store.state.usuario);
-        this.papel = this.papel = this.$store.state.usuario.descricao_papel;
+        this.papel = this.$store.state.usuario.descricao_papel;
         return true;
       }
       return false;
