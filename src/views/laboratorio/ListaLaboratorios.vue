@@ -13,10 +13,6 @@
               @keyup="buscarLaboratorio"
             />
             <input type="submit" id="lupa" value="Buscar" @click.prevent="buscarLaboratorio" />
-
-            <div v-show="papel">
-              <router-link tag="b-button" :to="{name: 'novo-laboratorio'}">Novo +</router-link>
-            </div>
           </form>
         </div>
         <div class="laboratorios" v-if="labsaux && labsaux.length" key="laboratorios">
