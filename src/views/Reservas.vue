@@ -139,7 +139,7 @@ export default {
       hora = this.checValores(dataConvertida.getHours());
       minutos = this.checValores(dataConvertida.getMinutes());
 
-      return `${hora}:${minutos} ${dia}-${mes}-${ano}`;
+      return `${hora}:${minutos} ${dia}/${mes}/${ano}`;
     },
     checValores(valor, mes) {
       let valorFinal = valor;
