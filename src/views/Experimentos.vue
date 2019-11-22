@@ -2,7 +2,7 @@
   <section>
     <h1>Experimentos</h1>
     <div id="experimentos" v-if="experimentos.length > 0">
-      <b-table striped hover :items="experimentos"></b-table>
+      <b-table striped hover :items="experimentos" :fields="fields"></b-table>
     </div>
     <div class="sem-registro" v-if="experimentos.length == 0">
       <h5>Nenhum registro encontrado!</h5>
@@ -16,7 +16,14 @@ export default {
   name: "experimentos",
   data() {
     return {
-      experimentos: []
+      experimentos: [],
+      fields: [
+        { key: "laboratorio", label: "Laboratório" },
+        { key: "titulo", label: "Título" },
+        { key: "horario_inicio", label: "Horário Início" },
+        { key: "horario_termino", label: "Horário Término" },
+        { key: "observacao", label: "Observação" }
+      ]
     };
   },
   created() {
@@ -27,7 +34,7 @@ export default {
       let valorFinal = valor;
       if (valor < 10) {
         if (mes) valorFinal = valor + 1;
-        return `0${valorFinal}`;
+        if (valorFinal < 10) valorFinal = `0${valorFinal}`;
       }
       return valorFinal;
     },
@@ -36,7 +43,7 @@ export default {
         A data obtida do banco não vem com o valor GMT, então
         deve-se acrescentar na string esse valor.
         Como neste ano de 2019 não haverá horário de verão
-        então permaneceu padrão o valor "-0300 que corresponde ao horário de Brasília"         
+        então permaneceu padrão o valor "'-0300' que corresponde ao horário de Brasília"         
       */
       data += "-0300";
 
@@ -52,16 +59,12 @@ export default {
       hora = this.checValores(dataConvertida.getHours());
       minutos = this.checValores(dataConvertida.getMinutes());
 
-      // console.log(`${ano}-${mes}-${dia} ${hora}:${minutos}`);
-      return `${ano}-${mes}-${dia} ${hora}:${minutos}`;
+      return `${hora}:${minutos} ${dia}/${mes}/${ano}`;
     },
     listaExperimentos() {
-      console.log("Lista de experimentos...");
       api
         .get(`/experimentos/usuario/${this.$store.state.usuario.id}`, {})
         .then(response => {
-          console.log("Resposta obtida: ", response.data);
-          // let horarioInicio = this.converteDate(reserva.periodo_inicio);
           let experimentosRealizados = [];
           response.data.forEach(resposta => {
             let oExperimento = new Object({
@@ -76,7 +79,6 @@ export default {
             // let horarioAtual = new Date();
             // console.log("Horário início: ", horarioInicio);
             // console.log("Horário atual: ", horarioAtual);
-            console.log("Experimento: ", oExperimento);
             experimentosRealizados.push(oExperimento);
           });
 
