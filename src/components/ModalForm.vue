@@ -184,14 +184,23 @@ export default {
               usuario_id: this.$store.state.usuario.id
             })
             .then(response => {
-              if (response.data == 201) {
+              if (response.data.status == 201) {
                 this.retornaDados();
-                alert("Agendamento realizado com sucesso!");
+                this.$bvModal.msgBoxOk("Agendamento realizado com sucesso!", {
+                  footerClass: "p-2",
+                  buttonSize: "md",
+                  centered: true
+                });
               }
-              if (response.data == 200) {
-                alert("Erro ao agendar. Verifique os horários");
+              if (response.data.status == 200) {
+                this.$bvModal.msgBoxOk("Erro ao agendar horário!", {
+                  footerClass: "p-2",
+                  buttonSize: "md",
+                  centered: true
+                });
               }
             });
+          // this.$parent.buscaEventos();
           break;
         }
         case "edicao": {

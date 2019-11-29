@@ -109,7 +109,11 @@ export default {
           "inclusao"
         );
       } else {
-        alert("Horário inválido");
+        this.$bvModal.msgBoxOk("Horário Inválido!", {
+          footerClass: "p-2",
+          buttonSize: "md",
+          centered: true
+        });
       }
     },
 
