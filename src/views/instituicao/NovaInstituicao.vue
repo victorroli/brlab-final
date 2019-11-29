@@ -1,27 +1,38 @@
 <template>
   <section class="instituicao">
-    <br />
     <h1>Nova Instituição</h1>
-    <br />
+
     <form>
       <label for="nome">Nome da Instituição:</label>
       <b-form-input id="nome" type="text" name="nome" v-model="nome" />
 
-      <label for="telefone">Telefone:</label>
-      <b-form-input id="telefone" type="text" name="telefone" v-model="telefone" />
-
-      <label for="cnpj">CNPJ:</label>
-      <b-form-input id="cnpj" type="text" name="cnpj" v-model="cnpj" />
+      <label for="tipo">Tipo:</label>
+      <b-form-select v-model="tipo" :options="options"></b-form-select>
 
       <div class="dados-menores">
-        <label for="cep">CEP:</label>
-        <b-form-input id="cep" type="text" name="cep" v-model="cep" />
-
-        <label for="numero">Número:</label>
-        <b-form-input id="numero" type="text" name="numero" v-model="numero" />
+        <div>
+          <label for="telefone">Telefone:</label>
+          <b-form-input id="telefone" type="text" name="telefone" v-model="telefone" />
+        </div>
+        <div>
+          <label for="cnpj">CNPJ:</label>
+          <b-form-input id="cnpj" type="text" name="cnpj" v-model="cnpj" />
+        </div>
       </div>
+
       <label for="rua">Rua:</label>
       <b-form-input id="rua" type="text" name="rua" v-model="rua" />
+
+      <div class="dados-menores">
+        <div>
+          <label for="cep">CEP:</label>
+          <b-form-input id="cep" type="text" name="cep" v-model="cep" />
+        </div>
+        <div>
+          <label for="numero">Número:</label>
+          <b-form-input id="numero" type="text" name="numero" v-model="numero" />
+        </div>
+      </div>
 
       <label for="complemento">Complemento:</label>
       <b-form-input id="complemento" type="text" name="complemento" v-model="complemento" />
@@ -31,9 +42,6 @@
 
       <label for="cidade">Cidade:</label>
       <b-form-input id="cidade" type="text" name="cidade" v-model="cidade" />
-
-      <label for="tipo">Tipo:</label>
-      <b-form-select v-model="tipo" :options="options"></b-form-select>
     </form>
     <div class="group-button">
       <b-button id="salvar" class="salvar" @click="salvaInstituicao()">Salvar</b-button>
@@ -103,5 +111,9 @@ export default {
 .dados-menores {
   margin-top: 10px;
   display: inline-flex;
+}
+
+.dados-menores div:first-child {
+  margin-right: 20px;
 }
 </style>
