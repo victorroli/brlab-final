@@ -9,10 +9,11 @@
       :selected-date="selectedDate"
       :time-from="12 * 60"
       :time-to="23 * 60"
-      :disable-views="['years', 'year', 'day', 'month']"
+      :disable-views="['years', 'year', 'month', 'day']"
       :cell-click-hold="false"
       :events="events"
       :on-event-create="onEventCreate"
+      :on-event-click="verEvento"
       :time-step="laboratorio.tempo"
       @cell-dblclick="efetuarReserva($event)"
       @event-focus="(focusEvento ? verEvento('event-focus', $event): '')"
@@ -38,6 +39,17 @@ export default {
   },
   data() {
     return {
+      events: [],
+      eventos: [
+        {
+          start: "2019-11-29 21:30",
+          end: "2019-11-29 21:40",
+          title: "Doctor appointment",
+          content: '<i class="v-icon material-icons">local_hospital</i>',
+          class: "health",
+          split: 1
+        }
+      ],
       events: [],
       focusEvento: true
     };
@@ -70,25 +82,12 @@ export default {
           : dataAtual.getDate()
       } ${hora}:${minuto}`;
     }
-    // laboratorio() {
-    //   // console.log("Valor antigo: ", antigo);
-    //   console.log("Valor laboratório: ", this.laboratorio);
-    // }
-  },
-
-  watch: {
-    events(valor) {
-      console.log("Valor pego aqui: ", valor);
-    },
-    laboratorio(valor) {
-      console.log("Novo Laboratório: ", valor);
-    }
   },
 
   created() {
     if (this.laboratorio.id) {
       this.$options.reserva.laboratorio_id = parseInt(this.laboratorio.id);
-      console.log("Laboratório id: ", this.$options.reserva.laboratorio_id);
+      // console.log("Laboratório id: ", this.$options.reserva.laboratorio_id);
     }
     if (this.laboratorio) this.buscaEventos();
   },
@@ -100,13 +99,10 @@ export default {
         this.$options.reserva.hora = evento.getHours();
         (this.$options.reserva.minutos = evento.getMinutes()),
           (this.$options.reserva.dia = evento.getDate()),
-          (this.$options.reserva.mes = evento.getMonth()),
+          (this.$options.reserva.mes = evento.getMonth() + 1),
           (this.$options.reserva.ano = evento.getFullYear());
         this.$options.reserva.tempo = this.$store.state.laboratorio.tempo;
-        // this.$options.reserva.laboratorio_id = this.$store.state.laboratorio.id;
 
-        // console.log("Laboratorio id: ", this.$store.state.laboratorio.id);
-        // console.log("Valor da reserva: ", this.$options.reserva);
         this.$refs.modalForm.recebeValoresReserva(
           this.$options.reserva,
           evento,
@@ -124,7 +120,6 @@ export default {
       //   this.checValores(horario.getMonth()) +
       //   "-" +
       //   this.checValores(horario.getDate());
-      // console.log("Data no momento: ", dataSelecionada);
       let dataAtual = new Date(this.selectedDate);
       let horaAtual = dataAtual.getHours();
       let minutoAtual = dataAtual.getMinutes();
@@ -145,14 +140,14 @@ export default {
       let valorFinal = valor;
       if (valor < 10) {
         if (mes) valorFinal = valor + 1;
-        return `0${valorFinal}`;
+        if (valorFinal < 10) valorFinal = `0${valorFinal}`;
       }
       return valorFinal;
     },
 
     verEvento(acao, evento) {
       evento.laboratorio_id = this.$options.reserva.laboratorio_id;
-      if (evento.usuario == this.$store.state.usuario.id) {
+      if (evento.usuario == this.$store.state.usuario.nome) {
         this.$refs.modalForm.recebeValoresReserva(null, evento, "edicao");
         this.focusEvento = false;
       }
@@ -200,39 +195,32 @@ export default {
         hora = "",
         minutos = "";
       ano = dataConvertida.getFullYear();
-      mes = this.checValores(dataConvertida.getMonth(), true);
+      mes = this.checValores(dataConvertida.getMonth() + 1, true);
       dia = this.checValores(dataConvertida.getDate());
       hora = this.checValores(dataConvertida.getHours());
       minutos = this.checValores(dataConvertida.getMinutes());
 
-      // console.log(`${ano}-${mes}-${dia} ${hora}:${minutos}`);
       return `${ano}-${mes}-${dia} ${hora}:${minutos}`;
     },
     buscaEventos() {
-      // console.log("Laboratório: ", this.$options.reserva.laboratorio_id);
       setTimeout(() => {
         api
           .get(`/agendamento/laboratorio/${this.laboratorio.id}`, {})
           .then(response => {
-            // console.log("Resposta do get Agendamento");
-            // console.log(response.data);
             let aEventos = [];
             response.data.forEach(reserva => {
-              // console.log("Início: ", reserva.periodo_inicio);
               let oReserva = new Object({
                 start: this.converteDate(reserva.periodo_inicio),
                 end: this.converteDate(reserva.periodo_fim),
                 title: "Horário reservado",
                 content: reserva.observacao,
                 class: "reserva",
-                usuario: reserva.usuario_id,
+                usuario: reserva.usuario,
                 id: reserva.id
               });
               aEventos.push(oReserva);
             });
-            console.log("Eventos pegos: ", aEventos);
             this.events = [...aEventos];
-            // console.log("Eventos passados: ", this.events);
           });
       }, 200);
     }
@@ -241,10 +229,6 @@ export default {
 </script>
 
 <style scoped>
-/* .modal-dialog {
-  width: 900px;
-} */
-
 .calendario-modal {
   /* padding: 10px auto 10px auto; */
   /* display: flex; */
