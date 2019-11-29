@@ -140,16 +140,35 @@ export default {
     },
     excluiReserva() {
       if (this.acao == "edicao") {
-        let resposta = confirm("Deseja remover agendamento?");
-        if (resposta) {
-          api
-            .delete(`/agendamento/${this.$options.agendamento.id}`)
-            .then(response => {
-              if (response.status == 200) {
-                alert("Agendamento excluído com sucesso!");
-              }
-            });
-        }
+        this.confirm = "";
+        this.$bvModal
+          .msgBoxConfirm("Deseja remover o agendamento ?", {
+            title: "",
+            buttonSize: "md",
+            okVariant: "danger",
+            okTitle: "Remover",
+            cancelTitle: "Cancelar",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true
+          })
+          .then(value => {
+            api
+              .delete(`/agendamento/${this.$options.agendamento.id}`)
+              .then(response => {
+                if (response.status == 200) {
+                  this.$parent.buscaEventos();
+                  this.$bvModal.msgBoxOk("Agendamento excluído com sucesso!", {
+                    footerClass: "p-2",
+                    buttonSize: "md",
+                    centered: true
+                  });
+                }
+              });
+          })
+          .catch(err => {
+            console.log("Erro: ", err);
+          });
       }
     },
     salvaReserva() {
@@ -216,7 +235,6 @@ export default {
       });
     },
     preencheCampos(reserva) {
-      console.log("Como tá chegando? ", reserva);
       this.limparCampos();
       this.solicitante = this.$store.state.usuario.nome;
       this.horarioInicio = reserva.inicio;
