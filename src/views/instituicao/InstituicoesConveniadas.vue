@@ -4,12 +4,18 @@
     <div id="instituicoes" v-if="instituicoes.length > 0">
       <b-table striped hover :items="instituicoes" :fields="fields" class="text-center">
         <template slot="opcoes" slot-scope="row">
-          <b-button class="editar" @click="editar(row.item)">Editar</b-button>
-          <b-button class="excluir" @click="excluirInstituicao(row.item)">Excluir</b-button>
+          <b-button class="editar" @click="editar(row.item)">
+            <font-awesome-icon icon="edit" />Editar
+          </b-button>
+          <b-button class="excluir" @click="excluirInstituicao(row.item)">
+            <font-awesome-icon icon="trash" />Excluir
+          </b-button>
         </template>
       </b-table>
       <div class="group-button">
-        <router-link tag="b-button" :to="{name:'nova_instituicao'}">Nova Instituição</router-link>
+        <router-link tag="b-button" :to="{name:'nova_instituicao'}">
+          <font-awesome-icon icon="plus-circle" />Nova Instituição
+        </router-link>
       </div>
 
       <modal-instituicao ref="modal"></modal-instituicao>
@@ -130,7 +136,7 @@ export default {
           if (value) this.excluir(instituicao);
         })
         .catch(err => {
-          console.log("Erro: ", err);
+          this.$bvModal.msgBoxOk("Erro " + err);
         });
     },
     confirmExclusao(nome) {
@@ -138,7 +144,7 @@ export default {
         .msgBoxOk("Instituição " + nome + " excluída com sucesso!")
         .then(value => {})
         .catch(err => {
-          // An error occurred
+          this.$bvModal.msgBoxOk("Erro " + err);
         });
     }
   }
