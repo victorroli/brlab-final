@@ -125,17 +125,12 @@ export default {
       this.showModal();
     },
     preencheCampos(usuario) {
-      console.log("User: ", usuario);
       this.nome = usuario.nome;
       this.email = usuario.email;
       this.nickname = usuario.nickname;
 
       this.papeis.map(item => {
-        console.log("Papeis: ", this.papeis);
-        console.log(usuario.funcao.toLowerCase());
-        console.log("Item texto: ", item.text);
         if (item.text == usuario.funcao.toLowerCase()) {
-          // this.papel_id = usuario.value;
           this.papel_id = item.value;
         }
       });

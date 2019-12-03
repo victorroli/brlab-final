@@ -35,8 +35,8 @@ export default new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      name: "login",
+      component: Login
     },
     {
       path: "/laboratorios",
@@ -107,7 +107,7 @@ export default new Router({
       component: DivisaoHorarios
     },
     {
-      path: "",
+      path: "/convenios_ativos",
       name: "convenios",
       component: Convenios,
       children: [
@@ -155,14 +155,20 @@ export default new Router({
         },
         {
           path: "/solicitacoes",
-          name: "solicitacoes_usuarios",
+          name: "solicitacoes-usuarios",
           component: SolicitacoesUsuarios,
           props: true
         },
         {
           path: "/editar",
-          name: "editar_perfil",
+          name: "editar-perfil",
           component: EditarPerfil,
+          props: true
+        },
+        {
+          path: "/novo",
+          name: "novo-usuario",
+          component: RegisterUser,
           props: true
         }
       ]
@@ -178,16 +184,6 @@ export default new Router({
       //     component:
       //   }
       // ]
-    },
-    {
-      path: "/login",
-      name: "login",
-      component: Login
-    },
-    {
-      path: "/register",
-      name: "register-user",
-      component: RegisterUser
     }
   ],
   scrollBehavior() {

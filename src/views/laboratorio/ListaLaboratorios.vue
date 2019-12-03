@@ -116,9 +116,8 @@ export default {
 
 .laboratorios {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; /*repeat(3, 1frm);*/
+  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 60px;
-  /* margin: 10px; */
 }
 
 .laboratorio {

@@ -5,8 +5,12 @@
       <div id="usuarios" v-if="pendentes.length > 0">
         <b-table striped hover :items="pendentes" :fields="fields" class="text-center">
           <template slot="opcoes" slot-scope="row">
-            <b-button class="editar" @click="aceitar(row.item.id)">Aceitar</b-button>
-            <b-button class="excluir" @click="rejeitar(row.item.id)">Rejeitar</b-button>
+            <b-button class="editar" @click="aceitar(row.item.id)">
+              <font-awesome-icon icon="check-circle" />Aceitar
+            </b-button>
+            <b-button class="excluir" @click="rejeitar(row.item.id)">
+              <font-awesome-icon icon="trash" />Rejeitar
+            </b-button>
           </template>
         </b-table>
       </div>
@@ -56,6 +60,18 @@ export default {
           verificado: "true"
         })
         .then(response => {
+          console.log("Resp: ", response);
+          if (response.data.status == 201) {
+            this.$bvModal
+              .msgBoxConfirm("Integrar usuário " + usuario + " ao sistema?")
+              .then(value => {
+                if (value) {
+                  this.$bvModal.msgBoxOk(
+                    "Solicitação do usuário " + usuario + " aceita!"
+                  );
+                }
+              });
+          }
           console.log("Resposta obtida: ", response);
         });
       this.solicitacoesPendentes();
@@ -63,7 +79,15 @@ export default {
     rejeitar(item) {
       api.delete(`usuario/${item}`).then(response => {
         let usuario = response.data.content;
-        alert("Usuário " + usuario + " deletado com sucesso!!!");
+        this.$bvModal
+          .msgBoxConfirm("Rejeitar solicitação do usuário " + usuario + "?")
+          .then(value => {
+            if (value) {
+              this.$bvModal.msgBoxOk(
+                "Solicitação do usuário " + usuario + " rejeitada!"
+              );
+            }
+          });
       });
       this.solicitacoesPendentes();
     },

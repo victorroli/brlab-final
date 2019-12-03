@@ -79,14 +79,8 @@ export default {
     },
     removeItem(index) {
       this.modalExclusao(index);
-      // if (this.modalExclusao(index)) {
-      //   console.log("Entrou na exclusão");
-      //   this.listaEquipamentos.splice(index, 1);
-      //   this.listaEquipamentos = novaLista;
-      // }
     },
     editarItem(index) {
-      console.log("Selecionado: ", this.listaEquipamentos[index]);
       this.$refs.modalEquipamento.recebeValores(
         this.listaEquipamentos[index],
         "editar"
@@ -96,7 +90,6 @@ export default {
       return this.listaEquipamentos;
     },
     preencheEquipamentos(equipamentos, cadastro) {
-      console.log("Equipamentos: ", equipamentos);
       this.listaEquipamentos = equipamentos;
       this.cadastro = cadastro;
     },
@@ -111,28 +104,13 @@ export default {
     }
   },
 
-  // computed: {
-  //   descricao: {
-  //     set(valor) {
-  //       if (valor) this.$options.descricao = valor;
-  //     },
-  //     get() {
-  //       return this.$options.descricao;
-  //     }
-  //   },
-  //   uri: {
-  //     set(valor) {
-  //       if (valor) this.$options.uri = valor;
-  //     },
-  //     get() {}
-  //   },
-  //   name: {
-  //     set(valor) {
-  //       if (valor) this.$options.nome = valor;
-  //     },
-  //     get() {}
-  //   }
-  // },
+  watch: {
+    listaEquipamentos(equipamentos) {
+      console.log("Equips: ", equipamentos);
+      console.log("Pai:", this.$parent._data);
+      this.$parent._data.equipamentos = equipamentos;
+    }
+  },
   created() {
     (this.$options.equipamentos = []),
       (this.nome = ""),

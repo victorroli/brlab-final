@@ -42,8 +42,8 @@ ul {
 }
 
 h1 {
-  margin-top: 20px;
-  margin-bottom: 20px;
+  padding: 20px 0px;
+  /* Nova cor inserida para o título*/
 }
 
 body {
@@ -169,11 +169,63 @@ textarea:focus {
   margin-top: 3px;
   padding-right: 0px;
 }
-.dropdown-menu.show {
-  background: #17a2b8;
+
+span,
+a.dropdown-item {
+  color: #f1f1f2;
 }
 
-.dropdown-item a {
-  color: white;
+span:hover {
+  color: #260078;
+}
+
+.dropdown-menu.show {
+  background: #73d5d5;
+}
+
+/* Estilização do calendário  */
+
+.calendario-modal span {
+  color: #260078;
+}
+
+.calendario-modal.disabled {
+  background: red;
+}
+
+.vuecal__no-event {
+  /* background: gray; */
+}
+
+.vuecal__weekdays-headings {
+  /* background: #260078; */
+}
+
+.vuecal__cell.disabled {
+  background: #f1f1f2;
+}
+.vuecal__cell.selected {
+  background: red;
+}
+.vuecal__cell.disabled {
+  pointer-events: none;
+}
+.weekday-label,
+.vuecal__weekdays-headings {
+  background: #79b0a6;
+}
+.vuecal__flex.vuecal__menu,
+.vuecal__time-cell {
+  background: #b3e8de;
+}
+.vuecal__cell.today {
+  background: red;
+}
+.vuecal__cell {
+  background: #fff;
+  cursor: pointer;
+}
+.vuecal__now-line {
+  border: 2px solid blue;
 }
 </style>

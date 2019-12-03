@@ -49,11 +49,13 @@ export default {
   methods: {
     incluirLab() {
       let listaEquipamentos = this.$refs.equipamentoRef.retornaEquipamentos();
+
       listaEquipamentos.forEach((elemento, index) => {
         let equipamento = Object({
           nome: elemento.nome,
           descricao: elemento.descricao,
-          uri: elemento.uri
+          uri: elemento.uri,
+          id: elemento.id
         });
         this.laboratorio.equipamentos.push(equipamento);
       });
@@ -84,7 +86,7 @@ export default {
           equipamentos: this.laboratorio.equipamentos
         })
         .then(response => {
-          console.log("Resposta obtida: ", response.data);
+          // console.log("Resposta obtida: ", response.data);
         });
       this.laboratorio.equipamentos = [];
     }

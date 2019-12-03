@@ -1,49 +1,73 @@
 <template>
   <form>
     <slot name="titulo"></slot>
-    <div class="usuario" v-if="mostraDadosLogin">
-      <label for="nome">Nome:</label>
-      <!-- <input id="nome" type="text" name="nome" v-model="name" /> -->
-      <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
+    <div class="usuario">
+      <b-container>
+        <b-row>
+          <b-col class="labels" cols="3">
+            <label for="nome">Nome:</label>
+          </b-col>
+          <b-col cols="8">
+            <!-- <input id="nome" type="text" name="nome" v-model="name" /> -->
+            <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
+          </b-col>
+        </b-row>
 
-      <label for="nickname">Nickname:</label>
-      <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
+        <b-row>
+          <b-col class="labels" cols="3">
+            <label for="nickname">Nickname:</label>
+          </b-col>
 
-      <label for="papel">Função atual:</label>
-      <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
+          <b-col cols="8">
+            <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="labels" cols="3">
+            <label for="papel">Função atual:</label>
+          </b-col>
+          <b-col cols="8">
+            <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
+          </b-col>
+        </b-row>
+        <br />
+        <b-row>
+          <b-col class="labels" cols="3">
+            <label for="email">Email:</label>
+          </b-col>
+          <b-col cols="8">
+            <b-form-input id="email" type="email" name="email" v-model="registro.email" />
+          </b-col>
+        </b-row>
 
-      <label for="email">Email:</label>
-      <b-form-input id="email" type="email" name="email" v-model="registro.email" />
-
-      <label for="senha">Senha:</label>
-      <b-form-input id="senha" :type="tipo_senha" name="senha" v-model="registro.senha" />
-      <b-button @click="exibeSenha">mostrar</b-button>
-      <label for="senha">Confirmar Senha:</label>
-      <b-form-input
-        id="confirm_senha"
-        :type="tipo_senha"
-        name="confirm_senha"
-        v-model="confirm_senha"
-      />
+        <b-row>
+          <b-col cols="3" class="labels">
+            <label>Senha:</label>
+          </b-col>
+          <b-col cols="7" class="senha-input">
+            <b-form-input id="senha" :type="tipo_senha" name="senha" v-model="registro.senha" />
+          </b-col>
+          <b-col cols="2" class="senha-icon">
+            <b-button @click="exibeSenha">
+              <font-awesome-icon :icon="tipo_icone" />
+            </b-button>
+          </b-col>
+        </b-row>
+        <b-row>
+          <b-col class="col" cols="3">
+            <label for="senha">Confirmar Senha:</label>
+          </b-col>
+          <b-col cols="8">
+            <b-form-input
+              id="confirmsenha"
+              :type="tipo_senha"
+              name="confirm_senha"
+              v-model="confirm_senha"
+            />
+          </b-col>
+        </b-row>
+      </b-container>
     </div>
-
-    <!-- <label for="cep">Cep</label>
-    <input id="cep" type="text" name="cep" v-model="cep" @keyup="preencherCep" maxlength="8">
-
-    <label for="rua">Rua</label>
-    <input id="rua" type="text" name="rua" v-model="rua">
-
-    <label for="numero">Número</label>
-    <input id="numero" type="text" name="numero" v-model="numero">
-
-    <label for="bairro">Bairro</label>
-    <input id="bairro" type="text" name="bairro" v-model="bairro">
-
-    <label for="cidade">Cidade</label>
-    <input id="cidade" type="text" name="cidade" v-model="cidade">
-
-    <label for="estado">Estado</label>
-    <input id="estado" type="text" name="estado" v-model="estado">-->
 
     <div class="button">
       <slot></slot>
@@ -67,6 +91,8 @@ export default {
         senha: "",
         papel_id: ""
       },
+      tipo_icone: "eye",
+
       mostrar: false,
       tipo_senha: "password",
       papeis: []
@@ -76,8 +102,10 @@ export default {
     salvarUsuario(acao = null) {
       if (acao == "editar") {
         this.$store.dispatch("updateUsuario", this.registro);
+        alert("Usuário editado com sucesso!!!");
       }
-      // this.$store.dispatch("setUsuario", this.registro);
+      this.$store.dispatch("setUsuario", this.registro);
+      alert("Usuário cadastrado com sucesso!!");
     },
     checUsuario() {
       if (this.usuario) {
@@ -102,8 +130,13 @@ export default {
     },
     exibeSenha() {
       this.mostrar = !this.mostrar;
-      if (this.mostrar) this.tipo_senha = "text";
-      else this.tipo_senha = "password";
+      if (this.mostrar) {
+        this.tipo_senha = "text";
+        this.tipo_icone = "eye";
+      } else {
+        this.tipo_senha = "password";
+        this.tipo_icone = "eye-slash";
+      }
     }
   },
   created() {
@@ -131,12 +164,11 @@ export default {
   computed: {
     confirm_senha: {
       set: function(valor) {
-        if (
-          (valor.length !== this.registro.senha.length && valor.length > 0) ||
-          (valor !== this.registro.senha && this.registro.senha.length > 0)
-        ) {
-          console.log("As senhas estão diferentes");
-        } else console.log("Senhas iguais!!!");
+        if (this.registro.senha.length == valor.length) {
+          if (this.registro.senha != valor) {
+            alert("As senhas estão diferentes. Verifique!");
+          }
+        }
       }
     },
     mostraDadosLogin() {
@@ -162,10 +194,19 @@ form,
   display: grid;
   /* grid-template-columns: 1fr; */
   align-items: center;
+  width: 700px;
 }
 
-/* .usuario {
-  grid-column: 1/ 3;
-} */
+.senhas {
+  padding: 0px;
+}
+
+.senha-input {
+  padding-right: 0px;
+}
+
+.senha-icon {
+  padding: 0px;
+}
 </style>
 

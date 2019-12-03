@@ -1,23 +1,54 @@
 <template>
   <section class="dados-coletados-container">
-    <h1>Dados Coletados</h1>
+    <b-container class="info-coletados">
+      <b-row>
+        <b-col>
+          <h1>Dados Coletados</h1>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <label>Tempo do Experimento:</label>
+          <p>{{tempoRestante }}</p>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <label for>Observação:</label>
+          <p>{{observacao}}</p>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <label>Horário Início:</label>
+          <p>{{periodo_inicio }}</p>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <label>Horário Fim:</label>
+          <p>{{periodo_fim }}</p>
+        </b-col>
+      </b-row>
+    </b-container>
+
     <div class="info-coletados">
-      <p>
+      <!-- <p>
         <label>Tempo do Experimento:</label>
         {{tempoRestante }}
-      </p>
-      <p>
+      </p>-->
+      <!-- <p>
         <label for>Observação:</label>
         {{observacao}}
-      </p>
-      <p>
+      </p>-->
+      <!-- <p>
         <label>Horário Início:</label>
         {{periodo_inicio }}
-      </p>
-      <p>
+      </p>-->
+      <!-- <p>
         <label>Horário Fim:</label>
         {{periodo_fim }}
-      </p>
+      </p>-->
     </div>
     <b-button class="btn" @click.prevent="retornar()">Voltar</b-button>
   </section>
@@ -31,7 +62,7 @@ export default {
   name: "DadosColetados",
   methods: {
     retornar() {
-      this.$router.back(1);
+      this.$router.push({ path: "/experimentos" });
     },
 
     buscaDadosExperimento() {

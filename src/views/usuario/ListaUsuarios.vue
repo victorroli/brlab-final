@@ -4,21 +4,32 @@
     <div id="usuarios">
       <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center">
         <template slot="opcoes" slot-scope="row">
-          <b-button class="editar" @click="editar(row.item)">Editar</b-button>
-          <b-button class="excluir" @click="excluirInstituicao(row.item)">Excluir</b-button>
+          <b-button class="editar" @click="editarUsuario(row.item)">
+            <font-awesome-icon icon="edit" />Editar
+          </b-button>
+          <b-button class="excluir" @click="excluirUsuario(row.item)">
+            <font-awesome-icon icon="trash" />Excluir
+          </b-button>
         </template>
       </b-table>
       <div class="group-button">
-        <router-link tag="b-button" class="btn" :to="{name: 'register-user'}">Novo Usuário</router-link>
+        <router-link tag="b-button" class="btn" :to="{name: 'register-user'}">
+          <font-awesome-icon icon="plus-circle" />Novo Usuário
+        </router-link>
       </div>
     </div>
+    <modal-usuario ref="modalUsuario"></modal-usuario>
   </section>
 </template>
 
 <script>
+import ModalUsuario from "@/views/usuario/ModalUsuario.vue";
 import { api } from "@/services.js";
 export default {
   name: "ListaUsuarios",
+  components: {
+    ModalUsuario
+  },
   data() {
     return {
       listaUsuarios: [],
@@ -119,6 +130,9 @@ export default {
         return `0${valorFinal}`;
       }
       return valorFinal;
+    },
+    editarUsuario(usuario) {
+      this.$refs.modalUsuario.recebeValores(usuario);
     }
   }
 };

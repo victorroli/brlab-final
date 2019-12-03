@@ -124,6 +124,7 @@ export default {
       if (!this.cadastro) {
         this.status = 2;
       }
+      alert("Aqui inferno...");
       api
         .put(`/labs/${this.id}`, {
           name: this.nome,
@@ -233,6 +234,10 @@ export default {
       let valorTempo = tempo.split(":");
       let valorFinal = parseInt(valorTempo[0]) * 60 + parseInt(valorTempo[1]);
       return valorFinal;
+    },
+    recebeListaEquipamentos(equipamentos) {
+      //  ("Equips recebidos: ", equipamentos);
+      this.equipamentos = equipamentos;
     }
   }
 };

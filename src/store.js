@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { api } from "@/services.js";
+import router from "./router";
 
 Vue.use(Vuex);
 
@@ -61,8 +62,12 @@ export default new Vuex.Store({
     UPDATE_EXPERIMENTO(state, payload) {
       state.experimento = Object.assign(state.experimento, payload);
     },
-    UPDATE_EQUIPAMENTOS(state, payload) {
+    ADD_EQUIPAMENTO(state, payload) {
       state.equipamentos.push(payload);
+    },
+    UPDATE_EQUIPAMENTOS(state, payload) {
+      console.log("Equipamentos: ", state.equipamentos);
+      state.equipamentos = Object.assign(state.equipamentos, payload);
     },
     REMOVE_EQUIPAMENTO(state, payload) {
       state.equipamentos.splice(payload, 1);
@@ -110,10 +115,11 @@ export default new Vuex.Store({
           papel_id: payload.papel_id
         })
         .then(response => {
-          if (response.data == 201) {
+          if (response.data.status == 201) {
             context.commit("UPDATE_USUARIO", payload);
             context.commit("UPDATE_LOGIN", true);
-          } else if (response.data == 200) {
+            this.$router.push({ path: "/laboratorios" });
+          } else if (response.data.status == 200) {
             alert("Usuário já cadastrado!!!");
           }
         });
@@ -199,6 +205,7 @@ export default new Vuex.Store({
     },
     login(context, payload) {
       api.get(`/usuario/${payload.email}`).then(response => {
+        console.log("Resposta: ", response);
         if (response.data) {
           if (response.data.senha == payload.senha) {
             context.commit("UPDATE_USUARIO", response.data);

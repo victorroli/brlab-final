@@ -1,7 +1,6 @@
 <template>
   <div>
     <h2>Seja bem vindo {{this.$store.state.usuario.nome}}</h2>
-    <!-- <b-button></b-button> -->
   </div>
 </template>
 
@@ -12,10 +11,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 h1 {
-  color: #84f;
+  color: rgba(35, 127, 155, 0.91);
   margin-top: 40px;
+  margin-bottom: 40px;
   font-size: 2rem;
   text-align: center;
 }

@@ -1,6 +1,7 @@
 <template>
-  <section class="register" v-if="!this.$store.state.login">
+  <section class="register">
     <transition mode="out-in">
+      {{usuario}}
       <UsuarioForm ref="registraUsuario" :lista="listaPapeis" :usuario="usuario">
         <template v-slot:titulo>
           <h1>Cadastro de Usuário</h1>
@@ -63,12 +64,6 @@ export default {
       return !this.$store.state.login || this.$route.name === "usuario-editar";
     }
   },
-  watch: {
-    // name: function(novo, velho) {
-    //   console.log("Novo valor: ", novo);
-    //   console.log("Valor antigo: ", velho);
-    // }
-  },
   computed: {
     ...mapFields({
       fields: ["name", "email", "senha", "confirm_senha", "nickname"],
@@ -113,7 +108,7 @@ h1 {
 }
 
 .register {
-  max-width: 500px;
+  max-width: 700px;
   margin: 0 auto;
   padding: 0 20px;
 }

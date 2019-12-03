@@ -59,7 +59,7 @@ export default {
         setTimeout(() => {
           if (this.$store.state.login) {
             this.resposta = "Logado com sucesso!";
-            this.$router.push({ path: "/" });
+            this.$router.push({ path: "/laboratorios" });
           } else this.resposta = "Credenciais erradas. Verifique";
           this.$bvModal.show("my-modal");
         }, 500);
@@ -108,7 +108,7 @@ h1 {
   text-align: center;
   font-size: 2rem;
   margin-top: 40px;
-  color: #84f;
+  color: #260078;
 }
 
 .login {

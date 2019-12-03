@@ -17,11 +17,13 @@
         <iframe
           width="560"
           height="315"
-          src="https://www.youtube.com/embed/jzZhGf1oX6E"
+          src="https://weblab.deusto.es/weblab/labs/"
           frameborder="0"
           allow="accelerometer; autoplay; gyroscope; picture-in-picture"
           allowfullscreen
-        ></iframe>
+        >
+          <!-- <img style="width: 80%" src="../../imagens/exp_weblabdeusto.png" /> -->
+        </iframe>
       </div>
     </div>
     <!-- <simplert></simplert> -->
@@ -56,7 +58,7 @@ export default {
       let horarioAtual = this.getHorarioAtual();
       this.$store.dispatch("setExperimento", {
         status: true,
-        timer: this.$store.state.laboratorio.tempo * 60,
+        timer: 10 * 60,
         periodo_inicio: horarioAtual,
         laboratorio_id: this.laboratorio_id
       });

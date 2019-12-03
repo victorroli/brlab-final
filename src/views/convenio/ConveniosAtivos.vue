@@ -5,13 +5,19 @@
       <div v-if="convenios.length > 0">
         <b-table striped hover :items="convenios" :fields="fields" class="text-center">
           <template slot="opcoes" slot-scope="row">
-            <b-button class="editar" @click="editar(row.item)">Editar</b-button>
-            <b-button class="excluir" @click="excluir(row.item)">Excluir</b-button>
+            <b-button class="editar" @click="editar(row.item)">
+              <font-awesome-icon icon="edit" />Editar
+            </b-button>
+            <b-button class="excluir" @click="excluir(row.item)">
+              <font-awesome-icon icon="trash" />Excluir
+            </b-button>
           </template>
         </b-table>
-        <!-- <b-button>Novo convênio +</b-button> -->
+
         <div class="group-button">
-          <router-link tag="b-button" :to="{name:'novo_convenio'}">Novo Convênio +</router-link>
+          <router-link tag="b-button" :to="{name:'novo_convenio'}">
+            <font-awesome-icon icon="plus-circle" />Novo Convênio
+          </router-link>
         </div>
 
         <modal-convenio ref="modal"></modal-convenio>
@@ -128,7 +134,7 @@ export default {
           if (resposta) {
             this.removeConvenio(convenio.id);
             this.$bvModal.show("my-modal");
-            this.buscaConvenios()
+            this.buscaConvenios();
           }
         })
         .catch(err => {
@@ -147,9 +153,6 @@ export default {
 </script>
 
 <style scoped>
-h1 {
-  margin: 20px auto 20px auto;
-}
 #convenios {
   max-width: 80%;
   margin-left: 10%;

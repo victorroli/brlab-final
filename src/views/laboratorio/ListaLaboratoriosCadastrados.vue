@@ -8,7 +8,7 @@
           <b-button class="editar" @click="editar(row.item)">
             <font-awesome-icon icon="edit" />Editar
           </b-button>
-          <b-button class="excluir" @click="excluir(row.item)">
+          <b-button class="excluir" @click="excluirLaboratorio(row.item)">
             <font-awesome-icon icon="trash" />Excluir
           </b-button>
         </template>
@@ -38,6 +38,9 @@ export default {
     return {
       laboratorios: [],
       fields: {
+        id: {
+          label: "ID"
+        },
         name: {
           label: "Nome"
         },
@@ -66,18 +69,53 @@ export default {
           return laboratorio.status == 2;
         });
         this.laboratorios = [...aLabs];
+        console.log("Laboratorios: ", this.laboratorios);
       });
     },
     editar(item) {
       this.$refs.modal.recebeValoresLaboratorios(item, true);
     },
-    excluir(item) {
-      api.delete(`/laboratorios/${instituicao.id}`).then(response => {
-        if (response.data.status == 200) {
-          this.confirmExclusao(instituicao.nome);
-          this.buscaInstituicoes();
+    excluir(laboratorio) {
+      console.log("Na eexclusao: ", laboratorio);
+      api.delete(`/labs/${laboratorio.id}`).then(response => {
+        if (response.data.status == 205) {
+          this.confirmExclusao(labortorio.name);
+          this.buscaLaboratorios();
         }
       });
+    },
+    excluirLaboratorio(laboratorio) {
+      console.log("Lab: ", laboratorio);
+      this.confirm = "";
+      this.$bvModal
+        .msgBoxConfirm(
+          "Deseja realmente deletar o Laboratório " + laboratorio.name + "?",
+          {
+            title: "",
+            // size: "sm",
+            buttonSize: "md",
+            okVariant: "danger",
+            okTitle: "Remover",
+            cancelTitle: "Cancelar",
+            footerClass: "p-2",
+            hideHeaderClose: false,
+            centered: true
+          }
+        )
+        .then(value => {
+          if (value) this.excluir(laboratorio);
+        })
+        .catch(err => {
+          console.log("Erro: ", err);
+        });
+    },
+    confirmExclusao(nome) {
+      this.$bvModal
+        .msgBoxOk("Laboratório " + nome + " excluído com sucesso!")
+        .then(value => {})
+        .catch(err => {
+          // An error occurred
+        });
     }
   },
   created() {

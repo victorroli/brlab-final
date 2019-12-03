@@ -9,10 +9,10 @@
           <h3>{{lab_selecionado.name}}</h3>
           <p>{{lab_selecionado.description}}</p>
           <div class="tempo-experimento">
-            <p>Tempo de Experimentação: {{lab_selecionado.tempo}}</p>
+            <p>Tempo de Experimentação: {{lab_selecionado.tempo}} minutos</p>
           </div>
           <b-row>
-            <b-col class="text-center btn-div" v-if="mostrarBotaoIniciar">
+            <b-col class="text-center btn-div" v-if="true">
               <router-link
                 :to="{name: 'iniciaExperimento', params:{laboratorio_id:lab_selecionado.id}}"
                 tag="b-button"
@@ -48,6 +48,7 @@
     <b-row>
       <b-col class="text-center">
         <h3>Últimos Experimentos</h3>
+        <p>Nenhum experimento realizado</p>
       </b-col>
     </b-row>
   </b-container>
@@ -87,6 +88,13 @@ export default {
             this.mostrarBotaoIniciar = false;
           } else this.mostrarBotaoIniciar = true;
         });
+    },
+    ultimosExperimentos() {
+      api
+        .get(`/experimentos/usuario/${this.$store.state.usuario.id}`)
+        .then(response => {
+          console.log("Resposta: ", response);
+        });
     }
   },
   watch: {
@@ -97,9 +105,9 @@ export default {
     }
   },
   created() {
-    // console.log("Laboratório pego neste trecho: ", this.laboratorio);
     this.getLaboratorio();
     this.horarioMarcado();
+    this.ultimosExperimentos();
   }
 };
 </script>
@@ -129,6 +137,8 @@ h3 {
 
 .lab-info {
   display: grid;
+  text-align: center;
+  font-size: 20px;
 }
 
 img {

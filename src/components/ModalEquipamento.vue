@@ -118,33 +118,27 @@ export default {
           id: this.id
         });
 
-        // console.log("Lista equipamentos: ", this.listaEquipamentos);
-        console.log("Modo atual: ", this.modo);
         if (this.modo == "editar") {
           this.listaEquipamentos.forEach((elemento, indice) => {
-            // console.log("Nome: ", elemento.nome);
             if (elemento.id == equipamento.id) {
               indexSelecionado = indice;
             }
           });
           if (indexSelecionado == 0 || indexSelecionado != "")
             this.listaEquipamentos[indexSelecionado] = equipamento;
-          console.log("Lista de equipamentos: ", this.listaEquipamentos);
           this.$nextTick(() => {
             this.$refs.modal.hide();
           });
           return;
         }
         this.listaEquipamentos.push(equipamento);
-        // this.listaEquipamentos[indexSelecionado] = equipamento;
-        // this.$parent.equipamentoEditado(equipamento);
+        this.$parent._data.listaEquipamentos = this.listaEquipamentos;
+        this.$store.commit("UPDATE_EQUIPAMENTOS", this.listaEquipamentos);
       }
 
       // Hide the modal manually
       this.$nextTick(() => {
-        this.$parent.preencheEquipamentos(this.listaEquipamentos, true);
         this.modo = "";
-        // console.log("Modo: ", this.modo);
         this.$refs.modal.hide();
       });
     },
