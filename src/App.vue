@@ -23,8 +23,10 @@ export default {
 </script>
 
 <style>
+@import url("https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,600,700&display=swap");
 * {
   border-sizing: border-box;
+  font-family: "Titillium Web", sans-serif;
 }
 
 body,
@@ -47,7 +49,7 @@ h1 {
 }
 
 body {
-  font-family: "Arial, Helvetica, sans-serif";
+  font-family: "Titillium Web", sans-serif;
   color: #345;
   background: url("./assets/pattern.svg") repeat top;
 }
