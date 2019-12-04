@@ -164,7 +164,7 @@ img {
 }
 
 .btn {
-  width: 100%;
+  width: 75%;
   height: 100%;
   align-content: center;
   background: #87f;
