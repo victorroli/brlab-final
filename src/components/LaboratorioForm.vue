@@ -103,10 +103,13 @@ export default {
 .horario input {
   margin: 10px;
 }
-
-textarea {
-  max-width: 500px;
+.laboratorio {
+  width: 550px;
 }
+
+/* textarea {
+  max-width: 500px;
+} */
 
 .titulo-equipamento {
   padding: 0 1.4em 1.4em 1.4em;
