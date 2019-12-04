@@ -11,12 +11,17 @@
       <label for="porta">Porta:</label>
       <b-form-input id="porta" type="text" name="porta" v-model="laboratorio.porta" />
 
-      <label for="tempo">Tempo de Experimento:</label>
+      <label for="tempo">Tempo de Experimento (em minutos):</label>
       <b-form-input id="tempo" type="number" name="tempo" v-model="laboratorio.tempo" />
 
       <label for="descricao">Descrição:</label>
-      <textarea name="descricao" id="descricao" cols="30" rows="5" v-model="laboratorio.descricao"></textarea>
-
+      <b-form-textarea
+        name="descricao"
+        id="descricao"
+        cols="30"
+        rows="5"
+        v-model="laboratorio.descricao"
+      ></b-form-textarea>
       <label for="equipamento">Equipamentos:</label>
       <div class="add-equipamento">
         <EquipamentoForm ref="equipamentoRef"></EquipamentoForm>
@@ -95,12 +100,6 @@ export default {
 </script>
 
 <style scoped>
-form,
-.laboratorio {
-  display: grid;
-  align-items: center;
-}
-
 .horario input {
   margin: 10px;
 }
