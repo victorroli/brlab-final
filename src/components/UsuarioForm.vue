@@ -2,71 +2,24 @@
   <form>
     <slot name="titulo"></slot>
     <div class="usuario">
-      <b-container>
-        <b-row>
-          <b-col class="labels" cols="3">
-            <label for="nome">Nome:</label>
-          </b-col>
-          <b-col cols="8">
-            <!-- <input id="nome" type="text" name="nome" v-model="name" /> -->
-            <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
-          </b-col>
-        </b-row>
+      <form>
+        <label for="nome">Nome:</label>
+        <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
 
-        <b-row>
-          <b-col class="labels" cols="3">
-            <label for="nickname">Nickname:</label>
-          </b-col>
+        <label for="nickname">Nickname:</label>
 
-          <b-col cols="8">
-            <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col class="labels" cols="3">
-            <label for="papel">Função atual:</label>
-          </b-col>
-          <b-col cols="8">
-            <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
-          </b-col>
-        </b-row>
+        <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
+        <label for="papel">Função atual:</label>
+        <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
         <br />
-        <b-row>
-          <b-col class="labels" cols="3">
-            <label for="email">Email:</label>
-          </b-col>
-          <b-col cols="8">
-            <b-form-input id="email" type="email" name="email" v-model="registro.email" />
-          </b-col>
-        </b-row>
+        <label for="email">Email:</label>
+        <b-form-input id="email" type="email" name="email" v-model="registro.email" />
 
-        <b-row>
-          <b-col cols="3" class="labels">
-            <label>Senha:</label>
-          </b-col>
-          <b-col cols="7" class="senha-input">
-            <b-form-input id="senha" :type="tipo_senha" name="senha" v-model="registro.senha" />
-          </b-col>
-          <b-col cols="2" class="senha-icon">
-            <b-button @click="exibeSenha">
-              <font-awesome-icon :icon="tipo_icone" />
-            </b-button>
-          </b-col>
-        </b-row>
-        <b-row>
-          <b-col class="col" cols="3">
-            <label for="senha">Confirmar Senha:</label>
-          </b-col>
-          <b-col cols="8">
-            <b-form-input
-              id="confirmsenha"
-              :type="tipo_senha"
-              name="confirm_senha"
-              v-model="confirm_senha"
-            />
-          </b-col>
-        </b-row>
-      </b-container>
+        <label>Senha:</label>
+        <b-form-input id="senha" type="text" name="senha" v-model="registro.senha" />
+        <label for="senha">Confirmar Senha:</label>
+        <b-form-input id="confirmsenha" type="text" name="confirm_senha" v-model="confirm_senha" />
+      </form>
     </div>
 
     <div class="button">
@@ -189,13 +142,12 @@ export default {
 </script>
 
 <style scoped>
-form,
+/* form,
 .usuario {
   display: grid;
-  /* grid-template-columns: 1fr; */
   align-items: center;
   width: 700px;
-}
+} */
 
 .senhas {
   padding: 0px;

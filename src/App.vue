@@ -231,4 +231,7 @@ form {
   margin: 0 auto;
   padding: 0 20px;
 }
+label {
+  font-weight: bold;
+}
 </style>
