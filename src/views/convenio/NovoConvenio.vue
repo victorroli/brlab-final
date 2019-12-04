@@ -1,7 +1,7 @@
 <template>
   <section class="convenios">
     <h1>Novo Convênio</h1>
-    <div class="usuario">
+    <form>
       <label for="nome">Instituição:</label>
       <b-form-select v-model="instituicao" :options="listaInstituicoes"></b-form-select>
       <label for="laboratorio">Laboratório:</label>
@@ -25,7 +25,7 @@
       <div class="group-button">
         <b-button class="salvar" @click="salvaConvenio()">Salvar</b-button>
       </div>
-    </div>
+    </form>
   </section>
 </template>
 
@@ -98,7 +98,7 @@ export default {
           dias: this.diasSelecionados
         })
         .then(response => {
-          if(response.data.status == 201){
+          if (response.data.status == 201) {
             this.$router.push({ path: "/convenios_ativos" });
           }
         });
@@ -108,9 +108,4 @@ export default {
 </script>
 
 <style scoped>
-.convenios {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
 </style>

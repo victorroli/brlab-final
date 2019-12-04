@@ -97,12 +97,6 @@ export default {
 </script>
 
 <style scoped>
-.instituicao {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
 #salvar {
   margin-top: 20px;
   /* text-align: center; */
@@ -111,9 +105,14 @@ export default {
 .dados-menores {
   margin-top: 10px;
   display: inline-flex;
+  width: 100%;
+}
+
+.dados-menores div {
+  width: 48%;
 }
 
 .dados-menores div:first-child {
-  margin-right: 20px;
+  margin-right: 4%;
 }
 </style>

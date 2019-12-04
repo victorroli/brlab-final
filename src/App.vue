@@ -47,7 +47,7 @@ h1 {
 }
 
 body {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: "Arial, Helvetica, sans-serif";
   color: #345;
   background: url("./assets/pattern.svg") repeat top;
 }
@@ -218,14 +218,17 @@ span:hover {
 .vuecal__time-cell {
   background: #b3e8de;
 }
-.vuecal__cell.today {
-  background: red;
-}
 .vuecal__cell {
   background: #fff;
   cursor: pointer;
 }
 .vuecal__now-line {
   border: 2px solid blue;
+}
+
+form {
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 </style>
