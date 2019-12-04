@@ -25,8 +25,8 @@
             </router-link>
           </div>
         </div>
-        <div class="sem-resultados" v-else-if="labsaux && labsaux.length == 0" key="sem-resultados">
-          <p>Sem resultados!!</p>
+        <div class="retorno" v-else-if="labsaux && labsaux.length == 0" key="sem-resultados">
+          <h4>Nenhum laboratório encontrado...</h4>
         </div>
       </div>
       <div v-else-if="!laboratorios">
@@ -142,10 +142,9 @@ export default {
   box-shadow: 0 8px 12px rgba(30, 60, 90, 0.3);
   transform: scale(1.1);
 }
-
-/* .laboratorio p {
-  padding-top: px;
-} */
+.retorno {
+  text-align: center;
+}
 .laboratorio p:nth-child(2) {
   font-family: Arial, Helvetica, sans-serif;
   font-weight: 400;
