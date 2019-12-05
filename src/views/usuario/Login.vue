@@ -5,17 +5,22 @@
       <label for="Email">Email:</label>
       <input type="email" name="email" id="email" v-model="dadosLogin.email" />
       <label for="Senha">Senha:</label>
-      <input type="password" name="senha" id="senha" v-model="dadosLogin.senha" />
+      <input
+        type="password"
+        name="senha"
+        id="senha"
+        v-model="dadosLogin.senha"
+      />
       <b-button class="btn login" @click.prevent="logar">Entrar</b-button>
     </form>
-    <div class="opcoes-adicionais">
+    <!-- <div class="opcoes-adicionais">
       <p class="perdeu">
         <a href="/" target="_blank">Esqueci minha senha.</a>
       </p>
       <p class="perdeu">
         <router-link :to="{name: 'register-user'}">Criar nova conta</router-link>
       </p>
-    </div>
+    </div> -->
 
     <!-- <b-modal id="my-modal" ref="my-modal" hide-footer centered>
       <div class="d-block text-center">
@@ -27,7 +32,7 @@
     </b-modal>-->
 
     <b-modal id="my-modal" centered title="Entrar no sistema" ok-only>
-      <p class="my-2">{{resposta}}</p>
+      <p class="my-2">{{ resposta }}</p>
     </b-modal>
   </section>
 </template>
