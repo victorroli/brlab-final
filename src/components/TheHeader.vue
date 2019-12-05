@@ -4,12 +4,18 @@
       <b-navbar toggleable="lg" type="dark">
         <b-navbar-brand>
           <router-link to="/">
-            <img id="logotipo" src="../imagens/logo_brlab.png" alt="logotipo brlab" />
+            <img
+              id="logotipo"
+              src="../imagens/logo_brlab.png"
+              alt="logotipo brlab"
+            />
           </router-link>
         </b-navbar-brand>
 
         <b-navbar-nav>
-          <b-nav-item v-if="usuario_logado && this.$store.state.usuario.papel_id != 1">
+          <b-nav-item
+            v-if="usuario_logado && this.$store.state.usuario.papel_id != 1"
+          >
             <router-link class="menu" to="/laboratorios">
               <span>Laboratórios</span>
             </router-link>
@@ -19,20 +25,29 @@
             left
             v-if="usuario_logado && this.$store.state.usuario.papel_id == 1"
           >
-            <router-link class="menu" tag="b-dropdown-item" to="/laboratorios">Disponíveis</router-link>
+            <router-link class="menu" tag="b-dropdown-item" to="/laboratorios"
+              >Disponíveis</router-link
+            >
             <router-link
-              v-if="this.$store.state.papel_id == 1"
+              v-if="this.$store.state.usuario.papel_id == 1"
               class="menu"
               tag="b-dropdown-item"
-              :to="{name: 'laboratorios-cadastrados'}"
-            >Cadastrados</router-link>
+              :to="{ name: 'laboratorios-cadastrados' }"
+              >Cadastrados</router-link
+            >
 
             <router-link
               class="menu"
               tag="b-dropdown-item"
-              :to="{name: 'solicitacoes-laboratorios'}"
-            >Solicitações</router-link>
-            <router-link class="menu" tag="b-dropdown-item" :to="{name: 'novo-laboratorio'}">Novo</router-link>
+              :to="{ name: 'solicitacoes-laboratorios' }"
+              >Solicitações</router-link
+            >
+            <router-link
+              class="menu"
+              tag="b-dropdown-item"
+              :to="{ name: 'novo-laboratorio' }"
+              >Novo</router-link
+            >
           </b-nav-item-dropdown>
 
           <b-nav-item v-show="usuario_logado">
@@ -46,8 +61,14 @@
             left
             v-if="this.$store.state.usuario.papel_id == 1 && usuario_logado"
           >
-            <router-link tag="b-dropdown-item" :to="{name:'convenios_ativos'}">Ativos</router-link>
-            <router-link tag="b-dropdown-item" :to="{name:'novo_convenio'}">Novo</router-link>
+            <router-link
+              tag="b-dropdown-item"
+              :to="{ name: 'convenios_ativos' }"
+              >Ativos</router-link
+            >
+            <router-link tag="b-dropdown-item" :to="{ name: 'novo_convenio' }"
+              >Novo</router-link
+            >
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown
@@ -55,8 +76,16 @@
             v-if="this.$store.state.usuario.papel_id == 1 && usuario_logado"
             left
           >
-            <router-link tag="b-dropdown-item" :to="{name:'instituicoes_conveniadas'}">Cadastradas</router-link>
-            <router-link tag="b-dropdown-item" :to="{name:'nova_instituicao'}">Nova</router-link>
+            <router-link
+              tag="b-dropdown-item"
+              :to="{ name: 'instituicoes_conveniadas' }"
+              >Cadastradas</router-link
+            >
+            <router-link
+              tag="b-dropdown-item"
+              :to="{ name: 'nova_instituicao' }"
+              >Nova</router-link
+            >
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown
@@ -64,13 +93,21 @@
             class="menu"
             v-if="this.$store.state.usuario.papel_id == 1 && usuario_logado"
           >
-            <router-link tag="b-dropdown-item" class="menu" to="/usuarios">Todos</router-link>
+            <router-link tag="b-dropdown-item" class="menu" to="/usuarios"
+              >Todos</router-link
+            >
             <router-link
               tag="b-dropdown-item"
               class="menu"
-              :to="{name:'solicitacoes-usuarios'}"
-            >Solicitações</router-link>
-            <router-link tag="b-dropdown-item" class="menu" :to="{name: 'novo-usuario'}">Novo</router-link>
+              :to="{ name: 'solicitacoes-usuarios' }"
+              >Solicitações</router-link
+            >
+            <router-link
+              tag="b-dropdown-item"
+              class="menu"
+              :to="{ name: 'novo-usuario' }"
+              >Novo</router-link
+            >
           </b-nav-item-dropdown>
           <b-nav-item v-if="usuario_logado">
             <router-link class="menu" to="/reservas">
@@ -82,12 +119,19 @@
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right v-if="this.$store.state.login">
             <template slot="button-content">
-              <em>{{nome}}</em>
+              <em>{{ nome }}</em>
             </template>
             <b-dropdown-item>
-              <router-link tag="b-dropdown-item" class="menu" :to="{name: 'editar_perfil'}">Perfil</router-link>
+              <router-link
+                tag="b-dropdown-item"
+                class="menu"
+                :to="{ name: 'editar_perfil' }"
+                >Perfil</router-link
+              >
             </b-dropdown-item>
-            <b-dropdown-item id="logout" @click="logout()">Logout</b-dropdown-item>
+            <b-dropdown-item id="logout" @click="logout()"
+              >Logout</b-dropdown-item
+            >
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-navbar>
@@ -160,7 +204,7 @@ export default {
 <style scoped>
 .navbar.navbar-dark.navbar-expand-lg {
   background: #73d5d5;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 a:hover,
