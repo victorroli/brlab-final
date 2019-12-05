@@ -6,33 +6,41 @@
           <img src="../../assets/lab.svg" alt />
         </div>
         <div class="lab-info">
-          <h3>{{lab_selecionado.name}}</h3>
+          <h3>{{ lab_selecionado.name }}</h3>
           <p>
             <b>Descrição:</b>
-            {{lab_selecionado.description}}
+            {{ lab_selecionado.description }}
           </p>
           <div class="tempo-experimento">
             <p>
               <b>Tempo de Experimentação:</b>
-              {{lab_selecionado.tempo}} minutos
+              {{ lab_selecionado.tempo }} minutos
             </p>
           </div>
           <b-row>
-            <b-col class="text-center btn-div" v-if="true">
+            <b-col class="text-center btn-div" :v-if="mostrarBotaoIniciar">
               <router-link
-                :to="{name: 'iniciaExperimento', params:{laboratorio_id:lab_selecionado.id}}"
+                :to="{
+                  name: 'iniciaExperimento',
+                  params: { laboratorio_id: lab_selecionado.id }
+                }"
                 tag="b-button"
                 class="btn"
-              >Iniciar</router-link>
+                >Iniciar</router-link
+              >
             </b-col>
           </b-row>
           <b-row>
             <b-col class="text-center btn-div">
               <router-link
-                :to="{name: 'agendamento', params:{laboratorio:lab_selecionado}}"
+                :to="{
+                  name: 'agendamento',
+                  params: { laboratorio: lab_selecionado }
+                }"
                 tag="b-button"
                 class="btn"
-              >Reservar</router-link>
+                >Reservar</router-link
+              >
               <!-- <vue-calendar :laboratorio="lab_selecionado"></vue-calendar> -->
             </b-col>
           </b-row>
@@ -45,9 +53,10 @@
         <ul>
           <li v-for="(equipamentos, index) in equipamentos" :key="index">
             <b>
-              <u>{{equipamentos.nome}}</u>:
+              <u>{{ equipamentos.nome }}</u
+              >:
             </b>
-            {{equipamentos.descricao}}
+            {{ equipamentos.descricao }}
           </li>
         </ul>
       </b-col>
@@ -158,14 +167,14 @@ img {
 }
 
 .btn-div {
-  padding-right: 20%;
-  padding-left: 20%;
   margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
 }
 
 .btn {
-  width: 75%;
-  height: 100%;
+  width: 249px;
+  height: 55px;
   align-content: center;
   background: #87f;
   transition: all 0.2s ease-in-out;

@@ -8,7 +8,7 @@
               name="busca"
               id="busca"
               type="text"
-              placeholder="Buscar Laboratório..."
+              placeholder="Insira o nome do laboratório..."
               v-model="busca"
               @keyup="buscarLaboratorio"
             />
@@ -210,7 +210,7 @@ form {
   cursor: pointer;
   position: absolute;
   top: 0;
-  right: 0;
+  right: 20px;
   box-shadow: none;
 }
 </style>
