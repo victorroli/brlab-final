@@ -1,9 +1,14 @@
 <template>
   <section>
-    <h1>Laboratórios Cadastrados</h1>
-
     <div id="laboratorios" v-if="laboratorios.length > 0">
-      <b-table striped hover :items="laboratorios" :fields="fields" class="text-center">
+      <h1>Laboratórios Cadastrados</h1>
+      <b-table
+        striped
+        hover
+        :items="laboratorios"
+        :fields="fields"
+        class="text-center"
+      >
         <template slot="opcoes" slot-scope="row">
           <b-button class="editar" @click="editar(row.item)">
             <font-awesome-icon icon="edit" />Editar
@@ -14,25 +19,31 @@
         </template>
       </b-table>
       <div class="group-button">
-        <router-link tag="b-button" class="button" :to="{name: 'novo-laboratorio'}">
+        <router-link
+          tag="b-button"
+          class="button"
+          :to="{ name: 'novo-laboratorio' }"
+        >
           <font-awesome-icon icon="plus-circle" />Novo Laboratório
         </router-link>
       </div>
       <modal-laboratorio ref="modal"></modal-laboratorio>
     </div>
     <div v-else>
-      <h3>Nenhum registrado encontrado!!!</h3>
+      <pagina-carregando />
     </div>
   </section>
 </template>
 
 <script>
 import ModalLaboratorio from "@/components/ModalLaboratorio.vue";
+import PageLoading from "@/components/PaginaCarregando.vue";
 import { api } from "@/services.js";
 export default {
   name: "LaboratoriosCadastrados",
   components: {
-    "modal-laboratorio": ModalLaboratorio
+    "modal-laboratorio": ModalLaboratorio,
+    "pagina-carregando": PageLoading
   },
   data() {
     return {

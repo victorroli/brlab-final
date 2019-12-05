@@ -12,25 +12,48 @@
               v-model="busca"
               @keyup="buscarLaboratorio"
             />
-            <input type="submit" id="lupa" value="Buscar" @click.prevent="buscarLaboratorio" />
+            <input
+              type="submit"
+              id="lupa"
+              value="Buscar"
+              @click.prevent="buscarLaboratorio"
+            />
           </form>
         </div>
-        <div class="laboratorios" v-if="labsaux && labsaux.length" key="laboratorios">
-          <div class="laboratorio" v-for="(laboratorio, index) in labsaux" :key="index">
-            <router-link :to="{name:'laboratorio', params:{laboratorio: laboratorio.id}}">
+        <div
+          class="laboratorios"
+          v-if="labsaux && labsaux.length"
+          key="laboratorios"
+        >
+          <div
+            class="laboratorio"
+            v-for="(laboratorio, index) in labsaux"
+            :key="index"
+          >
+            <router-link
+              :to="{
+                name: 'laboratorio',
+                params: { laboratorio: laboratorio.id }
+              }"
+            >
               <div class="img-labs">
                 <img src="../../assets/lab.svg" />
               </div>
-              <p>{{laboratorio.name}}</p>
+              <p>{{ laboratorio.name }}</p>
             </router-link>
           </div>
         </div>
-        <div class="retorno" v-else-if="labsaux && labsaux.length == 0" key="sem-resultados">
+        <div
+          class="retorno"
+          v-else-if="labsaux && labsaux.length == 0"
+          key="sem-resultados"
+        >
           <h4>Nenhum laboratório encontrado...</h4>
         </div>
       </div>
       <div v-else-if="!laboratorios">
-        <Erro />
+        <!-- <Erro /> -->
+        <PaginaCarregando />
       </div>
     </transition>
   </section>
@@ -40,11 +63,13 @@
 import { api } from "@/services.js";
 import { serialize } from "@/helpers/url.js";
 import Erro from "@/components/Erro.vue";
+import PaginaCarregando from "@/components/PaginaCarregando.vue";
 
 export default {
   name: "Laboratorios",
   components: {
-    Erro
+    Erro,
+    PaginaCarregando
   },
   data() {
     return {
