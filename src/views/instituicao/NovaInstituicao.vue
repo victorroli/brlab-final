@@ -12,7 +12,12 @@
       <div class="dados-menores">
         <div>
           <label for="telefone">Telefone:</label>
-          <b-form-input id="telefone" type="text" name="telefone" v-model="telefone" />
+          <b-form-input
+            id="telefone"
+            type="text"
+            name="telefone"
+            v-model="telefone"
+          />
         </div>
         <div>
           <label for="cnpj">CNPJ:</label>
@@ -30,12 +35,22 @@
         </div>
         <div>
           <label for="numero">Número:</label>
-          <b-form-input id="numero" type="text" name="numero" v-model="numero" />
+          <b-form-input
+            id="numero"
+            type="text"
+            name="numero"
+            v-model="numero"
+          />
         </div>
       </div>
 
       <label for="complemento">Complemento:</label>
-      <b-form-input id="complemento" type="text" name="complemento" v-model="complemento" />
+      <b-form-input
+        id="complemento"
+        type="text"
+        name="complemento"
+        v-model="complemento"
+      />
 
       <label for="bairro">Bairro:</label>
       <b-form-input id="bairro" type="text" name="bairro" v-model="bairro" />
@@ -44,7 +59,9 @@
       <b-form-input id="cidade" type="text" name="cidade" v-model="cidade" />
     </form>
     <div class="group-button">
-      <b-button id="salvar" class="salvar" @click="salvaInstituicao()">Salvar</b-button>
+      <b-button id="salvar" class="salvar" @click="salvaInstituicao()"
+        >Salvar</b-button
+      >
     </div>
   </section>
 </template>
@@ -114,5 +131,9 @@ export default {
 
 .dados-menores div:first-child {
   margin-right: 4%;
+}
+.group-button {
+  display: flex;
+  justify-content: center;
 }
 </style>

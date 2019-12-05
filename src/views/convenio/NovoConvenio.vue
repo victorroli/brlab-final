@@ -3,7 +3,10 @@
     <h1>Novo Convênio</h1>
     <form>
       <label for="nome">Instituição:</label>
-      <b-form-select v-model="instituicao" :options="listaInstituicoes"></b-form-select>
+      <b-form-select
+        v-model="instituicao"
+        :options="listaInstituicoes"
+      ></b-form-select>
       <label for="laboratorio">Laboratório:</label>
       <b-form-select v-model="laboratorio" :options="listaLabs"></b-form-select>
       <b-form-group label="Dias que será disponibilizado:" v-if="laboratorio">
@@ -20,7 +23,12 @@
       <label for="criacao">Data de Criação:</label>
       <b-form-input id="criacao" type="date" name="criacao" v-model="criacao" />
       <label for="validade">Válido até:</label>
-      <b-form-input id="validade" type="date" name="validade" v-model="validade" />
+      <b-form-input
+        id="validade"
+        type="date"
+        name="validade"
+        v-model="validade"
+      />
       <br />
       <div class="group-button">
         <b-button class="salvar" @click="salvaConvenio()">Salvar</b-button>
@@ -108,4 +116,8 @@ export default {
 </script>
 
 <style scoped>
+.group-button {
+  display: flex;
+  justify-content: center;
+}
 </style>

@@ -1,19 +1,28 @@
 <template>
   <div class="container-equipamento">
     <div class="novo-equipamento" v-if="cadastro">
-      <b-button @click="$bvModal.show('modal-equipamento')">Adicionar Equipamento</b-button>
+      <b-button @click="$bvModal.show('modal-equipamento')"
+        >Adicionar Equipamento</b-button
+      >
     </div>
     <br />
     <b-container class="lista-equipamentos">
       <b-row class="equipamentos" v-if="this.listaEquipamentos !== 0">
         <b-col cols="12">
-          <b-row v-for="(equipamento, index) in this.listaEquipamentos" :key="index">
+          <b-row
+            v-for="(equipamento, index) in this.listaEquipamentos"
+            :key="index"
+          >
             <b-col cols="7">{{ equipamento.nome }}</b-col>
             <b-col cols="2" v-if="cadastro">
-              <b-button class="editar" @click="editarItem(index)">Editar</b-button>
+              <b-button class="editar" @click="editarItem(index)"
+                >Editar</b-button
+              >
             </b-col>
             <b-col cols="3" v-if="cadastro">
-              <b-button class="excluir" @click="removeItem(index)">Remover</b-button>
+              <b-button class="excluir" @click="removeItem(index)"
+                >Remover</b-button
+              >
             </b-col>
           </b-row>
         </b-col>
@@ -123,7 +132,8 @@ export default {
 <style scoped>
 .novo-equipamento {
   margin-top: 12px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .container-equipamento {
