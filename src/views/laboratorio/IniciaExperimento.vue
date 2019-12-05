@@ -7,7 +7,9 @@
     <div class="labremoto" v-else-if="start">
       <div class="controladores">
         <div>
-          <button class="btn danger" @click.prevent="interrompeExperimento()">Parar Experimentação</button>
+          <button class="btn danger" @click.prevent="interrompeExperimento()">
+            Parar Experimentação
+          </button>
         </div>
         <div class="temporizador-info">
           <temporizador :seconds="seconds"></temporizador>
@@ -75,13 +77,36 @@ export default {
       return horarioAtual;
     },
     interrompeExperimento() {
-      let confirm = window.confirm("Deseja parar experimento?");
-      if (confirm) {
-        this.finalizaExperimento();
-      }
+      // let confirm = window.confirm("Deseja parar experimento?");
+      this.$bvModal
+        .msgBoxConfirm("Deseja parar o experimento?", {
+          title: "",
+          // size: "sm",
+          buttonSize: "md",
+          okVariant: "danger",
+          okTitle: "Parar",
+          cancelTitle: "Cancelar",
+          footerClass: "p-2",
+          hideHeaderClose: false,
+          centered: true
+        })
+        .then(value => {
+          if (value) this.finalizaExperimento();
+        })
+        .catch(err => {
+          console.log("Erro: ", err);
+        });
+      // if (confirm) {
+      //   this.finalizaExperimento();
+      // }
     },
     finalizaExperimento() {
-      alert("Experimento encerrado");
+      // let confirm = window.confirm("Deseja parar experimento?");
+      this.$bvModal.msgBoxOk("Experimento Encerrado!", {
+        footerClass: "p-2",
+        buttonSize: "md",
+        centered: true
+      });
       this.start = false;
       let horario_final = this.getHorarioAtual();
       console.log("Horário Final: ", horario_final);
