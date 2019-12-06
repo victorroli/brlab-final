@@ -4,21 +4,49 @@
     <div class="usuario">
       <form>
         <label for="nome">Nome:</label>
-        <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
+        <b-form-input
+          id="nome"
+          type="text"
+          name="nome"
+          v-model="registro.nome"
+        />
 
         <label for="nickname">Nickname:</label>
 
-        <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
+        <b-form-input
+          id="nickname"
+          type="text"
+          name="nickname"
+          v-model="registro.nickname"
+        />
         <label for="papel">Função atual:</label>
-        <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
+        <b-form-select
+          v-model="registro.papel_id"
+          :options="papeis"
+        ></b-form-select>
         <br />
         <label for="email">Email:</label>
-        <b-form-input id="email" type="email" name="email" v-model="registro.email" />
+        <b-form-input
+          id="email"
+          type="email"
+          name="email"
+          v-model="registro.email"
+        />
 
         <label>Senha:</label>
-        <b-form-input id="senha" type="text" name="senha" v-model="registro.senha" />
+        <b-form-input
+          id="senha"
+          type="text"
+          name="senha"
+          v-model="registro.senha"
+        />
         <label for="senha">Confirmar Senha:</label>
-        <b-form-input id="confirmsenha" type="text" name="confirm_senha" v-model="confirm_senha" />
+        <b-form-input
+          id="confirmsenha"
+          type="text"
+          name="confirm_senha"
+          v-model="confirm_senha"
+        />
       </form>
     </div>
 
@@ -142,13 +170,6 @@ export default {
 </script>
 
 <style scoped>
-/* form,
-.usuario {
-  display: grid;
-  align-items: center;
-  width: 700px;
-} */
-
 .senhas {
   padding: 0px;
 }
@@ -161,4 +182,3 @@ export default {
   padding: 0px;
 }
 </style>
-
