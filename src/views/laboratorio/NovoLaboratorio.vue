@@ -34,11 +34,6 @@ export default {
 h1 {
   margin: auto auto 20px auto;
 }
-/* .laboratorio {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 0 20px;
-} */
 
 label {
   margin-bottom: 7px;
