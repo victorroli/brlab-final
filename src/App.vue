@@ -24,6 +24,7 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400,600,700&display=swap");
+
 * {
   border-sizing: border-box;
   font-family: "Titillium Web", sans-serif;
@@ -207,7 +208,7 @@ span:hover {
   background: #f1f1f2;
 }
 .vuecal__cell.selected {
-  background: red;
+  background: #fff;
 }
 .vuecal__cell.disabled {
   pointer-events: none;
