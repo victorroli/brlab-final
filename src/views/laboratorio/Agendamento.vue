@@ -7,14 +7,14 @@
       :startDate="selectedDate"
       :min-date="selectedDate"
       :selected-date="selectedDate"
-      :time-from="12 * 60"
-      :time-to="23 * 60"
+      :time-from="7 * 60"
+      :time-to="24 * 60"
       :disable-views="['years', 'year', 'month', 'day']"
       :cell-click-hold="false"
       :events="events"
       :on-event-create="onEventCreate"
       :on-event-click="verEvento"
-      :time-step="laboratorio.tempo"
+      :time-step="60"
       @cell-dblclick="efetuarReserva($event)"
       @event-focus="(focusEvento ? verEvento('event-focus', $event): '')"
     ></vue-calendario>
@@ -39,17 +39,6 @@ export default {
   },
   data() {
     return {
-      events: [],
-      eventos: [
-        {
-          start: "2019-11-29 21:30",
-          end: "2019-11-29 21:40",
-          title: "Doctor appointment",
-          content: '<i class="v-icon material-icons">local_hospital</i>',
-          class: "health",
-          split: 1
-        }
-      ],
       events: [],
       focusEvento: true
     };
