@@ -83,6 +83,7 @@ export default new Vuex.Store({
       state.experimento.tempoRestante--;
     },
     SET_TIMER(state, valorTempo) {
+      console.log("Tempo estimado: ", valorTempo);
       state.experimento.tempoRestante = valorTempo;
     },
     SET_STATUS(state, valor) {
@@ -92,6 +93,7 @@ export default new Vuex.Store({
       state.experimento.periodo_inicio = hora_inicio;
     },
     SET_HORA_FIM(state, hora_fim) {
+      console.log("Hora fim: ", hora_fim);
       state.experimento.periodo_fim = hora_fim;
     },
     SET_OBSERVACAO(state, observacao) {
@@ -142,41 +144,40 @@ export default new Vuex.Store({
     setExperimento(context, payload) {
       console.log("Objeto passado: ", payload);
 
-      api
-        .post("/experimento", {
-          periodo_inicio: payload.periodo_inicio,
-          usuario_id: context.state.usuario.id,
-          laboratorio_id: payload.laboratorio_id
-        })
-        .then(response => {
-          if (response.data.status == 201) {
-            if (payload.status) {
-              context.commit("SET_TIMER", payload.timer);
-              context.commit("SET_STATUS", payload.status);
-              context.commit("SET_HORA_INICIO", payload.periodo_inicio);
-              context.commit(
-                "SET_EXPERIMENTO_ID",
-                parseInt(response.data.experimento_id)
-              );
-            }
-          }
-        });
+      // api
+      //   .post("/experimento", {
+      //     periodo_inicio: payload.periodo_inicio,
+      //     usuario_id: context.state.usuario.id,
+      //     laboratorio_id: payload.laboratorio_id
+      //   })
+      //   .then(response => {
+      //     if (response.data.status == 201) {
+      //       if (payload.status) {
+      context.commit("SET_TIMER", payload.timer);
+      context.commit("SET_STATUS", payload.status);
+      context.commit("SET_HORA_INICIO", payload.periodo_inicio);
+      //         context.commit(
+      //           "SET_EXPERIMENTO_ID",
+      //           parseInt(response.data.experimento_id)
+      //         );
+      //       }
+      //     }
+      //   });
     },
 
     updateExperimento(context, payload) {
-      console.log("Enter in a function: ", payload);
       context.commit("SET_STATUS", payload.status);
-      api
-        .put(`/experimento/${context.state.experimento.id}`, {
-          periodo_fim: payload.periodo_fim,
-          observacao: payload.observacao
-        })
-        .then(response => {
-          if (response.data.status == 201) {
-            context.commit("SET_HORA_FIM", payload.periodo_fim);
-            context.commit("SET_OBSERVACAO", payload.observacao);
-          }
-        });
+      // api
+      //   .put(`/experimento/${context.state.experimento.id}`, {
+      //     periodo_fim: payload.periodo_fim,
+      //     observacao: payload.observacao
+      //   })
+      //   .then(response => {
+      //     if (response.data.status == 201) {
+      context.commit("SET_HORA_FIM", payload.periodo_fim);
+      context.commit("SET_OBSERVACAO", payload.observacao);
+      //     }
+      //   });
     },
 
     setReserva(context, payload) {
