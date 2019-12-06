@@ -2,16 +2,21 @@
   <section>
     <h1>Usuários do sistema</h1>
     <div id="usuarios">
-      <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center">
-        <template slot="opcoes" slot-scope="row">
-          <b-button class="editar" @click="editarUsuario(row.item)">
-            <font-awesome-icon icon="edit" />Editar
-          </b-button>
-          <b-button class="excluir" @click="excluirUsuario(row.item)">
-            <font-awesome-icon icon="trash" />Excluir
-          </b-button>
-        </template>
-      </b-table>
+      <div v-if="listaUsuarios.length">
+        <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center">
+          <template slot="opcoes" slot-scope="row">
+            <b-button class="editar" @click="editarUsuario(row.item)">
+              <font-awesome-icon icon="edit" />Editar
+            </b-button>
+            <b-button class="excluir" @click="excluirUsuario(row.item)">
+              <font-awesome-icon icon="trash" />Excluir
+            </b-button>
+          </template>
+        </b-table>
+      </div>
+      <div class="text-center">
+        <h4>Nenhum usuário cadastrado...</h4>
+      </div>
       <div class="group-button">
         <router-link tag="b-button" class="btn" :to="{name: 'register-user'}">
           <font-awesome-icon icon="plus-circle" />Novo Usuário
@@ -143,9 +148,16 @@ h1 {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+h4 {
+  font-weight: 300;
+}
 #usuarios {
   max-width: 80%;
   margin-left: 10%;
   margin-right: 10%;
+}
+
+.text-center {
+  margin-bottom: 30px;
 }
 </style>
