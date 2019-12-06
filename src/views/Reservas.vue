@@ -18,9 +18,9 @@
     <div class="texto-reserva" v-else-if="laboratorio != 0">
       <p>Nenhuma reserva efetuada para este laboratório...</p>
     </div>
-    <div v-else class="texto-reserva">
+    <!-- <div v-else class="texto-reserva">
       <p>Selecione um laboratório...</p>
-    </div>
+    </div>-->
   </section>
 </template>
 
