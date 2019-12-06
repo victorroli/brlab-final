@@ -192,10 +192,6 @@ span:hover {
   color: #260078;
 }
 
-.calendario-modal.disabled {
-  background: red;
-}
-
 .vuecal__no-event {
   /* background: gray; */
 }
@@ -208,7 +204,8 @@ span:hover {
   background: #f1f1f2;
 }
 .vuecal__cell.selected {
-  background: #fff;
+  cursor: pointer;
+  background: blue;
 }
 .vuecal__cell.disabled {
   pointer-events: none;
