@@ -3,13 +3,19 @@
     <b-container class="info-coletados">
       <b-row>
         <b-col>
-          <h1>Dados Coletados</h1>
+          <h1>Fim do experimento</h1>
+        </b-col>
+      </b-row>
+      <b-row>
+        <b-col>
+          <label>Data do Experimento:</label>
+          <p>{{periodo_fim |formataData }}</p>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
           <label>Tempo do Experimento:</label>
-          <p>{{tempoRestante }}</p>
+          <p>{{(periodo_inicio, periodo_fim) | resultadoExperimento }}</p>
         </b-col>
       </b-row>
       <b-row>
@@ -21,13 +27,13 @@
       <b-row>
         <b-col>
           <label>Horário Início:</label>
-          <p>{{periodo_inicio }}</p>
+          <p>{{periodo_inicio | formataHorario}}</p>
         </b-col>
       </b-row>
       <b-row>
         <b-col>
           <label>Horário Fim:</label>
-          <p>{{periodo_fim }}</p>
+          <p>{{periodo_fim |formataHorario }}</p>
         </b-col>
       </b-row>
     </b-container>
@@ -123,6 +129,7 @@ export default {
 
 .info-coletados {
   margin-bottom: 20px;
+  width: 550px;
 }
 
 p {
