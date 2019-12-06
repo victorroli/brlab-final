@@ -18,7 +18,7 @@
             </p>
           </div>
           <b-row>
-            <b-col class="text-center btn-div" :v-if="mostrarBotaoIniciar">
+            <b-col class="text-center btn-div" v-if="true">
               <router-link
                 :to="{
                   name: 'iniciaExperimento',
@@ -26,8 +26,7 @@
                 }"
                 tag="b-button"
                 class="btn"
-                >Iniciar</router-link
-              >
+              >Iniciar</router-link>
             </b-col>
           </b-row>
           <b-row>
@@ -39,8 +38,7 @@
                 }"
                 tag="b-button"
                 class="btn"
-                >Reservar</router-link
-              >
+              >Reservar</router-link>
               <!-- <vue-calendar :laboratorio="lab_selecionado"></vue-calendar> -->
             </b-col>
           </b-row>
@@ -53,8 +51,7 @@
         <ul>
           <li v-for="(equipamentos, index) in equipamentos" :key="index">
             <b>
-              <u>{{ equipamentos.nome }}</u
-              >:
+              <u>{{ equipamentos.nome }}</u>:
             </b>
             {{ equipamentos.descricao }}
           </li>
@@ -101,9 +98,10 @@ export default {
       api
         .get(`agendamento/valida_horario/${this.$store.state.usuario.id}`)
         .then(response => {
-          if (response.data == 203) {
-            this.mostrarBotaoIniciar = false;
-          } else this.mostrarBotaoIniciar = true;
+          console.log("Resposta valida: ", response);
+          if (response.data.status == 200) {
+            this.mostrarBotaoIniciar = true;
+          } else this.mostrarBotaoIniciar = false;
         });
     },
     ultimosExperimentos() {
