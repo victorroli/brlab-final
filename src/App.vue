@@ -205,7 +205,7 @@ span:hover {
 }
 .vuecal__cell.selected {
   cursor: pointer;
-  background: blue;
+  /* background: blue; */
 }
 .vuecal__cell.disabled {
   pointer-events: none;
