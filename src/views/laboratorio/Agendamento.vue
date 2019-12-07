@@ -14,7 +14,7 @@
       :events="events"
       :on-event-create="onEventCreate"
       :on-event-click="verEvento"
-      :time-step="60"
+      :time-step="laboratorio.tempo"
       @cell-dblclick="efetuarReserva($event)"
       @event-focus="(focusEvento ? verEvento('event-focus', $event): '')"
     ></vue-calendario>
