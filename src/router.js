@@ -26,6 +26,9 @@ import ConveniosAtivos from "@/views/convenio/ConveniosAtivos.vue";
 import Convenios from "@/views/convenio/Convenios.vue";
 import SolicitacoesLaboratorios from "@/views/laboratorio/SolicitacoesLaboratorios.vue";
 import LaboratoriosCadastrados from "@/views/laboratorio/ListaLaboratoriosCadastrados.vue";
+import Configuracao from "@/views/configuracoes/Configuracoes.vue";
+import Status from "@/views/configuracoes/Status.vue";
+import Papel from "@/views/configuracoes/Papeis.vue";
 
 Vue.use(Router);
 
@@ -149,7 +152,7 @@ export default new Router({
       children: [
         {
           path: "",
-          name: "usuarios",
+          name: "todos",
           component: ListaUsuarios,
           props: true
         },
@@ -177,13 +180,25 @@ export default new Router({
       path: "/reservas",
       name: "reservas",
       component: Reservas
-      // children:[
-      //   {
-      //     path: '',
-      //     name: "reservas-realizadas",
-      //     component:
-      //   }
-      // ]
+    },
+    {
+      path: "/configuracoes",
+      name: "configuracao",
+      component: Configuracao,
+      children: [
+        {
+          path: "papeis",
+          name: "papeis",
+          component: Papel,
+          props: true
+        },
+        {
+          path: "status",
+          name: "status",
+          component: Status,
+          props: true
+        }
+      ]
     }
   ],
   scrollBehavior() {
