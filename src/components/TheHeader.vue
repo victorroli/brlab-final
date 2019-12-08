@@ -51,7 +51,7 @@
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown
-            text="Instituições"
+            text="Instituição"
             v-if="this.$store.state.usuario.papel_id == 1 && usuario_logado"
             left
           >
@@ -67,7 +67,7 @@
             class="menu"
             v-if="this.$store.state.usuario.papel_id == 1 && usuario_logado"
           >
-            <router-link tag="b-dropdown-item" class="menu" to="/usuarios">Todos</router-link>
+            <router-link tag="b-dropdown-item" class="menu" :to="{name: 'todos'}">Todos</router-link>
             <router-link
               tag="b-dropdown-item"
               class="menu"
@@ -85,8 +85,12 @@
             left
             v-if="usuario_logado && this.$store.state.usuario.papel_id == 1"
           >
-            <router-link class="menu" tag="b-dropdown-item" to>Papeis</router-link>
-            <router-link class="menu" tag="b-dropdown-item" to>Status Laboratório</router-link>
+            <router-link class="menu" tag="b-dropdown-item" :to="{name: 'papeis'}">Papeis</router-link>
+            <router-link
+              class="menu"
+              tag="b-dropdown-item"
+              :to="{name: 'status'}"
+            >Status Laboratório</router-link>
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
