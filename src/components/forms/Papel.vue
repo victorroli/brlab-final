@@ -2,7 +2,7 @@
   <b-modal
     id="modal-form"
     ref="modal"
-    title="Papel cadastrado"
+    :title="titulo"
     :ok-title="txtBotaoIncluir"
     :cancel-title="txtBotaoCancelar"
     cancel-variant="danger"
@@ -37,7 +37,7 @@ import { api } from "@/services.js";
 
 export default {
   name: "PapelForm",
-  props: ["papel"],
+  props: ["papel", "titulo"],
   data() {
     return {
       registro: {
@@ -91,7 +91,7 @@ export default {
             })
             .then(response => {
               if (response.data.status == 201) {
-                this.boxMensagem(
+                this.$parent.boxMensagem(
                   `Papel ${this.registro.nome} criado com sucesso!`
                 );
               }
@@ -106,20 +106,13 @@ export default {
             })
             .then(response => {
               if (response.data.status == 200) {
-                this.boxMensagem(
+                this.$parent.boxMensagem(
                   `Papel ${this.registro.nome} atualizado com sucesso!`
                 );
               }
             });
           break;
       }
-    },
-    boxMensagem(mensagem) {
-      this.$bvModal.msgBoxOk(mensagem, {
-        footerClass: "p-2",
-        buttonSize: "md",
-        centered: true
-      });
     }
   }
 };

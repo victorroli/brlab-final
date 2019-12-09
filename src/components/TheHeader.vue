@@ -86,19 +86,17 @@
             v-if="usuario_logado && this.$store.state.usuario.papel_id == 1"
           >
             <router-link class="menu" tag="b-dropdown-item" :to="{name: 'papeis'}">Papeis</router-link>
-            <router-link
+            <!-- <router-link
               class="menu"
               tag="b-dropdown-item"
               :to="{name: 'status'}"
-            >Status Laboratório</router-link>
+            >Status Laboratório</router-link>-->
           </b-nav-item-dropdown>
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown right v-if="this.$store.state.login">
-            <template slot="button-content">
-              <em>{{ nome }}</em>
-            </template>
+            <template slot="button-content">{{ nome }}</template>
             <b-dropdown-item>
               <router-link tag="b-dropdown-item" class="menu" :to="{ name: 'editar_perfil' }">Perfil</router-link>
             </b-dropdown-item>
@@ -155,6 +153,7 @@ export default {
   computed: {
     usuario_logado() {
       if (this.$store.state.login) {
+        console.log("Usuario -->", this.$store.state.usuario);
         this.papel = this.$store.state.usuario.descricao_papel;
         return true;
       }

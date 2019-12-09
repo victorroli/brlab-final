@@ -19,7 +19,6 @@
           </b-button>
         </template>
       </b-table>
-      <modal-papeis ref="modalPapeis"></modal-papeis>
       <div class="group-button">
         <b-button @click="novoPapel()">
           <font-awesome-icon icon="plus-circle" />Novo Papel
@@ -29,6 +28,7 @@
     <div v-else>
       <PaginaCarregando v-if="listaPapeis.length == 0" />
     </div>
+    <modal-papeis ref="modalPapeis" :titulo="titulo"></modal-papeis>
   </section>
 </template>
 
@@ -54,7 +54,8 @@ export default {
         opcoes: {
           label: "Opções"
         }
-      }
+      },
+      titulo: ""
     };
   },
   components: {
@@ -66,6 +67,8 @@ export default {
   },
   methods: {
     buscaPapeis() {
+      this.listaPapeis = [];
+      let aLista = [];
       api.get("/usuarios/papeis").then(response => {
         if (response.data.papeis) {
           response.data.papeis.forEach(elemento => {
@@ -75,10 +78,19 @@ export default {
               descricao: elemento.descricao
             });
             this.listaPapeis.push(objeto);
+            // console.log("Papeis...", this.listaPapeis);
+            // aLista = [...this.listaPapeis];
           });
         }
+        // this.listaPapeis = this.ordenaLista(aLista);
       });
     },
+    // ordenaLista(lista) {
+    //   console.log("LIsta: ", lista);
+    //   lista.sort(function(a, b) {
+    //     return parseInt(a.id) - parseInt(b.id);
+    //   });
+    // },
     excluir(valor) {
       this.$bvModal
         .msgBoxConfirm("Deseja realmente deletar o papel " + valor.nome + "?", {
@@ -104,15 +116,20 @@ export default {
       api.delete(`/usuarios/papeis/${valor.id}`).then(response => {
         if (response.data.status == 200) {
           this.boxMensagem(`Papel ${valor.nome} excluído com sucesso!`);
+        } else if (response.data.status == 204) {
+          this.boxMensagem(
+            `Papel ${valor.nome} não pode ser excluído, possui usuários vinculados!`
+          );
         }
-        console.log("Resposta pega: ", response);
       });
     },
     editar(valor) {
       this.$refs.modalPapeis.recebeValores(valor, "edicao");
+      this.titulo = "Papel cadastrado";
     },
     novoPapel() {
       this.$refs.modalPapeis.recebeValores("", "inclusao");
+      this.titulo = "Cadastrar Papel/Função";
     },
     boxMensagem(mensagem) {
       this.$bvModal.msgBoxOk(mensagem, {
@@ -120,10 +137,10 @@ export default {
         buttonSize: "md",
         centered: true
       });
+      this.buscaPapeis();
     }
   }
 };
-console.log("Chega aqui?");
 </script>
 
 <style scoped>

@@ -198,7 +198,8 @@ export default new Vuex.Store({
         });
     },
     busca_papel(context, papel) {
-      api.get(`/papel/${papel}`).then(response => {
+      console.log("Papel: ", papel);
+      api.get(`/usuarios/papeis/${papel}`).then(response => {
         if (response.data) {
           context.commit("SET_DESCRICAO_PAPEL", response.data.descricao);
         }
@@ -206,7 +207,6 @@ export default new Vuex.Store({
     },
     login(context, payload) {
       api.get(`/usuario/${payload.email}`).then(response => {
-        console.log("Resposta: ", response);
         if (response.data) {
           if (response.data.senha == payload.senha) {
             context.commit("UPDATE_USUARIO", response.data);
