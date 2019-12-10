@@ -58,9 +58,29 @@ export default {
         this.boxMensagem("Usuário editado com sucesso!!!");
       }
       if (acao == "salvar") {
+        if (this.verificaCampos()) {
+          this.boxMensagem("Preencha todos os campos...");
+        }
         this.$store.dispatch("setUsuario", this.registro);
       }
-      // alert("Usuário cadastrado com sucesso!!");
+    },
+    verificaCampos() {
+      let erro = false;
+      if (!this.nome) {
+        erro = true;
+      }
+      if (!this.email) {
+        erro = true;
+      }
+      if (!this.nickname) {
+        erro = true;
+      }
+      if (!this.senha) {
+        erro = true;
+      }
+      if (!this.papel_id) {
+        erro = true;
+      }
     },
     checUsuario() {
       if (this.usuario) {

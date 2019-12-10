@@ -12,12 +12,7 @@
       <div class="dados-menores">
         <div>
           <label for="telefone">Telefone:</label>
-          <b-form-input
-            id="telefone"
-            type="text"
-            name="telefone"
-            v-model="telefone"
-          />
+          <b-form-input id="telefone" type="text" name="telefone" v-model="telefone" />
         </div>
         <div>
           <label for="cnpj">CNPJ:</label>
@@ -35,22 +30,12 @@
         </div>
         <div>
           <label for="numero">Número:</label>
-          <b-form-input
-            id="numero"
-            type="text"
-            name="numero"
-            v-model="numero"
-          />
+          <b-form-input id="numero" type="text" name="numero" v-model="numero" />
         </div>
       </div>
 
       <label for="complemento">Complemento:</label>
-      <b-form-input
-        id="complemento"
-        type="text"
-        name="complemento"
-        v-model="complemento"
-      />
+      <b-form-input id="complemento" type="text" name="complemento" v-model="complemento" />
 
       <label for="bairro">Bairro:</label>
       <b-form-input id="bairro" type="text" name="bairro" v-model="bairro" />
@@ -59,9 +44,7 @@
       <b-form-input id="cidade" type="text" name="cidade" v-model="cidade" />
     </form>
     <div class="group-button">
-      <b-button id="salvar" class="salvar" @click="salvaInstituicao()"
-        >Salvar</b-button
-      >
+      <b-button id="salvar" class="salvar" @click="salvaInstituicao()">Salvar</b-button>
     </div>
   </section>
 </template>
@@ -90,7 +73,10 @@ export default {
   },
   methods: {
     salvaInstituicao() {
-      alert("Passou instituição...");
+      if (!this.checCampos()) {
+        this.boxMensagem("Preencha todos os campos...");
+        return;
+      }
       api
         .post("/instituicao", {
           nome: this.nome,
@@ -108,6 +94,47 @@ export default {
             alert("Laboratório cadastrado com sucesso!!!");
           }
         });
+    },
+    boxMensagem(mensagem) {
+      this.$bvModal.msgBoxOk(mensagem, {
+        footerClass: "p-2",
+        buttonSize: "md",
+        centered: true
+      });
+      this.buscaPapeis();
+    },
+    checCampos() {
+      let erro = false;
+      if (!this.nome) {
+        erro = true;
+      }
+      if (!this.telefone) {
+        erro = true;
+      }
+      if (!this.cnpj) {
+        erro = true;
+      }
+      if (!this.cep) {
+        erro = true;
+      }
+      if (!this.rua) {
+        erro = true;
+      }
+      if (!this.bairro) {
+        erro = true;
+      }
+      if (!this.cidade) {
+        erro = true;
+      }
+      if (!this.tipo) {
+        erro = true;
+      }
+      if (!this.cep) {
+        erro = true;
+      }
+      if (erro) {
+        return false;
+      }
     }
   }
 };

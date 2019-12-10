@@ -34,6 +34,10 @@ export default {
   },
   methods: {
     salvarUsuario() {
+      if (!this.verificaCampos()) {
+        this.boxMensagem("Preencha todos os campos...");
+        return;
+      }
       this.$refs.registraUsuario.salvarUsuario();
       if (this.$store.state.login) {
         this.$router.push({ path: "/" });
@@ -62,6 +66,14 @@ export default {
     },
     mostraDadosLogin() {
       return !this.$store.state.login || this.$route.name === "usuario-editar";
+    },
+    boxMensagem(mensagem) {
+      this.$bvModal.msgBoxOk(mensagem, {
+        footerClass: "p-2",
+        buttonSize: "md",
+        centered: true
+      });
+      this.buscaPapeis();
     }
   },
   computed: {
@@ -71,17 +83,6 @@ export default {
       // mutation: "UPDATE_USUARIO",
       // action: "setUsuario"
     })
-  },
-  created() {
-    api.get(`/papel/`).then(response => {
-      response.data.papeis.forEach(elemento => {
-        let papel = Object({
-          id: elemento.id,
-          nome: elemento.nome
-        });
-        this.listaPapeis.push(papel);
-      });
-    });
   }
 };
 </script>

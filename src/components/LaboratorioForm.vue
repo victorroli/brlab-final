@@ -53,6 +53,10 @@ export default {
   },
   methods: {
     incluirLab() {
+      if (this.checCampos()) {
+        this.boxMensagem("Preencha todos os campos...");
+        return;
+      }
       let listaEquipamentos = this.$refs.equipamentoRef.retornaEquipamentos();
 
       listaEquipamentos.forEach((elemento, index) => {
@@ -94,6 +98,33 @@ export default {
           // console.log("Resposta obtida: ", response.data);
         });
       this.laboratorio.equipamentos = [];
+    },
+    checCampos() {
+      let erro = false;
+      if (!this.nome) {
+        erro = true;
+      }
+      if (!this.host) {
+        erro = true;
+      }
+      if (!this.porta) {
+        erro = true;
+      }
+      if (!this.tempo) {
+        erro = true;
+      }
+      if (!this.descricao) {
+        erro = true;
+      }
+      return erro;
+    },
+    boxMensagem(mensagem) {
+      this.$bvModal.msgBoxOk(mensagem, {
+        footerClass: "p-2",
+        buttonSize: "md",
+        centered: true
+      });
+      this.buscaPapeis();
     }
   }
 };
