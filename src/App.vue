@@ -234,4 +234,9 @@ form {
 label {
   font-weight: bold;
 }
+
+td:last-child {
+  display: flex;
+  justify-content: center;
+}
 </style>
