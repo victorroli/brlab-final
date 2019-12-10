@@ -138,8 +138,8 @@ textarea:focus {
 
 /* Alinha botão das tabelas nas listagens */
 .group-button {
-  width: 100%;
-  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 
 .btn.editar.btn-secondary {
