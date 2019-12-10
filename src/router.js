@@ -164,7 +164,7 @@ export default new Router({
         },
         {
           path: "/editar",
-          name: "editar-perfil",
+          name: "editar_perfil",
           component: EditarPerfil,
           props: true
         },

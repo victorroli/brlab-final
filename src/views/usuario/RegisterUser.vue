@@ -4,7 +4,7 @@
       {{usuario}}
       <UsuarioForm ref="registraUsuario" :lista="listaPapeis" :usuario="usuario">
         <template v-slot:titulo>
-          <h1>Cadastro de Usuário</h1>
+          <h1>Novo Usuário</h1>
         </template>
         <br />
         <template>

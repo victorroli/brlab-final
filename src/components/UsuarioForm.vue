@@ -4,49 +4,21 @@
     <div class="usuario">
       <form>
         <label for="nome">Nome:</label>
-        <b-form-input
-          id="nome"
-          type="text"
-          name="nome"
-          v-model="registro.nome"
-        />
+        <b-form-input id="nome" type="text" name="nome" v-model="registro.nome" />
 
         <label for="nickname">Nickname:</label>
 
-        <b-form-input
-          id="nickname"
-          type="text"
-          name="nickname"
-          v-model="registro.nickname"
-        />
+        <b-form-input id="nickname" type="text" name="nickname" v-model="registro.nickname" />
         <label for="papel">Função atual:</label>
-        <b-form-select
-          v-model="registro.papel_id"
-          :options="papeis"
-        ></b-form-select>
+        <b-form-select v-model="registro.papel_id" :options="papeis"></b-form-select>
         <br />
         <label for="email">Email:</label>
-        <b-form-input
-          id="email"
-          type="email"
-          name="email"
-          v-model="registro.email"
-        />
+        <b-form-input id="email" type="email" name="email" v-model="registro.email" />
 
         <label>Senha:</label>
-        <b-form-input
-          id="senha"
-          type="text"
-          name="senha"
-          v-model="registro.senha"
-        />
+        <b-form-input id="senha" type="text" name="senha" v-model="registro.senha" />
         <label for="senha">Confirmar Senha:</label>
-        <b-form-input
-          id="confirmsenha"
-          type="text"
-          name="confirm_senha"
-          v-model="confirm_senha"
-        />
+        <b-form-input id="confirmsenha" type="text" name="confirm_senha" v-model="confirm_senha" />
       </form>
     </div>
 
@@ -83,10 +55,12 @@ export default {
     salvarUsuario(acao = null) {
       if (acao == "editar") {
         this.$store.dispatch("updateUsuario", this.registro);
-        alert("Usuário editado com sucesso!!!");
+        this.boxMensagem("Usuário editado com sucesso!!!");
       }
-      this.$store.dispatch("setUsuario", this.registro);
-      alert("Usuário cadastrado com sucesso!!");
+      if (acao == "salvar") {
+        this.$store.dispatch("setUsuario", this.registro);
+      }
+      // alert("Usuário cadastrado com sucesso!!");
     },
     checUsuario() {
       if (this.usuario) {
@@ -98,7 +72,7 @@ export default {
       }
     },
     buscaPapeis() {
-      api.get(`/papel/`).then(response => {
+      api.get(`/usuarios/papeis`).then(response => {
         response.data.papeis.forEach(elemento => {
           let papel = Object({
             value: elemento.id,
@@ -118,6 +92,14 @@ export default {
         this.tipo_senha = "password";
         this.tipo_icone = "eye-slash";
       }
+    },
+    boxMensagem(mensagem) {
+      this.$bvModal.msgBoxOk(mensagem, {
+        footerClass: "p-2",
+        buttonSize: "md",
+        centered: true
+      });
+      this.buscaPapeis();
     }
   },
   created() {
