@@ -4,12 +4,6 @@
     <div id="solicitacoes" v-if="laboratorios.length > 0">
       <b-table striped hover :items="laboratorios" :fields="fields">
         <template slot="opcoes" slot-scope="row">
-          <!-- <b-button class="editar" @click="aceitar(row.item.id)">
-            <font-awesome-icon icon="check-circle" />Aceitar
-          </b-button>
-          <b-button class="excluir" @click="rejeitar(row.item.id)">
-            <font-awesome-icon icon="times-circle" />Rejeitar
-          </b-button>-->
           <b-button class="ver" @click="aceitar(row.item)">
             <font-awesome-icon icon="eye" />Ver Detalhes
           </b-button>
@@ -35,7 +29,7 @@ export default {
   },
   data() {
     return {
-      laboratorios: "",
+      laboratorios: [],
       fields: {
         name: {
           label: "Nome"
@@ -65,7 +59,9 @@ export default {
   methods: {
     buscaSolicitacoes() {
       api.get(`/laboratorios/solicitacoes/`).then(response => {
-        this.laboratorios = response.data.content;
+        if (response.data.status == 200 && !response.data.content) {
+          this.laboratorios = [...response.data.solicitacoes];
+        }
       });
     },
     aceitar(item) {
