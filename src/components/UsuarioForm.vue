@@ -120,7 +120,7 @@ export default {
         response.data.papeis.forEach(elemento => {
           let papel = Object({
             value: elemento.id,
-            text: elemento.nome
+            text: elemento.descricao
           });
           // console.log("Paper: ", papel.nome);
           this.papeis.push(papel);

@@ -154,7 +154,7 @@ export default {
     usuario_logado() {
       if (this.$store.state.login) {
         console.log("Usuario -->", this.$store.state.usuario);
-        this.papel = this.$store.state.usuario.descricao_papel;
+        this.papel = this.$store.state.usuario.descricao;
         return true;
       }
       return false;

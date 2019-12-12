@@ -16,7 +16,7 @@ export default new Vuex.Store({
       email: "",
       senha: "",
       papel_id: "",
-      descricao_papel: ""
+      descricao: ""
     },
     experimento: {
       id: "",
@@ -55,6 +55,7 @@ export default new Vuex.Store({
     },
     UPDATE_USUARIO(state, payload) {
       state.usuario = Object.assign(state.usuario, payload);
+      console.log("Usuario: ", state.usuario);
     },
     UPDATE_LABORATORIO(state, payload) {
       state.laboratorio = payload;
@@ -107,25 +108,24 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    setUsuario(context, payload) {
-      api
-        .post(`/usuario`, {
-          nome: payload.nome,
-          email: payload.email,
-          senha: payload.senha,
-          nickname: payload.nickname,
-          papel_id: payload.papel_id
-        })
-        .then(response => {
-          if (response.data.status == 201) {
-            context.commit("UPDATE_USUARIO", payload);
-            context.commit("UPDATE_LOGIN", true);
-            this.$router.push({ path: "/laboratorios" });
-          } else if (response.data.status == 200) {
-            alert("Usuário já cadastrado!!!");
-          }
-        });
-    },
+    // setUsuario(context, payload) {
+    //   api
+    //     .post(`/usuario`, {
+    //       nome: payload.nome,
+    //       email: payload.email,
+    //       senha: payload.senha,
+    //       nickname: payload.nickname,
+    //       papel_id: payload.papel_id
+    //     })
+    //     .then(response => {
+    //       if (response.data.status == 201) {
+    //         context.commit("UPDATE_USUARIO", payload);
+    //         // context.commit("UPDATE_LOGIN", true);
+    //         this.$router.push({ path: "/laboratorios" });
+    //       } else if (response.data.status == 200) {
+    //       }
+    //     });
+    // },
 
     updateUsuario(context, payload) {
       api
@@ -198,7 +198,6 @@ export default new Vuex.Store({
         });
     },
     busca_papel(context, papel) {
-      console.log("Papel: ", papel);
       api.get(`/usuarios/papeis/${papel}`).then(response => {
         if (response.data) {
           context.commit("SET_DESCRICAO_PAPEL", response.data.descricao);
@@ -206,16 +205,22 @@ export default new Vuex.Store({
       });
     },
     login(context, payload) {
-      api.get(`/usuario/${payload.email}`).then(response => {
-        if (response.data) {
-          if (response.data.senha == payload.senha) {
-            context.commit("UPDATE_USUARIO", response.data);
-            context.commit("UPDATE_LOGIN", true);
-            context.dispatch("busca_papel", context.state.usuario.papel_id);
-          } else {
-            context.commit("UPDATE_LOGIN", false);
-          }
+      api.get(`/login/${payload.email}`).then(response => {
+        if (response.status == 204) {
+          alert("Credenciais erradas!!");
+        } else if (response.status == 200) {
+          context.commit("UPDATE_USUARIO", response.data.usuario);
+          context.commit("UPDATE_LOGIN", true);
         }
+        // if (response.data) {
+        //   if (response.data.senha == payload.senha) {
+        //     context.commit("UPDATE_USUARIO", response.data);
+        //     context.commit("UPDATE_LOGIN", true);
+        //     context.dispatch("busca_papel", context.state.usuario.papel_id);
+        //   } else {
+        //     context.commit("UPDATE_LOGIN", false);
+        //   }
+        // }
       });
     },
     logout(context) {
