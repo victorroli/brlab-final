@@ -2,7 +2,7 @@
   <section>
     <h1>Usuários do sistema</h1>
     <div id="usuarios">
-      <div v-if="listaUsuarios.length">
+      <div v-if="listaUsuarios.length > 0">
         <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center">
           <template slot="opcoes" slot-scope="row">
             <b-button class="editar" @click="editarUsuario(row.item)">
@@ -14,7 +14,7 @@
           </template>
         </b-table>
       </div>
-      <div class="text-center">
+      <div class="text-center" v-else>
         <h4>Nenhum usuário cadastrado...</h4>
       </div>
       <div class="group-button">

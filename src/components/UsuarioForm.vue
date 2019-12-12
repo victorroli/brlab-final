@@ -60,25 +60,47 @@ export default {
       if (acao == "salvar") {
         if (this.verificaCampos()) {
           this.boxMensagem("Preencha todos os campos...");
+        } else {
+          this.setUsuario();
         }
-        this.$store.dispatch("setUsuario", this.registro);
       }
+    },
+    setUsuario() {
+      api
+        .post(`/usuario`, {
+          nome: this.registro.nome,
+          email: this.registro.email,
+          senha: this.registro.senha,
+          nickname: this.registro.nickname,
+          papel_id: this.registro.papel_id
+        })
+        .then(response => {
+          if (response.data.status == 201) {
+            this.boxMensagem(
+              "Usuário " + this.registro.nome + " cadastrado com sucesso!!!"
+            );
+          } else if (response.data.status == 200) {
+            this.boxMensagem(
+              "Usuário " + this.registro.nome + " já cadastrado!!!"
+            );
+          }
+        });
     },
     verificaCampos() {
       let erro = false;
-      if (!this.nome) {
+      if (!this.registro.nome) {
         erro = true;
       }
-      if (!this.email) {
+      if (!this.registro.email) {
         erro = true;
       }
-      if (!this.nickname) {
+      if (!this.registro.nickname) {
         erro = true;
       }
-      if (!this.senha) {
+      if (!this.registro.senha) {
         erro = true;
       }
-      if (!this.papel_id) {
+      if (!this.registro.papel_id) {
         erro = true;
       }
       return erro;
@@ -129,22 +151,22 @@ export default {
     this.buscaPapeis();
   },
   watch: {
-    "registro.name": function(novo, velho) {
-      // if (novo != "") registro.name = novo;
-      console.log("Name: ", novo);
-    },
-    "registro.nickname": function(novo, velho) {
-      console.log("Nickname: ", novo);
-    },
-    "registro.senha": function(novo) {
-      console.log("Nova senha: ", novo);
-    },
-    "registro.email": function(novo) {
-      console.log("Novo email: ", novo);
-    },
-    usuario(valor) {
-      console.log("Usuario: ", valor);
-    }
+    // "registro.name": function(novo, velho) {
+    //   // if (novo != "") registro.name = novo;
+    //   console.log("Name: ", novo);
+    // },
+    // "registro.nickname": function(novo, velho) {
+    //   console.log("Nickname: ", novo);
+    // },
+    // "registro.senha": function(novo) {
+    //   console.log("Nova senha: ", novo);
+    // },
+    // "registro.email": function(novo) {
+    //   console.log("Novo email: ", novo);
+    // },
+    // usuario(valor) {
+    //   console.log("Usuario: ", valor);
+    // }
   },
   computed: {
     confirm_senha: {

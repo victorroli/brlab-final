@@ -69,12 +69,11 @@ export default {
                   this.$bvModal.msgBoxOk(
                     "Solicitação do usuário " + usuario + " aceita!"
                   );
+                  this.solicitacoesPendentes();
                 }
               });
           }
-          console.log("Resposta obtida: ", response);
         });
-      this.solicitacoesPendentes();
     },
     rejeitar(item) {
       api.delete(`usuario/${item}`).then(response => {
@@ -86,10 +85,10 @@ export default {
               this.$bvModal.msgBoxOk(
                 "Solicitação do usuário " + usuario + " rejeitada!"
               );
+              this.solicitacoesPendentes();
             }
           });
       });
-      this.solicitacoesPendentes();
     },
     solicitacoesPendentes() {
       api.get("/usuarios").then(response => {
