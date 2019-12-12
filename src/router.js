@@ -57,7 +57,7 @@ export default new Router({
           component: LaboratoriosCadastrados
         },
         {
-          path: "/novo",
+          path: "/novo-laboratorio",
           name: "novo-laboratorio",
           component: NovoLaboratorio
         },
@@ -120,7 +120,7 @@ export default new Router({
           component: ConveniosAtivos
         },
         {
-          path: "/novo",
+          path: "/novo-convenio",
           name: "novo_convenio",
           component: NovoConvenio
         }
@@ -169,7 +169,7 @@ export default new Router({
           props: true
         },
         {
-          path: "/novo",
+          path: "/novo-usuario",
           name: "novo-usuario",
           component: RegisterUser,
           props: true

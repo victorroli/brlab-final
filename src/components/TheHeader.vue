@@ -98,7 +98,7 @@
           <b-nav-item-dropdown right v-if="this.$store.state.login">
             <template slot="button-content">{{ nome }}</template>
             <b-dropdown-item>
-              <router-link tag="b-dropdown-item" class="menu" :to="{ name: 'editar_perfil' }">Perfil</router-link>
+              <router-link tag="b-dropdown-item" class="menu" :to="{ name: 'editar_perfil'}">Perfil</router-link>
             </b-dropdown-item>
             <b-dropdown-item id="logout" @click="logout()">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
