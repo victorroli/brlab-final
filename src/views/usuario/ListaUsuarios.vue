@@ -18,7 +18,7 @@
         <h4>Nenhum usuário cadastrado...</h4>
       </div>
       <div class="group-button">
-        <router-link tag="b-button" class="btn" :to="{name: 'register-user'}">
+        <router-link tag="b-button" class="btn" :to="{name: 'novo-usuario'}">
           <font-awesome-icon icon="plus-circle" />Novo Usuário
         </router-link>
       </div>

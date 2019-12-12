@@ -34,35 +34,7 @@ export default {
   },
   methods: {
     salvarUsuario() {
-      if (!this.verificaCampos()) {
-        this.boxMensagem("Preencha todos os campos...");
-        return;
-      }
-      this.$refs.registraUsuario.salvarUsuario();
-      if (this.$store.state.login) {
-        this.$router.push({ path: "/" });
-      }
-    },
-    verificaCampos() {
-      if (this.name == "") {
-        alert("Campo Nome não informado");
-        return false;
-      }
-      if (this.email == "") {
-        alert("Email não informado");
-        return false;
-      }
-      if (this.senha == "") {
-        alert("Campo Senha não informado");
-        return false;
-      }
-      if (this.confirm_senha == "") {
-        return false;
-      }
-      // if (this.senha !== this.confirm_senha) {
-      //   return false;
-      // }
-      return true;
+      this.$refs.registraUsuario.salvarUsuario("salvar");
     },
     mostraDadosLogin() {
       return !this.$store.state.login || this.$route.name === "usuario-editar";

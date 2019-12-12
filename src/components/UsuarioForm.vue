@@ -81,6 +81,7 @@ export default {
       if (!this.papel_id) {
         erro = true;
       }
+      return erro;
     },
     checUsuario() {
       if (this.usuario) {
@@ -92,6 +93,7 @@ export default {
       }
     },
     buscaPapeis() {
+      this.papeis = [];
       api.get(`/usuarios/papeis`).then(response => {
         response.data.papeis.forEach(elemento => {
           let papel = Object({
