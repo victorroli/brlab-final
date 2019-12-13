@@ -5,12 +5,7 @@
       <label for="Email">Email:</label>
       <input type="email" name="email" id="email" v-model="dadosLogin.email" />
       <label for="Senha">Senha:</label>
-      <input
-        type="password"
-        name="senha"
-        id="senha"
-        v-model="dadosLogin.senha"
-      />
+      <input type="password" name="senha" id="senha" v-model="dadosLogin.senha" />
       <b-button class="btn login" @click.prevent="logar">Entrar</b-button>
     </form>
     <!-- <div class="opcoes-adicionais">
@@ -20,7 +15,7 @@
       <p class="perdeu">
         <router-link :to="{name: 'register-user'}">Criar nova conta</router-link>
       </p>
-    </div> -->
+    </div>-->
 
     <!-- <b-modal id="my-modal" ref="my-modal" hide-footer centered>
       <div class="d-block text-center">
@@ -67,7 +62,7 @@ export default {
             this.$router.push({ path: "/laboratorios" });
           } else this.resposta = "Credenciais erradas. Verifique";
           this.$bvModal.show("my-modal");
-        }, 500);
+        }, 1300);
       } else this.resposta = "Verifique os campos";
     },
     verificaCampos() {
