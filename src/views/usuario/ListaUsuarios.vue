@@ -13,14 +13,17 @@
             </b-button>
           </template>
         </b-table>
+        <div class="group-button">
+          <router-link tag="b-button" class="btn" :to="{name: 'novo-usuario'}">
+            <font-awesome-icon icon="plus-circle" />Novo Usuário
+          </router-link>
+        </div>
+      </div>
+      <div v-else-if="!listaUsuarios.length">
+        <PaginaCarregando />
       </div>
       <div class="text-center" v-else>
         <h4>Nenhum usuário cadastrado...</h4>
-      </div>
-      <div class="group-button">
-        <router-link tag="b-button" class="btn" :to="{name: 'novo-usuario'}">
-          <font-awesome-icon icon="plus-circle" />Novo Usuário
-        </router-link>
       </div>
     </div>
     <modal-usuario ref="modalUsuario"></modal-usuario>
@@ -29,11 +32,13 @@
 
 <script>
 import ModalUsuario from "@/views/usuario/ModalUsuario.vue";
+import PaginaCarregando from "@/components/PaginaCarregando.vue";
 import { api } from "@/services.js";
 export default {
   name: "ListaUsuarios",
   components: {
-    ModalUsuario
+    ModalUsuario,
+    PaginaCarregando
   },
   data() {
     return {
