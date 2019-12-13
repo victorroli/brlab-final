@@ -172,10 +172,11 @@ export default {
       }
     },
     salvaReserva() {
+      console.log("Acao: ", this.acao);
       switch (this.acao) {
         case "inclusao": {
           api
-            .post(`/agendamento`, {
+            .post(`/agendamento/`, {
               horario_inicio: this.$options.agendamento.horarioInicio,
               horario_fim: this.$options.agendamento.horarioTermino,
               observacao: this.$options.agendamento.observacao,
@@ -200,7 +201,7 @@ export default {
                 });
               }
             });
-          // this.$parent.buscaEventos();
+          this.$parent.buscaEventos();
           break;
         }
         case "edicao": {
