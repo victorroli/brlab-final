@@ -83,6 +83,7 @@ export default {
 
   methods: {
     efetuarReserva(evento) {
+      console.log("Evento: ", evento);
       if (this.horarioValido(evento)) {
         this.evento = evento;
         this.$options.reserva.hora = evento.getHours();
@@ -196,24 +197,28 @@ export default {
       return `${ano}-${mes}-${dia} ${hora}:${minutos}`;
     },
     buscaEventos() {
+      this.events = [];
       setTimeout(() => {
         api
           .get(`/agendamento/laboratorio/${this.laboratorio.id}`, {})
           .then(response => {
             let aEventos = [];
-            response.data.forEach(reserva => {
-              let oReserva = new Object({
-                start: this.converteDate(reserva.periodo_inicio),
-                end: this.converteDate(reserva.periodo_fim),
-                title: "Horário reservado",
-                content: reserva.observacao,
-                class: "reserva",
-                usuario: reserva.usuario,
-                id: reserva.id
+            if (response.data.agendamentos) {
+              response.data.agendamentos.forEach(reserva => {
+                let oReserva = new Object({
+                  start: this.converteDate(reserva.periodo_inicio),
+                  end: this.converteDate(reserva.periodo_fim),
+                  title: "Horário reservado",
+                  content: reserva.observacao,
+                  class: "reserva",
+                  usuario: reserva.usuario,
+                  id: reserva.id
+                });
+                aEventos.push(oReserva);
               });
-              aEventos.push(oReserva);
-            });
+            }
             this.events = [...aEventos];
+            console.log("Eventos: ", this.events);
           });
       }, 200);
     }
