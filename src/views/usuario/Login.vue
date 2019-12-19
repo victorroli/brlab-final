@@ -62,7 +62,7 @@ export default {
             this.$router.push({ path: "/laboratorios" });
           } else this.resposta = "Credenciais erradas. Verifique";
           this.$bvModal.show("my-modal");
-        }, 2000);
+        }, 4000);
       } else this.resposta = "Verifique os campos";
     },
     verificaCampos() {
