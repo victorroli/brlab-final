@@ -18,11 +18,11 @@
             </p>
           </div>
           <b-row>
-            <b-col class="text-center btn-div" v-if="mostrarBotaoIniciar">
+            <b-col class="text-center btn-div" v-if="true">
               <router-link
                 :to="{
                   name: 'iniciaExperimento',
-                  params: { laboratorio_id: lab_selecionado.id }
+                  params: { laboratorio: lab_selecionado}
                 }"
                 tag="b-button"
                 class="btn"
@@ -32,6 +32,7 @@
           <b-row>
             <b-col class="text-center btn-div">
               <router-link
+                v-if="this.$store.state.usuario.papel_id != 5"
                 :to="{
                   name: 'agendamento',
                   params: { laboratorio: lab_selecionado }
@@ -82,7 +83,7 @@ export default {
     return {
       lab_selecionado: "",
       equipamentos: "",
-      mostrarBotaoIniciar: false
+      mostrarBotaoIniciar: true
     };
   },
   methods: {
