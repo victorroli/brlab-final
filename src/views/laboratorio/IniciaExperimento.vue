@@ -7,9 +7,7 @@
     <div class="labremoto" v-else-if="start">
       <div class="controladores">
         <div>
-          <button class="btn danger" @click.prevent="interrompeExperimento()">
-            Parar Experimentação
-          </button>
+          <button class="btn danger" @click.prevent="interrompeExperimento()">Parar Experimentação</button>
         </div>
         <div class="temporizador-info">
           <temporizador :seconds="seconds"></temporizador>
@@ -19,7 +17,7 @@
         <iframe
           width="560"
           height="315"
-          src="https://weblab.deusto.es/weblab/labs/"
+          :src="link"
           frameborder="0"
           allow="accelerometer; autoplay; gyroscope; picture-in-picture"
           allowfullscreen
@@ -41,7 +39,7 @@ import temporizador from "@/components/temporizador.vue";
 
 export default {
   name: "IniciarExperimento",
-  props: ["laboratorio_id"],
+  props: ["laboratorio"],
   data() {
     return {
       start: false,
@@ -62,7 +60,7 @@ export default {
         status: true,
         timer: 10 * 60,
         periodo_inicio: horarioAtual,
-        laboratorio_id: this.laboratorio_id
+        laboratorio_id: this.laboratorio.id
       });
     },
     getHorarioAtual() {
@@ -133,6 +131,8 @@ export default {
   },
   watch: {
     ativo(novo, old) {
+      console.log("Novo: ", novo);
+      console.log("Old: ", old);
       if (!novo) {
         this.finalizaExperimento();
       }
@@ -146,7 +146,10 @@ export default {
       fields: ["tempoRestante", "ativo", "periodo_inicio", "periodo_fim"],
       base: "experimento"
       // mutation: ["SET_HORA_INICIO", "SET_HORA_FIM", "SET_STATUS"]
-    })
+    }),
+    link() {
+      return `${this.laboratorio.host}:${this.laboratorio.port}`;
+    }
   }
 };
 </script>
@@ -201,5 +204,9 @@ export default {
 
 h1 {
   margin-bottom: 20px;
+}
+
+#return {
+  display: none;
 }
 </style>
