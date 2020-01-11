@@ -239,4 +239,9 @@ td:last-child {
   display: flex;
   justify-content: center;
 }
+
+.custom-control-label span {
+  color: #0f0f0f;
+  font-weight: 300;
+}
 </style>

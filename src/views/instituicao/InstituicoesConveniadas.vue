@@ -66,7 +66,7 @@ export default {
   methods: {
     buscaInstituicoes() {
       this.instituicoes = [];
-      api.get("/instituicao/").then(response => {
+      api.get("/instituicoes/").then(response => {
         if (response.data) {
           response.data.map(instituicao => {
             let instit = new Object({

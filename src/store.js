@@ -144,40 +144,40 @@ export default new Vuex.Store({
     setExperimento(context, payload) {
       console.log("Objeto passado: ", payload);
 
-      // api
-      //   .post("/experimento", {
-      //     periodo_inicio: payload.periodo_inicio,
-      //     usuario_id: context.state.usuario.id,
-      //     laboratorio_id: payload.laboratorio_id
-      //   })
-      //   .then(response => {
-      //     if (response.data.status == 201) {
-      //       if (payload.status) {
-      context.commit("SET_TIMER", payload.timer);
-      context.commit("SET_STATUS", payload.status);
-      context.commit("SET_HORA_INICIO", payload.periodo_inicio);
-      //         context.commit(
-      //           "SET_EXPERIMENTO_ID",
-      //           parseInt(response.data.experimento_id)
-      //         );
-      //       }
-      //     }
-      //   });
+      api
+        .post("/experimento", {
+          periodo_inicio: payload.periodo_inicio,
+          usuario_id: context.state.usuario.id,
+          laboratorio_id: payload.laboratorio_id
+        })
+        .then(response => {
+          if (response.data.status == 201) {
+            if (payload.status) {
+              context.commit("SET_TIMER", payload.timer);
+              context.commit("SET_STATUS", payload.status);
+              context.commit("SET_HORA_INICIO", payload.periodo_inicio);
+              context.commit(
+                "SET_EXPERIMENTO_ID",
+                parseInt(response.data.experimento_id)
+              );
+            }
+          }
+        });
     },
 
     updateExperimento(context, payload) {
       context.commit("SET_STATUS", payload.status);
-      // api
-      //   .put(`/experimento/${context.state.experimento.id}`, {
-      //     periodo_fim: payload.periodo_fim,
-      //     observacao: payload.observacao
-      //   })
-      //   .then(response => {
-      //     if (response.data.status == 201) {
-      context.commit("SET_HORA_FIM", payload.periodo_fim);
-      context.commit("SET_OBSERVACAO", payload.observacao);
-      //     }
-      //   });
+      api
+        .put(`/experimento/${context.state.experimento.id}`, {
+          periodo_fim: payload.periodo_fim,
+          observacao: payload.observacao
+        })
+        .then(response => {
+          if (response.data.status == 201) {
+            context.commit("SET_HORA_FIM", payload.periodo_fim);
+            context.commit("SET_OBSERVACAO", payload.observacao);
+          }
+        });
     },
 
     setReserva(context, payload) {
@@ -205,10 +205,11 @@ export default new Vuex.Store({
       });
     },
     login(context, payload) {
+      console.log(payload);
       api.get(`/login/${payload.email}`).then(response => {
-        if (response.status == 204) {
-          alert("Credenciais erradas!!");
-        } else if (response.status == 200) {
+        console.log("Resposta: ", response);
+        if (response.data.status == 204) {
+        } else if (response.data.status == 200) {
           context.commit("UPDATE_USUARIO", response.data.usuario);
           context.commit("UPDATE_LOGIN", true);
         }

@@ -73,12 +73,12 @@ export default {
   },
   methods: {
     salvaInstituicao() {
-      if (!this.checCampos()) {
+      if (this.checCampos()) {
         this.boxMensagem("Preencha todos os campos...");
         return;
       }
       api
-        .post("/instituicao", {
+        .post("/instituicoes", {
           nome: this.nome,
           telefone: this.telefone,
           cnpj: this.cnpj,
@@ -114,9 +114,6 @@ export default {
       if (!this.cnpj) {
         erro = true;
       }
-      if (!this.cep) {
-        erro = true;
-      }
       if (!this.rua) {
         erro = true;
       }
@@ -132,9 +129,7 @@ export default {
       if (!this.cep) {
         erro = true;
       }
-      if (erro) {
-        return false;
-      }
+      return erro;
     }
   }
 };

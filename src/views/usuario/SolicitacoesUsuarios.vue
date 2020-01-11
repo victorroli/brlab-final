@@ -8,7 +8,7 @@
             <b-button class="editar" @click="aceitar(row.item.id)">
               <font-awesome-icon icon="check-circle" />Aceitar
             </b-button>
-            <b-button class="excluir" @click="rejeitar(row.item.id)">
+            <b-button class="excluir" @click="rejeitar(row.item.id)" v-if="row.item.papel_id != 1">
               <font-awesome-icon icon="trash" />Rejeitar
             </b-button>
           </template>
@@ -102,34 +102,35 @@ export default {
             nome: usuario.nome,
             email: usuario.email,
             nickname: usuario.nickname,
-            papel: this.descricaoPapel(usuario.papel_id)
+            papel: usuario.descricao,
+            papel_id: usuario.papel_id
           });
           this.pendentes.push(novoUsuario);
         });
       });
-    },
-    descricaoPapel(papel) {
-      let descricao = "";
-      switch (papel) {
-        case 1: {
-          descricao = "Administrador";
-          break;
-        }
-        case 2: {
-          descricao = "Aluno";
-          break;
-        }
-        case 3: {
-          descricao = "Professor";
-          break;
-        }
-        case 4: {
-          descricao = "Pesquisador";
-          break;
-        }
-      }
-      return descricao;
     }
+    // descricaoPapel(papel) {
+    //   let descricao = "";
+    //   switch (papel) {
+    //     case 1: {
+    //       descricao = "Administrador";
+    //       break;
+    //     }
+    //     case 2: {
+    //       descricao = "Aluno";
+    //       break;
+    //     }
+    //     case 3: {
+    //       descricao = "Professor";
+    //       break;
+    //     }
+    //     case 4: {
+    //       descricao = "Pesquisador";
+    //       break;
+    //     }
+    //   }
+    //   return descricao;
+    // }
   }
 };
 </script>
