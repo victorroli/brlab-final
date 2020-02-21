@@ -55,7 +55,6 @@ export default new Vuex.Store({
     },
     UPDATE_USUARIO(state, payload) {
       state.usuario = Object.assign(state.usuario, payload);
-      console.log("Usuario: ", state.usuario);
     },
     UPDATE_LABORATORIO(state, payload) {
       state.laboratorio = payload;
@@ -67,7 +66,6 @@ export default new Vuex.Store({
       state.equipamentos.push(payload);
     },
     UPDATE_EQUIPAMENTOS(state, payload) {
-      console.log("Equipamentos: ", state.equipamentos);
       state.equipamentos = Object.assign(state.equipamentos, payload);
     },
     REMOVE_EQUIPAMENTO(state, payload) {
@@ -84,7 +82,6 @@ export default new Vuex.Store({
       state.experimento.tempoRestante--;
     },
     SET_TIMER(state, valorTempo) {
-      console.log("Tempo estimado: ", valorTempo);
       state.experimento.tempoRestante = valorTempo;
     },
     SET_STATUS(state, valor) {
@@ -94,7 +91,6 @@ export default new Vuex.Store({
       state.experimento.periodo_inicio = hora_inicio;
     },
     SET_HORA_FIM(state, hora_fim) {
-      console.log("Hora fim: ", hora_fim);
       state.experimento.periodo_fim = hora_fim;
     },
     SET_OBSERVACAO(state, observacao) {
@@ -108,24 +104,24 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    // setUsuario(context, payload) {
-    //   api
-    //     .post(`/usuario`, {
-    //       nome: payload.nome,
-    //       email: payload.email,
-    //       senha: payload.senha,
-    //       nickname: payload.nickname,
-    //       papel_id: payload.papel_id
-    //     })
-    //     .then(response => {
-    //       if (response.data.status == 201) {
-    //         context.commit("UPDATE_USUARIO", payload);
-    //         // context.commit("UPDATE_LOGIN", true);
-    //         this.$router.push({ path: "/laboratorios" });
-    //       } else if (response.data.status == 200) {
-    //       }
-    //     });
-    // },
+    setUsuario(context, payload) {
+      api
+        .post(`/usuario`, {
+          nome: payload.nome,
+          email: payload.email,
+          senha: payload.senha,
+          nickname: payload.nickname,
+          papel_id: payload.papel_id
+        })
+        .then(response => {
+          if (response.data.status == 201) {
+            context.commit("UPDATE_USUARIO", payload);
+            // context.commit("UPDATE_LOGIN", true);
+            this.$router.push({ path: "/laboratorios" });
+          } else if (response.data.status == 200) {
+          }
+        });
+    },
 
     updateUsuario(context, payload) {
       api
@@ -142,8 +138,7 @@ export default new Vuex.Store({
     },
 
     setExperimento(context, payload) {
-      console.log("Objeto passado: ", payload);
-
+      
       api
         .post("/experimento", {
           periodo_inicio: payload.periodo_inicio,
@@ -205,7 +200,6 @@ export default new Vuex.Store({
       });
     },
     login(context, payload) {
-      console.log(payload);
       api.get(`/login/${payload.email}`).then(response => {
         console.log("Resposta: ", response);
         if (response.data.status == 204) {
@@ -232,11 +226,6 @@ export default new Vuex.Store({
         email: "",
         senha: "",
         papel_id: ""
-        // rua: "",
-        // numero: "",
-        // bairro: "",
-        // cidade: "",
-        // estado: ""
       });
       context.commit("UPDATE_LOGIN", false);
     }

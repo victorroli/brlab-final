@@ -2,7 +2,7 @@ import axios from "axios";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:5000"
-  // baseURL: "https://api-brlab-v1.herokuapp.com/"
+  // baseURL: "https://api-brlab-v1.herokuapp.com"
 });
 
 export const api = {
@@ -13,7 +13,7 @@ export const api = {
     return axiosInstance.post(endpoint, body);
   },
   put(endpoint, body) {
-    return axiosInstance.put(endpoint, body);
+    return axiosInstance.put(endpoint, body);login
   },
   delete(endpoint) {
     return axiosInstance.delete(endpoint);

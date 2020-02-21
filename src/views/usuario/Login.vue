@@ -62,16 +62,14 @@ export default {
             this.$router.push({ path: "/laboratorios" });
           } else this.resposta = "Credenciais erradas. Verifique";
           this.$bvModal.show("my-modal");
-        }, 4000);
+        }, 2000);
       } else this.resposta = "Verifique os campos";
     },
     verificaCampos() {
       if (!this.dadosLogin.email) {
-        console.log("Email inválido...");
         return false;
       }
       if (!this.dadosLogin.senha) {
-        console.log("Senha inválida...");
         return false;
       }
       return true;
