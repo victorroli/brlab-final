@@ -1,44 +1,34 @@
 <template>
   <section class="login">
-    <h1>Login</h1>
-    <form action>
-      <label for="Email">Email:</label>
-      <input type="email" name="email" id="email" v-model="dadosLogin.email" />
-      <label for="Senha">Senha:</label>
-      <input type="password" name="senha" id="senha" v-model="dadosLogin.senha" />
-      <b-button class="btn login" @click.prevent="logar">Entrar</b-button>
-    </form>
-    <!-- <div class="opcoes-adicionais">
-      <p class="perdeu">
-        <a href="/" target="_blank">Esqueci minha senha.</a>
-      </p>
-      <p class="perdeu">
-        <router-link :to="{name: 'register-user'}">Criar nova conta</router-link>
-      </p>
-    </div>-->
+    <div v-if="!mostrarLoading">
+      <h1>Login</h1>
+      <form action>
+        <label for="Email">Email:</label>
+        <input type="email" name="email" id="email" v-model="dadosLogin.email" />
+        <label for="Senha">Senha:</label>
+        <input type="password" name="senha" id="senha" v-model="dadosLogin.senha" />
+        <b-button class="btn login" @click.prevent="logar">Entrar</b-button>
+      </form>
 
-    <!-- <b-modal id="my-modal" ref="my-modal" hide-footer centered>
-      <div class="d-block text-center">
-        <slot>
-          <p>{{resposta}}</p>
-        </slot>
-      </div>
-      <b-button class="sm-2" @click="hideModal">Fechar</b-button>
-    </b-modal>-->
-
-    <b-modal id="my-modal" centered title="Entrar no sistema" ok-only>
-      <p class="my-2">{{ resposta }}</p>
-    </b-modal>
+      <b-modal id="my-modal" centered title="Entrar no sistema" ok-only>
+        <p class="my-2">{{ resposta }}</p>
+      </b-modal>
+    </div>
+    <div v-else> 
+      <loading-page :v-if="mostrarLoading"></loading-page>
+    </div>
   </section>
 </template>
 
 <script>
 // import { mapFields } from "@/helpers/mapFields.js";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
+import PaginaCarregando from "@/components/PaginaCarregando.vue";
 // import ModalMensagem from "@/components/ModalMensagem.vue";
 export default {
   name: "Login",
   components: {
+    loadingPage: PaginaCarregando
     // mensagem: ModalMensagem
   },
   data() {
@@ -47,6 +37,7 @@ export default {
         email: "",
         senha: ""
       },
+      mostrarLoading: false,
       resposta: "",
       boxConfirmation: ""
     };
@@ -54,16 +45,23 @@ export default {
 
   methods: {
     logar() {
+      this.mostrarLoading = true;
       if (this.verificaCampos()) {
-        this.$store.dispatch("login", this.dadosLogin);
-        setTimeout(() => {
+        // let contador = 0;
+        // while(contador < 10){
+        //   console.log('Contador: ', contador);
           if (this.$store.state.login) {
+            console.log('Entrou alguma vez?');
             this.resposta = "Logado com sucesso!";
-            this.$router.push({ path: "/laboratorios" });
-          } else this.resposta = "Credenciais erradas. Verifique";
-          this.$bvModal.show("my-modal");
-        }, 3000);
-      } else this.resposta = "Verifique os campos";
+            this.$router.push({ path: "/laboratorios"});
+            this.$bvModal.show("my-modal");
+            this.mostrarLoading = true;
+          }else{
+            this.$store.dispatch("login", this.dadosLogin);
+          }
+          // contador += 1;
+        }
+      // } else this.resposta = "Verifique os campos";
     },
     verificaCampos() {
       if (!this.dadosLogin.email) {
@@ -81,9 +79,14 @@ export default {
   watch: {
     login(novo_valor) {
       if (novo_valor) {
+            this.resposta = "Logado com sucesso!";
+            this.$router.push({ path: "/laboratorios"});
+            this.$bvModal.show("my-modal");
+        
         // this.$refs["my-modal"].show();
       }
-    }
+    },
+    
   },
   computed: {
     ...mapState(["login"]),

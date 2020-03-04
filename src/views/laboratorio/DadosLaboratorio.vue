@@ -18,7 +18,7 @@
             </p>
           </div>
           <b-row>
-            <b-col class="text-center btn-div" v-if="true">
+            <b-col class="text-center btn-div" :v-if="mostrarBotaoIniciar">
               <router-link
                 :to="{
                   name: 'iniciaExperimento',
