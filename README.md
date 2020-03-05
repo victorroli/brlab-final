@@ -1,29 +1,29 @@
-# brlab
+####################################################
+## Comandos utilizados para executar o BrLab v1.0 ##
+####################################################
 
-## Project setup
-```
+## Instale as dependências necessárias
 npm install
-```
 
-### Compiles and hot-reloads for development
-```
+## Execute o seguinte comando para executar o projeto
 npm run serve
-```
 
-### Compiles and minifies for production
-```
-npm run build
-```
+################################
+## Links para o sistema e API ##
+################################
 
-### Run your tests
-```
-npm run test
-```
+## Endereço da API que o sistema realiza as consultas
+https://api-brlab-v1.herokuapp.com
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Endereço do sistema BrLab em funcionamento
+https://brlab.herokuapp.com/
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+##################################################
+## Links para acesso ao código fonte do projeto ##
+##################################################
+
+## Código fonte da API
+https://github.com/victorroli/api_v1
+
+## Código fonte do sistema
+https://github.com/victorroli/brlab-final
