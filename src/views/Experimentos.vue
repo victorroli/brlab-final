@@ -69,7 +69,7 @@ export default {
           response.data.forEach(resposta => {
             let oExperimento = new Object({
               horario_inicio: this.converteDate(resposta.periodo_inicio),
-              horario_termino: this.converteDate(resposta.periodo_fim),
+              horario_termino: resposta.periodo_fim ? this.converteDate(resposta.periodo_fim) : this.converteDate(resposta.periodo_inicio),
               titulo: "Horário reservado",
               laboratorio: resposta.laboratorio_id,
               observacao: resposta.observacao ? resposta.observacao : "-"
