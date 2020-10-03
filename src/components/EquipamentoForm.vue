@@ -13,8 +13,8 @@
             v-for="(equipamento, index) in this.listaEquipamentos"
             :key="index"
           >
-            <b-col cols="7">{{ equipamento.nome }}</b-col>
-            <b-col cols="2" v-if="cadastro">
+            <b-col cols="6">{{ equipamento.nome }}</b-col>
+            <b-col cols="3" v-if="cadastro">
               <b-button class="editar" @click="editarItem(index)"
                 >Editar</b-button
               >
