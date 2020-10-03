@@ -3,7 +3,7 @@
     <div>
       <b-navbar toggleable="lg" type="dark">
         <b-navbar-brand>
-          <router-link to="/">
+          <router-link to="/laboratorios">
             <img id="logotipo" src="../imagens/logo_brlab.png" alt="logotipo brlab" />
           </router-link>
         </b-navbar-brand>
