@@ -3,11 +3,11 @@
     <div id="laboratorios" v-if="laboratorios.length > 0">
       <h1>Laboratórios Cadastrados</h1>
       <b-table striped hover :items="laboratorios" :fields="fields" class="text-center">
-        <template slot="opcoes" slot-scope="row">
-          <b-button class="editar" @click="editar(row.item)">
+        <template v-slot:cell(opcoes)="data" >
+          <b-button class="editar" @click="editar(data.item)">
             <font-awesome-icon icon="edit" />Editar
           </b-button>
-          <b-button class="excluir" @click="excluirLaboratorio(row.item)">
+          <b-button class="excluir" @click="excluirLaboratorio(data.item)">
             <font-awesome-icon icon="trash" />Excluir
           </b-button>
         </template>
@@ -38,29 +38,15 @@ export default {
   data() {
     return {
       laboratorios: [],
-      fields: {
-        id: {
-          label: "ID"
-        },
-        name: {
-          label: "Nome"
-        },
-        description: {
-          label: "Descrição"
-        },
-        host: {
-          label: "Host"
-        },
-        port: {
-          label: "Porta"
-        },
-        tempo: {
-          label: "Tempo"
-        },
-        opcoes: {
-          label: "Opções"
-        }
-      }
+      fields: [
+        { key: 'id',   label: "Id"},
+        { key: 'name', label: "Nome"},
+        { key: 'description', label: "Descrição"},
+        { key: 'host', label: "Host"},
+        { key: 'port', label: "Porta"},
+        { key: 'tempo', label: "Tempo"},
+        { key: 'opcoes', label: "Opções"},
+      ]
     };
   },
   methods: {
@@ -70,14 +56,12 @@ export default {
           return laboratorio.status == 2;
         });
         this.laboratorios = [...aLabs];
-        console.log("Laboratorios: ", this.laboratorios);
       });
     },
     editar(item) {
       this.$refs.modal.recebeValoresLaboratorios(item, true);
     },
     excluir(laboratorio) {
-      console.log("Na eexclusao: ", laboratorio);
       api.delete(`/labs/${laboratorio.id}`).then(response => {
         if (response.data.status == 205) {
           this.confirmExclusao(labortorio.name);
@@ -86,14 +70,12 @@ export default {
       });
     },
     excluirLaboratorio(laboratorio) {
-      console.log("Lab: ", laboratorio);
       this.confirm = "";
       this.$bvModal
         .msgBoxConfirm(
           "Deseja realmente deletar o Laboratório " + laboratorio.name + "?",
           {
             title: "",
-            // size: "sm",
             buttonSize: "md",
             okVariant: "danger",
             okTitle: "Remover",

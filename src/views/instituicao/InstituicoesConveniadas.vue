@@ -3,11 +3,11 @@
     <h1>Instituições cadastradas</h1>
     <div id="instituicoes" v-if="instituicoes.length > 0">
       <b-table striped hover :items="instituicoes" :fields="fields" class="text-center">
-        <template slot="opcoes" slot-scope="row">
-          <b-button class="editar" @click="editar(row.item)">
+        <template v-slot:cell(opcoes)="data">
+          <b-button class="editar" @click="editar(data.item)">
             <font-awesome-icon icon="edit" />Editar
           </b-button>
-          <b-button class="excluir" @click="excluirInstituicao(row.item)">
+          <b-button class="excluir" @click="excluirInstituicao(data.item)">
             <font-awesome-icon icon="trash" />Excluir
           </b-button>
         </template>
@@ -37,26 +37,14 @@ export default {
   data() {
     return {
       instituicoes: [],
-      fields: {
-        id: {
-          label: "ID"
-        },
-        nome: {
-          label: "Nome"
-        },
-        cnpj: {
-          label: "CNPJ"
-        },
-        telefone: {
-          label: "Telefone"
-        },
-        cidade: {
-          label: "Cidade"
-        },
-        opcoes: {
-          label: "Opções"
-        }
-      },
+      fields: [
+        {key:'id', label: 'ID'},
+        {key:'nome', label: 'Nome'},
+        {key:'cnpj', label: 'CNPJ'},
+        {key:'telefone', label: 'Telefone'},
+        {key:'cidade', label: 'Cidade'},
+        {key:'opcoes', label: 'Opções'}
+      ],
       confirm: ""
     };
   },

@@ -4,11 +4,11 @@
     <div id="usuarios">
       <div v-if="listaUsuarios.length > 0">
         <b-table striped hover :items="listaUsuarios" :fields="fields" class="text-center">
-          <template slot="opcoes" slot-scope="row">
-            <b-button class="editar" @click="editarUsuario(row.item)">
+          <template v-slot:cell(opcoes)="data">
+            <b-button class="editar" @click="editarUsuario(data.item)">
               <font-awesome-icon icon="edit" />Editar
             </b-button>
-            <b-button class="excluir" @click="excluirUsuario(row.item)">
+            <b-button class="excluir" @click="excluirUsuario(data.item)">
               <font-awesome-icon icon="trash" />Excluir
             </b-button>
           </template>
@@ -43,26 +43,35 @@ export default {
   data() {
     return {
       listaUsuarios: [],
-      fields: {
-        id: {
-          label: "ID"
-        },
-        nome: {
-          label: "Nome"
-        },
-        nickname: {
-          label: "Nickname"
-        },
-        email: {
-          label: "Email"
-        },
-        funcao: {
-          label: "Papel"
-        },
-        opcoes: {
-          label: "Opções"
-        }
-      }
+      fields: [
+        {key: "id", label:"ID"},
+        {key: "nome", label:"Nome"},
+        {key: "nickname", label:"Nickname"},
+        {key: "email", label:"Email"},
+        {key: "funcao", label:"Papel"},
+        {key: "opcoes", label:"Opções"}
+      ]
+      
+      // {
+      //   id: {
+      //     label: "ID"
+      //   },
+      //   nome: {
+      //     label: "Nome"
+      //   },
+      //   nickname: {
+      //     label: "Nickname"
+      //   },
+      //   email: {
+      //     label: "Email"
+      //   },
+      //   funcao: {
+      //     label: "Papel"
+      //   },
+      //   opcoes: {
+      //     label: "Opções"
+      //   }
+      // }
     };
   },
   created() {

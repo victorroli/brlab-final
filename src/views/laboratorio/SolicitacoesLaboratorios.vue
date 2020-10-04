@@ -3,8 +3,8 @@
     <h1>Solicitações Pendentes</h1>
     <div id="solicitacoes" v-if="laboratorios.length > 0">
       <b-table striped hover :items="laboratorios" :fields="fields">
-        <template slot="opcoes" slot-scope="row">
-          <b-button class="ver" @click="aceitar(row.item)">
+        <template v-slot:cell(opcoes)="data">
+          <b-button class="ver" @click="aceitar(data.item)">
             <font-awesome-icon icon="eye" />Ver Detalhes
           </b-button>
         </template>
@@ -30,27 +30,15 @@ export default {
   data() {
     return {
       laboratorios: [],
-      fields: {
-        name: {
-          label: "Nome"
-        },
-        description: {
-          label: "Descrição"
-        },
-        host: {
-          label: "Host"
-        },
-        port: {
-          label: "Porta"
-        },
-        tempo: {
-          label: "Tempo"
-        },
-        opcoes: {
-          label: "Opções"
-        },
-        resposta: ""
-      }
+      fields: [
+        {key:"name", label: "Nome"},
+        {key:"description", label: "Descrição"},
+        {key:"host", label: "Host"},
+        {key:"port", label: "Porta"},
+        {key:"tempo", label: "Tempo"},
+        {key:"opcoes", label: "Opções"}
+      ],
+      resposta: ''
     };
   },
   created() {

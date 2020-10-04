@@ -4,11 +4,11 @@
     <transition mode="out-in">
       <div id="usuarios" v-if="pendentes.length > 0">
         <b-table striped hover :items="pendentes" :fields="fields" class="text-center">
-          <template slot="opcoes" slot-scope="row">
-            <b-button class="editar" @click="aceitar(row.item.id)">
+          <template v-slot:cell(opcoes)="data">
+            <b-button class="editar" @click="aceitar(data.item.id)">
               <font-awesome-icon icon="check-circle" />Aceitar
             </b-button>
-            <b-button class="excluir" @click="rejeitar(row.item.id)" v-if="row.item.papel_id != 1">
+            <b-button class="excluir" @click="rejeitar(data.item.id)" v-if="data.item.papel_id != 1">
               <font-awesome-icon icon="trash" />Rejeitar
             </b-button>
           </template>
@@ -28,26 +28,14 @@ export default {
   data() {
     return {
       pendentes: [],
-      fields: {
-        id: {
-          label: "ID"
-        },
-        nome: {
-          label: "Nome"
-        },
-        nickname: {
-          label: "Nickname"
-        },
-        email: {
-          label: "Email"
-        },
-        papel: {
-          label: "Função Solicitada"
-        },
-        opcoes: {
-          label: "Opções"
-        }
-      }
+      fields: [
+        {key:'id', label:"ID"},
+        {key:'nome', label:"Nome"},
+        {key:'nickname', label:"Nickname"},
+        {key:'email', label:"Email"},
+        {key:'papel', label:"Função Solicitada"},
+        {key:'opcoes', label:"Opções"}
+      ]
     };
   },
   created() {

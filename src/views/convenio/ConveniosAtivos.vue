@@ -4,11 +4,11 @@
     <transition mode="out-in">
       <div v-if="convenios.length > 0">
         <b-table striped hover :items="convenios" :fields="fields" class="text-center">
-          <template slot="opcoes" slot-scope="row">
-            <b-button class="editar" @click="editar(row.item)">
+          <template v-slot:cell(opcoes)="data">
+            <b-button class="editar" @click="editar(data.item)">
               <font-awesome-icon icon="edit" />Editar
             </b-button>
-            <b-button class="excluir" @click="excluir(row.item)">
+            <b-button class="excluir" @click="excluir(data.item)">
               <font-awesome-icon icon="trash" />Excluir
             </b-button>
           </template>
@@ -45,26 +45,14 @@ export default {
     return {
       convenios: [],
       mensagem: "",
-      fields: {
-        id: {
-          label: "ID"
-        },
-        instituicao_id: {
-          label: "Instituição Parceira"
-        },
-        laboratorio_id: {
-          label: "Laboratório alvo"
-        },
-        criacao: {
-          label: "Criado em"
-        },
-        validade: {
-          label: "Valido até"
-        },
-        opcoes: {
-          label: "Opções"
-        }
-      }
+      fields: [
+        {key:'id', label:'ID'},
+        {key:'instituicao_id', label:'Instituição Parceira'},
+        {key:'laboratorio_id', label:'Laboratório alvo'},
+        {key:'criacao', label:'Criado em'},
+        {key:'validade', label:'Valido até'},
+        {key:'opcoes', label:'Opções'}
+      ]
     };
   },
   created() {
