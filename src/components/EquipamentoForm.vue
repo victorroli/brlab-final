@@ -115,8 +115,6 @@ export default {
 
   watch: {
     listaEquipamentos(equipamentos) {
-      console.log("Equips: ", equipamentos);
-      console.log("Pai:", this.$parent._data);
       this.$parent._data.equipamentos = equipamentos;
     }
   },
