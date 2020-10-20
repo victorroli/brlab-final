@@ -1,9 +1,9 @@
 ![Brlab, logotipo](./src/assets/imagens/logo_brlab.png)
 
- [Objective](#objective)• 
- [Technologies](#technologies)• 
- [Installation](#installation)• 
- [Screenshots](#screenshots)• 
+ [Objective](#objective) • 
+ [Technologies](#technologies) • 
+ [Installation](#installation) • 
+ [Screenshots](#screenshots) • 
  [API consumption](#api-consumption)
 
 <div id="objective">
