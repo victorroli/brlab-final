@@ -17,7 +17,6 @@ This project consists of a system that centralizes access to information about r
 <ul>
 <li>Vue.js</li>
 <li>BootstrapVue</li>
-<li>Axios</li>
 </ul>
 
 <h2 id="installation">⬇ -  Install the dependencies necessaries</h2>
@@ -60,11 +59,11 @@ Each laboratory allows the scheduling respecting the your maximum time limit
 
 <h2 id="api-consumption">🔄 API Consumption</h2>
 
-The api has developed in python and your source code is in repository <https://github.com/victorroli/api_v1>
+The api has developed in python and your source code is in repository <https://github.com/victorroli/api_v1>.
 
-Check API's documentation and endpoints availables in: <https://documenter.getpostman.com/view/5404533/TVRq1RHu>
+Check API's documentation and endpoints availables in: <https://documenter.getpostman.com/view/5404533/TVRq1RHu>.
 
-<img src="https://img.shields.io/static/v1?label=Vue.js&message=2.6.12&color=7159c1&style=flat&logo=vue.js"/>
-<img src="https://img.shields.io/static/v1?label=Axios&message=0.19.0&color=7159c1&style=flat&logo="/>
-<img src="https://img.shields.io/static/v1?label=BootstrapVue&message=2.0.0-rc.27&color=7159c1&style=flat&logo=bootstrap"/>
-
+<div style="display: flex;">
+<img src="https://img.shields.io/static/v1?label=Vue.js&message=2.6.12&color=7159c1&style=flat&logo=vue.js" style="margin: 10px"/>
+<img src="https://img.shields.io/static/v1?label=BootstrapVue&message=2.0.0-rc.27&color=7159c1&style=flat&logo=bootstrap" style="margin: 10px"/>
+</div>
